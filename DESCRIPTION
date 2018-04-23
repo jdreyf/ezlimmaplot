@@ -1,0 +1,15 @@
+Package: ezlimmaplot
+Title: Plots output of ezlimma
+Version: 0.0.0.9000
+Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
+             person("Hui", "Pan", role = "aut"))
+BugReports: https://github.com/jdreyf/ezlimmaplot/issues
+Description: Plots output of ezlimma using limma and ggplot2 packages.
+Depends: R (>= 3.4.3)
+Suggests:
+	ezlimma,
+	ggplot2,
+	limma
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
