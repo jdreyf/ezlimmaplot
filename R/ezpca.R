@@ -16,6 +16,7 @@
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
 #' @export
 #' @import ggplot2
+#' @import graphics
 #' @import stats
 
 ezpca <- function(object, pheno, name='pca', scale.=FALSE, alpha=1, all.size=NULL, facet=NULL, rm.leg.title=FALSE,
@@ -45,7 +46,7 @@ ezpca <- function(object, pheno, name='pca', scale.=FALSE, alpha=1, all.size=NUL
   if(!is.null(manual.color)) qp <- qp + scale_colour_manual(values = manual.color)
   if(!is.null(manual.shape)) qp <- qp + scale_shape_manual(values = manual.shape)
 
-  if (!is.na(name)){ ggsave(filename=paste0(name, '.png'), plot=qp) } else { print(qp) }
+  if (!is.na(name)){ ggsave(filename=paste0(name, '.png'), plot=qp) } else { graphics::plot(qp) }
 
   return(invisible(dat))
 }

@@ -5,8 +5,7 @@
 \title{Plot heatmap}
 \usage{
 ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
-  data.type = "Log2", filename = "topgenes_heat.pdf",
-  color.v = colorRampPalette(rev(brewer.pal(n = 9, name = "RdYlBu")))(50),
+  data.type = "Log2", name = "topgenes_heat.pdf", color.v = NULL,
   unique.rows = FALSE, only.symbols = FALSE, ntop = NULL,
   stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
   reorder_cols = FALSE, sc = "ctr", clip = NA, fontsize_row = 10,
@@ -23,9 +22,10 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
 
 \item{data.type}{Description of data values in \code{object}; this is included in main title.}
 
-\item{filename}{Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.}
+\item{name}{Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.}
 
-\item{color.v}{Color palette for heatmap.}
+\item{color.v}{Color palette for heatmap. If \code{NULL}, it's set to
+\code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.}
 
 \item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
 

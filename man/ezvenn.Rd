@@ -4,18 +4,19 @@
 \alias{ezvenn}
 \title{Venn diagrams}
 \usage{
-ezvenn(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL,
+ezvenn(tab, prefix.v = NULL, p.cutoff = NULL, fdr.cutoff = NULL,
   logfc.cutoff = NULL, circle.names = prefix.v, main = "", name = NA,
   cex = c(1, 1, 1), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
 
-\item{prefix.v}{A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.}
-
-\item{fdr.cutoff}{FDR cutoff to threshold features in \code{tab}. FDRs < \code{fdr.cutoff} are significant.}
+\item{prefix.v}{A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
+If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{.p}.}
 
 \item{p.cutoff}{p-value cutoff to threshold features in \code{tab}. p-values < \code{p.cutoff} are significant.}
+
+\item{fdr.cutoff}{FDR cutoff to threshold features in \code{tab}. FDRs < \code{fdr.cutoff} are significant.}
 
 \item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came fro \code{\link[ezlimma]{limma_contrasts}}.}
 
@@ -32,7 +33,8 @@ ezvenn(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL,
 \value{
 Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 
-A ggplot object, invisibly.
+A matrix with elements: -1, 0, 1, invisibly. 0 indicates no significant change; -1 indicates down; and 1
+indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
 }
 \description{
 Venn diagrams using output from \code{ezlimma} package.

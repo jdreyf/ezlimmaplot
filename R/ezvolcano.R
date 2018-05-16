@@ -27,7 +27,6 @@
 #' @return A ggplot object, invisibly.
 #' @export
 #' @import ggplot2
-#' @import graphics
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=10, ntop.lfc=0, comparison=NULL,
                       name='volcano', add.rnames=NULL, up.color='black', down.color='black', x.bound=NULL, y.bound=NULL,
@@ -45,11 +44,11 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
 
   #infer columns
   if (!is.null(comparison)){
-    lfc.col <- paste0(comparison, '\\', sep, 'logFC')
+    lfc.col <- paste0(comparison, sep, 'logFC')
     if (type.sig=="p"){
-      sig.col <- paste0(comparison, '\\', sep, 'p')
+      sig.col <- paste0(comparison, sep, 'p')
     } else {
-      sig.col <- paste0(comparison, '\\', sep, 'FDR')
+      sig.col <- paste0(comparison, sep, 'FDR')
     }
     if (!is.na(name)) name <- paste(comparison, name, sep='_')
   }
@@ -68,7 +67,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   ind2p.down <- which(tab[,lfc.col] < 0)
   vol <- ggplot(data=tab, aes_string(x=lfc.col, y='nlg10sig')) + xlim(c(-x.bound, x.bound)) + ylim(c(0, y.bound)) +
     geom_point(data=tab[ind2p.up,], size=2, color = up.color) + theme(axis.text=element_text(size=12, face="bold")) +
-    geom_point(data=tab[ind2p.down,], size=2, color = down.color)
+    geom_point(data=tab[ind2p.down,], size=2, color = down.color) + xlab("log2 fold change") + ylab(y.lab)
   if (!is.null(comparison)) vol <- vol + ggtitle(comparison)
 
   #plot points meeting cut
@@ -82,15 +81,15 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     na.lab.ind <- which(is.na(tab[,lab.col])|tab[,lab.col] %in% na.lab)
     if (ntop.lfc > 0) top.lfc.ind <- order(-abs(tab[,lfc.col]))[1:ntop.lfc] else top.lfc.ind <- NULL
     if (ntop.sig > 0) top.sig.ind <- order(tab[,sig.col])[1:ntop.sig] else top.sig.ind <- NULL
-    ind.sig <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
+    ind.annot <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
   }
   #add.rnames to plot with symbol
   if (!is.null(add.rnames)){
     ind.add.rnames <- which(rownames(tab) %in% add.rnames)
+    ind.annot <- union(ind.add.rnames, ind.annot)
   }
-  ind2annot <- union(ind.add.rnames, ind.sig)
-  if (!is.null(ind2annot)){
-    vol <- vol + geom_text(data=tab[ind2annot,], mapping=aes_string(x=lfc.col, y='nlg10sig', label=lab.col))
+  if (!is.null(ind.annot)){
+    vol <- vol + geom_text(data=tab[ind.annot,], mapping=aes_string(x=lfc.col, y='nlg10sig', label=lab.col), size=3, vjust=2)
   }
 
   if (!is.na(name)) ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)

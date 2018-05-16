@@ -7,12 +7,13 @@
 #' @param pheno.df Phenotype dataframe.
 #' @param main Title of plot appended to \code{data.type}.
 #' @param data.type Description of data values in \code{object}; this is included in main title.
-#' @param color.v Color palette for heatmap.
+#' @param color.v Color palette for heatmap. If \code{NULL}, it's set to
+#' \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.
 #' @param stat.tab Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
 #' match \code{object} and it also cannot have \code{NA}s.
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
-#' @param filename Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.
+#' @param name Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.
 #' @param reorder_rows Logical indicating if rows should be reordered.
 #' @param reorder_cols Logical indicating if columns should be reordered.
 #' @param fontsize_row Font size for row labels.
@@ -27,17 +28,25 @@
 #' @details If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 #' symmetric about zero.
 #' @export
+#' @import grDevices
 #' @importFrom pheatmap pheatmap
+#' @importFrom RColorBrewer brewer.pal
 
 #can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', data.type='Log2', filename='topgenes_heat.pdf',
-                   color.v=colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50), unique.rows=FALSE, only.symbols=FALSE,
-                   ntop=NULL, stat.tab = NULL, cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE,
-                   sc='ctr', clip=NA, fontsize_row=10, fontsize_col=10){
+ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', data.type='Log2', name='topgenes_heat.pdf',
+                   color.v=NULL, unique.rows=FALSE, only.symbols=FALSE, ntop=NULL, stat.tab = NULL, cutoff = 0.05,
+                   reorder_rows=FALSE, reorder_cols=FALSE, sc='ctr', clip=NA, fontsize_row=10, fontsize_col=10){
 
   stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0))
   if (!is.matrix(object)) object <- data.matrix(object)
   mat <- prune_mat(object, symbols = symbols, only.symbols = only.symbols, unique.rows = unique.rows, ntop = ntop)
+
+  if (is.null(color.v)){
+    if (!requireNamespace("RColorBrewer", quietly = TRUE)){
+      stop("Package 'RColorBrewer' needed for this function to work. Please install it.", call. = FALSE)
+    }
+    color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name='RdYlBu')))(50)
+  }
 
   asterisk <- matrix(data = '', nrow = nrow(mat), ncol = ncol(mat))
   if (!is.null(stat.tab) & !is.null(cutoff)){
@@ -88,8 +97,8 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', 
 
   main <- paste(data.type, main)
 
-  # params after filename sent to grid::grid.text for asterisks, but vjust doesn't work
+  # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
   pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
                      cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col, display_numbers = asterisk,
-                     filename=filename)
+                     filename=name)
 }

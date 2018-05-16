@@ -5,16 +5,20 @@ Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdr
              person("Hui", "Pan", role = "aut"))
 BugReports: https://github.com/jdreyf/ezlimmaplot/issues
 Description: Bioinformatics plots using limma and ggplot2, some from output of ezlimma.
-Imports: 
+Imports:
 	ggplot2,
 	graphics,
 	grDevices,
 	limma,
 	pheatmap,
+	RColorBrewer,
 	stats
 Suggests:
-	ezlimma
+	ezlimma,
+    knitr,
+    rmarkdown
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
