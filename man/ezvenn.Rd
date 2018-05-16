@@ -2,7 +2,7 @@
 % Please edit documentation in R/ezvenn.R
 \name{ezvenn}
 \alias{ezvenn}
-\title{Make Venn diagrams}
+\title{Venn diagrams}
 \usage{
 ezvenn(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL,
   logfc.cutoff = NULL, circle.names = prefix.v, main = "", name = NA,
@@ -23,7 +23,7 @@ ezvenn(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL,
 
 \item{main}{Main title of plot.}
 
-\item{name}{Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress plotting.}
+\item{name}{Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress writing to file.}
 
 \item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to the default. See \code{\link[graphics]{par}}.}
 
@@ -31,9 +31,11 @@ ezvenn(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL,
 }
 \value{
 Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
+
+A ggplot object, invisibly.
 }
 \description{
-Make Venn diagrams using output from \code{ezlimma} package.
+Venn diagrams using output from \code{ezlimma} package.
 }
 \details{
 One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used. \code{logfc.cutoff} if given is used in addition to these.

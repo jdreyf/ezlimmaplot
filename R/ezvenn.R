@@ -1,6 +1,6 @@
-#' Make Venn diagrams
+#' Venn diagrams
 #'
-#' Make Venn diagrams using output from \code{ezlimma} package.
+#' Venn diagrams using output from \code{ezlimma} package.
 #'
 #' @param tab Table of output from \code{ezlimma}.
 #' @param prefix.v A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
@@ -9,15 +9,20 @@
 #' @param logfc.cutoff log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came fro \code{\link[ezlimma]{limma_contrasts}}.
 #' @param circle.names Names of circles corresponding to \code{prefix.v}.
 #' @param main Main title of plot.
-#' @param name Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress plotting.
+#' @param name Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress writing to file.
 #' @param cex A numerical value giving the amount by which plotting text and symbols should be magnified relative to the default. See \code{\link[graphics]{par}}.
 #' @param plot If the Venn diagram should be plotted.
 #' @return Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 #' @details One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used. \code{logfc.cutoff} if given is used in addition to these.
+#' @return A ggplot object, invisibly.
 #' @export
+#' @importFrom limma vennDiagram
 
-ezvenn <- function(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v, main = '', name = NA, cex = c(1, 1, 1), plot = TRUE){
-
+ezvenn <- function(tab, prefix.v, fdr.cutoff = NULL, p.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v,
+                   main = '', name = NA, cex = c(1, 1, 1), plot = TRUE){
+  if (!requireNamespace("limma", quietly = TRUE)){
+    stop("Package 'limma' needed for this function to work. Please install it.", call. = FALSE)
+  }
   stopifnot(!is.null(fdr.cutoff)|!is.null(p.cutoff))
 
   if (!is.null(fdr.cutoff)){

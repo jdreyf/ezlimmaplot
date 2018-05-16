@@ -12,11 +12,12 @@ sig_hist(tab, p.ext = "pval|p", fdr.ext = "q|FDR", sep = ".",
 
 \item{p.ext}{Extension for p-value columns.}
 
-\item{fdr.ext}{Extension for FDR columns.}
+\item{fdr.ext}{Extension for FDR columns; can be a regular expression.}
 
 \item{sep}{Separator for column names before \code{p} or \code{FDR}.}
 
-\item{pi0}{Logical indicating if proportion of null hypotheses be calculated per p-value histogram.}
+\item{pi0}{Logical indicating if proportion of null hypotheses be calculated per p-value histogram. If \code{TRUE},
+\code{limma::propTrueNull} is used, so \code{limma} package is needed.}
 
 \item{name}{Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.}
 }
