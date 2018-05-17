@@ -16,7 +16,8 @@ Imports:
 Suggests:
 	ezlimma,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

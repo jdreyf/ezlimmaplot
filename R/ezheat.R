@@ -14,8 +14,8 @@
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
 #' @param name Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.
-#' @param reorder_rows Logical indicating if rows should be reordered.
-#' @param reorder_cols Logical indicating if columns should be reordered.
+#' @param reorder_rows Logical indicating if rows should be reordered with hierarchical clustering.
+#' @param reorder_cols Logical indicating if columns should be reordered with hierarchical clustering.
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param only.symbols Logical, if \code{TRUE} only include rows where \code{symbols} isn't missing, as per \code{na.lab}.
