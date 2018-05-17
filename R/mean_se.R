@@ -6,6 +6,7 @@
 #' @import stats
 
 mean_se <- function(x){
+  stopifnot(sum(!is.na(x)) > 0, is.numeric(x), is.vector(x), stats::sd(x, na.rm = TRUE) > 0)
   x <- x[!is.na(x)]
   m <- mean(x)
   se <- stats::sd(x)/sqrt(length(x))
