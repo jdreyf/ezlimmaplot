@@ -1,5 +1,5 @@
 # ezlimmaplot
-R/Bioconductor package for plotting bioinformatics results, especially those from the `ezlimma` package.
+R package for plotting bioinformatics results, especially those from the `ezlimma` package.
 
 ## Install
 Install `ezlimmaplot` from GitHub using `devtools`  within R. You must install `devtools` if you haven't before.
