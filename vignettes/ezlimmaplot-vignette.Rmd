@@ -61,10 +61,10 @@ knitr::kable(res.df[1:10,])
 ## Significance histogram
 We can plot a histogram of the p-values and FDRs for all comparisons with:
 ```{r sh, eval=FALSE}
-sig_hist(res, name=NA) #not run
+signif_hist(res, name=NA) #not run
 ```
 
-`sig_hist` plots four histograms per page, and this line will plot two histograms per comparison x 3 comparisons = 6 histograms. Thus, this takes more than one page, so it is not shown here.
+`signif_hist` plots four histograms per page, and this line will plot two histograms per comparison x 3 comparisons = 6 histograms. Thus, this takes more than one page, so it is not shown here.
 
 ## Venn diagram
 We may want to see which genes are up or down in each comparison, and how the significant genes (say p-value < 0.05) behave in different comparisons using a Venn diagram.

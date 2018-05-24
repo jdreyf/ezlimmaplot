@@ -20,3 +20,4 @@ sym.v[10:13] <- c("---", "a", "~", "")
 # grDevices::svg("pca.svg")
 # ezpca(M, pheno, color="grp", name=NA)
 # grDevices::dev.off()
+
