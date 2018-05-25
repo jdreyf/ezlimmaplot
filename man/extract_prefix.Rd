@@ -4,15 +4,15 @@
 \alias{extract_prefix}
 \title{Extract prefix from names}
 \usage{
-extract_prefix(nm, suffix, sep = ".")
+extract_prefix(nm, suffix = "p", sep = ".")
 }
 \arguments{
 \item{nm}{Character vector of names to search.}
 
-\item{suffix}{Character string to search for at end of \code{cnames}.}
+\item{suffix}{Character string to search for at end of \code{nm}.}
 
-\item{sep}{Separator in \code{cnames} preceeding \code{suffix}. If \code{NA}, elements of \code{nm} must
-match \code{suffix} exactly.}
+\item{sep}{Separator in \code{nm} preceeding \code{suffix}. One of \code{'.', '_', NA}, If \code{NA}, elements
+of \code{nm} must match \code{suffix} exactly.}
 }
 \value{
 A character vector of prefixes. If there is no prefix and no sep, \code{NA} is returned.
