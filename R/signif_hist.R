@@ -22,7 +22,7 @@
 signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALSE, name='signif_hist', plot=TRUE){
   prefix.v <- extract_prefix(colnames(tab), suffix=p.suffix, sep=sep)
   if (any(duplicated(prefix.v))) stop("p-value column names are duplicated.")
-  if (prefix.v[1]==""){
+  if (is.na(prefix.v[1])){
     p.cols <- match(p.suffix, colnames(tab))
   } else {
     p.cols <- match(paste0(prefix.v, sep, p.suffix), colnames(tab))
@@ -30,7 +30,7 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
   if (any(is.na(p.cols))) stop("No p-value columns were identified.")
 
   if (!is.na(fdr.suffix)){
-    if (prefix.v[1]==""){
+    if (is.na(prefix.v[1])){
       fdr.cols <- match(fdr.suffix, colnames(tab))
     } else {
       fdr.cols <- match(paste0(prefix.v, sep, fdr.suffix), colnames(tab))

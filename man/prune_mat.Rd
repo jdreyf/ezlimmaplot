@@ -13,7 +13,7 @@ prune_mat(object, symbols = NULL, only.symbols = FALSE,
 
 \item{symbols}{Labels corresponding to rows, e.g. gene symbols.}
 
-\item{only.symbols}{Logical, if \code{TRUE} only include rows with a symbol.}
+\item{only.symbols}{Logical, if \code{TRUE} only include rows with a non-missing symbol.}
 
 \item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
 
@@ -24,5 +24,5 @@ prune_mat(object, symbols = NULL, only.symbols = FALSE,
 \item{verbose}{Logical indicating whether to print messages to console.}
 }
 \description{
-Prune matrix before plotting as heatmap.
+Prune (subset) matrix before plotting as heatmap.
 }

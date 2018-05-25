@@ -39,9 +39,9 @@ match \code{object} and it also cannot have \code{NA}s.}
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
 
-\item{reorder_rows}{Logical indicating if rows should be reordered.}
+\item{reorder_rows}{Logical indicating if rows should be reordered with hierarchical clustering.}
 
-\item{reorder_cols}{Logical indicating if columns should be reordered.}
+\item{reorder_cols}{Logical indicating if columns should be reordered with hierarchical clustering.}
 
 \item{sc}{Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
 

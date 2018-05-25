@@ -12,13 +12,15 @@ ezvenn(tab, prefix.v = NULL, p.cutoff = NULL, fdr.cutoff = NULL,
 \item{tab}{Table of output from \code{ezlimma}.}
 
 \item{prefix.v}{A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
-If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{.p}.}
+These will be the columns that are used in the Venn diagram. If \code{NULL} these are inferred from
+\code{colnames(tab)} that end with \code{.p}.}
 
 \item{p.cutoff}{p-value cutoff to threshold features in \code{tab}. p-values < \code{p.cutoff} are significant.}
 
 \item{fdr.cutoff}{FDR cutoff to threshold features in \code{tab}. FDRs < \code{fdr.cutoff} are significant.}
 
-\item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came fro \code{\link[ezlimma]{limma_contrasts}}.}
+\item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came from
+\code{\link[ezlimma]{limma_contrasts}}.}
 
 \item{circle.names}{Names of circles corresponding to \code{prefix.v}.}
 
@@ -26,7 +28,8 @@ If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{
 
 \item{name}{Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress writing to file.}
 
-\item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to the default. See \code{\link[graphics]{par}}.}
+\item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to
+the default. See \code{\link[graphics]{par}}.}
 
 \item{plot}{If the Venn diagram should be plotted.}
 }
@@ -40,5 +43,6 @@ indicates up if corresponding \code{logFC} columns are found, otherwise it indic
 Venn diagrams using output from \code{ezlimma} package.
 }
 \details{
-One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used. \code{logfc.cutoff} if given is used in addition to these.
+One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
+\code{logfc.cutoff} if given is used in addition to these.
 }

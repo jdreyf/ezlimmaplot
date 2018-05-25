@@ -9,9 +9,9 @@ ezpca(object, pheno, name = "pca", scale. = FALSE, alpha = 1,
   manual.color = NULL, manual.shape = NULL, ...)
 }
 \arguments{
-\item{object}{Matrix-like object with samples as columns}
+\item{object}{Matrix-like object with samples as columns.}
 
-\item{pheno}{Dataframe of phenotypes}
+\item{pheno}{Dataframe with rows as samples and columns as phenotypes.}
 
 \item{name}{Name of PNG to write out. Set to \code{NA} to suppress writing to file.}
 
@@ -19,9 +19,10 @@ ezpca(object, pheno, name = "pca", scale. = FALSE, alpha = 1,
 
 \item{alpha}{Transparency, passed to \code{\link[ggplot2]{geom_point}}.}
 
-\item{all.size}{Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without appearing in legend. \code{ggplot2} default is size=2.}
+\item{all.size}{Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without
+appearing in legend. \code{ggplot2} default is size=2.}
 
-\item{facet}{Variable to facet by.}
+\item{facet}{Column name in \code{pheno} to facet by.}
 
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
