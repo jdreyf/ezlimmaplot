@@ -5,7 +5,7 @@
 \title{Volcano plot in ggplot2}
 \usage{
 ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
-  ntop.sig = 10, ntop.lfc = 0, comparison = NULL, name = "volcano",
+  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, name = "volcano",
   add.rnames = NULL, up.color = "black", down.color = "black",
   x.bound = NULL, y.bound = NULL, type.sig = c("p", "FDR"),
   cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
@@ -14,11 +14,12 @@ ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
 
-\item{lfc.col}{logFC column. Some features should be > 0 and others < 0.}
+\item{lfc.col}{Column name or index of tab with logFC. Some features should be > 0 and others < 0.}
 
-\item{sig.col}{Column with p-values or FDRs.}
+\item{sig.col}{Column name or index of tab with p-values or FDRs.}
 
-\item{lab.col}{Column with labels, such as gene symbol, annotating features.}
+\item{lab.col}{Column name or index of tab with labels, such as gene symbol, annotating features. If \code{NULL},
+no points are annotated.}
 
 \item{ntop.sig}{Number of top significant features to annotate.}
 

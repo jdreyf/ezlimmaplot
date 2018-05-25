@@ -23,10 +23,11 @@
 #' @export
 #' @import grDevices
 
-multi_volcano <- function(tab, lab.col='Gene.Symbol', ntop.sig=10, ntop.lfc=0, name='volcanoes', add.rnames=NULL,
+multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', add.rnames=NULL,
                           up.color='black', down.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'), cut.color=NULL,
                           cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
 
+  type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0('\\', sep, 'logFC$'), colnames(tab))
   if (length(lfc.cols)==0) stop("No logFC columns detected.")
   if (type.sig=="p"){

@@ -3,9 +3,10 @@
 #' Volcano plot in ggplot2 using output from \code{ezlimma} package.
 #'
 #' @param tab Table of output from \code{ezlimma}.
-#' @param lfc.col logFC column. Some features should be > 0 and others < 0.
-#' @param sig.col Column with p-values or FDRs.
-#' @param lab.col Column with labels, such as gene symbol, annotating features.
+#' @param lfc.col Column name or index of tab with logFC. Some features should be > 0 and others < 0.
+#' @param sig.col Column name or index of tab with p-values or FDRs.
+#' @param lab.col Column name or index of tab with labels, such as gene symbol, annotating features. If \code{NULL},
+#' no points are annotated.
 #' @param ntop.sig Number of top significant features to annotate.
 #' @param ntop.lfc Number of top logFC features to annotate.
 #' @param comparison Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
@@ -28,11 +29,26 @@
 #' @export
 #' @import ggplot2
 
-ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=10, ntop.lfc=0, comparison=NULL,
+ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL,
                       name='volcano', add.rnames=NULL, up.color='black', down.color='black', x.bound=NULL, y.bound=NULL,
                       type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  #can't annot if no lab.col
+  if (is.null(lab.col)){
+    if (ntop.lfc > 0){
+      ntop.lfc <- 0
+      warning("ntop.lfc > 0 but lab.col is null.")
+    }
+    if (ntop.sig > 0){
+      ntop.sig <- 0
+      warning("ntop.sig > 0 but lab.col is null.")
+    }
+    if (!is.null(add.rnames)){
+      add.rnames <- NULL
+      warning("add.rnames is not null, but lab.col is null.")
+    }
   }
 
   type.sig <- match.arg(type.sig)
@@ -77,6 +93,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   }
 
   #ntop indices to plot with symbol
+  ind.annot <- NULL
   if (ntop.sig > 0 | ntop.lfc > 0){
     na.lab.ind <- which(is.na(tab[,lab.col])|tab[,lab.col] %in% na.lab)
     if (ntop.lfc > 0) top.lfc.ind <- order(-abs(tab[,lfc.col]))[1:ntop.lfc] else top.lfc.ind <- NULL
