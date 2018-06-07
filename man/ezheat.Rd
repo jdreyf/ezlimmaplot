@@ -5,11 +5,11 @@
 \title{Plot heatmap}
 \usage{
 ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
-  data.type = "Log2", name = "topgenes_heat.pdf", color.v = NULL,
-  unique.rows = FALSE, only.symbols = FALSE, ntop = NULL,
-  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
-  reorder_cols = FALSE, sc = "ctr", clip = NA, fontsize_row = 10,
-  fontsize_col = 10)
+  data.type = "Log2", name = "topgenes_heat", sc = "ctr", clip = NA,
+  color.v = NULL, unique.rows = FALSE, only.symbols = FALSE,
+  ntop = NULL, stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+  reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
+  na.lab = c("---", ""))
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.}
@@ -23,6 +23,10 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
 \item{data.type}{Description of data values in \code{object}; this is included in main title.}
 
 \item{name}{Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.}
+
+\item{sc}{Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
+
+\item{clip}{Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.}
 
 \item{color.v}{Color palette for heatmap. If \code{NULL}, it's set to
 \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.}
@@ -43,15 +47,9 @@ match \code{object} and it also cannot have \code{NA}s.}
 
 \item{reorder_cols}{Logical indicating if columns should be reordered with hierarchical clustering.}
 
-\item{sc}{Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
-
-\item{clip}{Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.}
-
 \item{fontsize_row}{Font size for row labels.}
 
 \item{fontsize_col}{Font size for column labels.}
-
-\item{main}{Main title for plot.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 }

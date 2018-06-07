@@ -65,12 +65,12 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
     tab.sig[is.na(tab.sig)] <- 0
 
     if (plot) limma::vennDiagram(tab.sig, include = c('up', 'down'), names = circle.names,
-                         circle.col = rainbow(length(prefix.v)), counts.col = c('red', 'blue'),
+                         circle.col = grDevices::rainbow(length(prefix.v)), counts.col = c('red', 'blue'),
                          main = main, cex = cex)
   } else {
     tab.sig[is.na(tab.sig)] <- 0
     if (plot) limma::vennDiagram(tab.sig, include = 'both', names = circle.names,
-                         circle.col = rainbow(length(prefix.v)), counts.col = 'blue',
+                         circle.col = grDevices::rainbow(length(prefix.v)), counts.col = 'blue',
                          main = main, cex = cex)
   }
 

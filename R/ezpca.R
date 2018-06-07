@@ -16,9 +16,6 @@
 #' @param manual.shape Values passed to \code{\link[ggplot2]{scale_shape_manual}}.
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
 #' @export
-#' @import ggplot2
-#' @import graphics
-#' @import stats
 
 ezpca <- function(object, pheno, name='pca', scale.=FALSE, alpha=1, all.size=NULL, facet=NULL, rm.leg.title=FALSE,
                   labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
@@ -33,16 +30,20 @@ ezpca <- function(object, pheno, name='pca', scale.=FALSE, alpha=1, all.size=NUL
   dat <- data.frame(pca$x[rownames(pheno), 2:1], pheno)
 
   #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw()
-    + ggplot2::theme(panel.grid=element_line(color='black'))
-  if (!is.null(all.size)){ qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha) } else { qp <- qp + ggplot2::geom_point(alpha=alpha) }
+  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw() +
+    ggplot2::theme(panel.grid=ggplot2::element_line(color='black'))
+  if (!is.null(all.size)){
+    qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
+  } else {
+    qp <- qp + ggplot2::geom_point(alpha=alpha)
+  }
   if (!is.null(facet)){ qp <- qp + ggplot2::facet_grid(facet) }
   qp <- qp + ggplot2::ylab(paste0('PC1 (', pve[1], '%)')) + ggplot2::xlab(paste0('PC2 (', pve[2], '%)', sep=''))
-  if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=element_blank()) }
+  if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=ggplot2::element_blank()) }
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno)
-    qp <- qp + ggplot2::geom_text(data=dat2, mapping=aes_string(y='PC1', x='PC2', label='row_names'), size=2, vjust=-.7)
+    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(y='PC1', x='PC2', label='row_names'), size=2, vjust=-.7)
   }
 
   if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)

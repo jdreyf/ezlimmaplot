@@ -36,17 +36,17 @@ plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group'
   for (i in 1:nrow(object)){
     object2p <- data.frame(Exprs = object[i, ], Group = grp)
     binwidth <- (max(object2p$Exprs, na.rm = TRUE) - min(object2p$Exprs, na.rm = TRUE))/bins
-    ggp <- ggplot2::ggplot(data = object2p, mapping = aes(x = Group, y = Exprs)) + ggplot2::theme_bw()
+    ggp <- ggplot2::ggplot(data = object2p, mapping = ggplot2::aes(x = Group, y = Exprs)) + ggplot2::theme_bw()
     ggp <- ggp + ggplot2::labs(title = main.v[i], x = xlab, y = ylab) + ggplot2::theme(legend.position = "none")
     if (type == 'dot'){
-      ggp <- ggp + ggplot2::geom_dotplot(mapping = aes(fill = Group), binaxis='y', stackdir='center', binwidth = binwidth, dotsize = dotsize)
+      ggp <- ggp + ggplot2::geom_dotplot(mapping = ggplot2::aes(fill = Group), binaxis='y', stackdir='center', binwidth = binwidth, dotsize = dotsize)
       if(add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data = mean_se, geom = "crossbar", width = 0.3) }
     } else {
-      ggp <- ggp + ggplot2::geom_boxplot(mapping = aes(fill = Group))
+      ggp <- ggp + ggplot2::geom_boxplot(mapping = ggplot2::aes(fill = Group))
     }
     if(!is.null(color)) { ggp <- ggp + ggplot2::scale_fill_manual(values = color) + ggplot2::scale_color_manual(values = color) }
-    if(x.angle != 0){ ggp <- ggp + ggplot2::theme(axis.text.x = element_text(angle = x.angle, hjust = 1)) }
-    plot(ggp)
+    if(x.angle != 0){ ggp <- ggp + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = x.angle, hjust = 1)) }
+    graphics::plot(ggp)
   }
   if (!is.na(name)){ grDevices::dev.off() }
   return(invisible(ggp))

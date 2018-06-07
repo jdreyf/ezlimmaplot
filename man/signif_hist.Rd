@@ -10,6 +10,8 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
 
+\item{p.suffix}{Suffix for p-value columns. P-value column names cannot be duplicated.}
+
 \item{fdr.suffix}{Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.}
 
 \item{sep}{Separator for column names before \code{p} or \code{FDR}.}
@@ -20,8 +22,6 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 \item{name}{Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.}
 
 \item{plot}{Logical if \code{FALSE} no plot is generated.}
-
-\item{p.ext}{Suffix for p-value columns. P-value column names cannot be duplicated.}
 }
 \value{
 A subset of \code{tab} with only columns that contain significances, invisibly.

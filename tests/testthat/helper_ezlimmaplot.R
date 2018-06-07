@@ -1,4 +1,4 @@
-library(ezlimma)
+library(testthat)
 
 set.seed(42)
 M <- matrix(rnorm(100*6, sd=0.3), nrow=100, ncol=6)
@@ -15,9 +15,4 @@ res.df$Gene.Symbol[1:10] <- LETTERS[1:10]
 sym.v <- rep(NA, nrow(M))
 sym.v[1:9] <- letters[1:9]
 sym.v[10:13] <- c("---", "a", "~", "")
-
-# setwd("tests/figs/pca/")
-# grDevices::svg("pca.svg")
-# ezpca(M, pheno, color="grp", name=NA)
-# grDevices::dev.off()
 

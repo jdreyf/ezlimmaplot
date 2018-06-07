@@ -3,7 +3,7 @@
 #' Plot histograms of significance (p-value & FDR) columns.
 #'
 #' @param tab Table of output from \code{ezlimma}.
-#' @param p.ext Suffix for p-value columns. P-value column names cannot be duplicated.
+#' @param p.suffix Suffix for p-value columns. P-value column names cannot be duplicated.
 #' @param fdr.suffix Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.
 #' @param sep Separator for column names before \code{p} or \code{FDR}.
 #' @param pi0 Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
@@ -55,7 +55,7 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
         prop.null <- limma::propTrueNull(tab[,p.col], method = 'convest')
         subtitle <- paste('Proportion of True Null = ', signif(prop.null, 3))
       }
-      hist(tab[,p.col], xlab='P-value', main=prefix, sub = subtitle)
+      graphics::hist(tab[,p.col], xlab='P-value', main=prefix, sub = subtitle)
 
       if (!is.na(fdr.suffix)){
         fdr.col <- fdr.cols[ind.tmp]

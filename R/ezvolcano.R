@@ -80,8 +80,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   #plot up & down
   ind2p.up <- which(tab[,lfc.col] >= 0)
   ind2p.down <- which(tab[,lfc.col] < 0)
-  vol <- ggplot2::ggplot(data=tab, aes_string(x=lfc.col, y='nlg10sig')) + xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) +
-    ggplot2::geom_point(data=tab[ind2p.up,], size=2, color = up.color) + ggplot2::theme(axis.text=element_text(size=12, face="bold")) +
+  vol <- ggplot2::ggplot(data=tab, ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) +
+    ggplot2::geom_point(data=tab[ind2p.up,], size=2, color = up.color) + ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) +
     ggplot2::geom_point(data=tab[ind2p.down,], size=2, color = down.color) + ggplot2::xlab("log2 fold change") + ggplot2::ylab(y.lab)
   if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
 
@@ -105,7 +105,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     ind.annot <- union(ind.add.rnames, ind.annot)
   }
   if (!is.null(ind.annot)){
-    vol <- vol + ggplot2::geom_text(data=tab[ind.annot,], mapping=aes_string(x=lfc.col, y='nlg10sig', label=lab.col), size=3, vjust=2)
+    vol <- vol + ggplot2::geom_text(data=tab[ind.annot,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col), size=3, vjust=2)
   }
 
   if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)

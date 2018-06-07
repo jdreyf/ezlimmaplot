@@ -17,7 +17,8 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+	vdiffr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
