@@ -3,7 +3,6 @@
 #' Gives mean, mean - standard error, & mean + standard error
 #'
 #' @param x A numeric vector
-#' @import stats
 
 mean_se <- function(x){
   stopifnot(sum(!is.na(x)) > 0, is.numeric(x), is.vector(x), stats::sd(x, na.rm = TRUE) > 0)

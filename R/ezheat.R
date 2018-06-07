@@ -28,9 +28,6 @@
 #' @details If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 #' symmetric about zero.
 #' @export
-#' @import grDevices
-#' @importFrom pheatmap pheatmap
-#' @importFrom RColorBrewer brewer.pal
 
 #can avoid dendro (& clustering) by eg cluster_rows=FALSE
 ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', data.type='Log2', name='topgenes_heat.pdf',

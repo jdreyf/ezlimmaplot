@@ -14,8 +14,6 @@
 #' colnames must have same prefix.
 #' @return A subset of \code{tab} with only columns that contain significances, invisibly.
 #' @export
-#' @import grDevices
-#' @importFrom limma propTrueNull
 
 #assume each comparison has a p-value & q-value column unless fdr.suffix=NA
 #could allow for no prefix, ie colnames(tab)=c('p', 'FDR')

@@ -6,6 +6,7 @@ Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdr
 BugReports: https://github.com/jdreyf/ezlimmaplot/issues
 Description: Bioinformatics plots using limma and ggplot2, some from output of ezlimma.
 Imports:
+	ezlimma,
 	ggplot2,
 	graphics,
 	grDevices,
@@ -14,7 +15,6 @@ Imports:
 	RColorBrewer,
 	stats
 Suggests:
-	ezlimma,
     knitr,
     rmarkdown,
     testthat

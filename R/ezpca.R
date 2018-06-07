@@ -33,21 +33,22 @@ ezpca <- function(object, pheno, name='pca', scale.=FALSE, alpha=1, all.size=NUL
   dat <- data.frame(pca$x[rownames(pheno), 2:1], pheno)
 
   #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot(dat, aes_string(y='PC1', x='PC2', ...)) + theme_bw() + theme(panel.grid=element_line(color='black'))
-  if (!is.null(all.size)){ qp <- qp + geom_point(size=all.size, alpha=alpha) } else { qp <- qp + geom_point(alpha=alpha) }
-  if (!is.null(facet)){ qp <- qp + facet_grid(facet) }
-  qp <- qp + ylab(paste0('PC1 (', pve[1], '%)')) + xlab(paste0('PC2 (', pve[2], '%)', sep=''))
-  if (rm.leg.title){ qp <- qp + theme(legend.title=element_blank()) }
+  qp <- ggplot2::ggplot(dat, aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw()
+    + ggplot2::theme(panel.grid=element_line(color='black'))
+  if (!is.null(all.size)){ qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha) } else { qp <- qp + ggplot2::geom_point(alpha=alpha) }
+  if (!is.null(facet)){ qp <- qp + ggplot2::facet_grid(facet) }
+  qp <- qp + ggplot2::ylab(paste0('PC1 (', pve[1], '%)')) + ggplot2::xlab(paste0('PC2 (', pve[2], '%)', sep=''))
+  if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=element_blank()) }
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno)
-    qp <- qp + geom_text(data=dat2, mapping=aes_string(y='PC1', x='PC2', label='row_names'), size=2, vjust=-.7)
+    qp <- qp + ggplot2::geom_text(data=dat2, mapping=aes_string(y='PC1', x='PC2', label='row_names'), size=2, vjust=-.7)
   }
 
-  if(!is.null(manual.color)) qp <- qp + scale_colour_manual(values = manual.color)
-  if(!is.null(manual.shape)) qp <- qp + scale_shape_manual(values = manual.shape)
+  if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
+  if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
-  if (!is.na(name)){ ggsave(filename=paste0(name, '.png'), plot=qp) } else { graphics::plot(qp) }
+  if (!is.na(name)){ ggplot2::ggsave(filename=paste0(name, '.png'), plot=qp) } else { graphics::plot(qp) }
 
   return(invisible(dat))
 }

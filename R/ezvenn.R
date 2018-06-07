@@ -22,8 +22,6 @@
 #' @return A matrix with elements: -1, 0, 1, invisibly. 0 indicates no significant change; -1 indicates down; and 1
 #' indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
 #' @export
-#' @import grDevices
-#' @importFrom limma vennDiagram
 
 ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v,
                    main = '', name = NA, cex = c(1, 1, 1), plot = TRUE){

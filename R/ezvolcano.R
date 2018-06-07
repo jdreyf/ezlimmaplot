@@ -27,7 +27,6 @@
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
 #' @return A ggplot object, invisibly.
 #' @export
-#' @import ggplot2
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL,
                       name='volcano', add.rnames=NULL, up.color='black', down.color='black', x.bound=NULL, y.bound=NULL,
@@ -81,15 +80,15 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   #plot up & down
   ind2p.up <- which(tab[,lfc.col] >= 0)
   ind2p.down <- which(tab[,lfc.col] < 0)
-  vol <- ggplot(data=tab, aes_string(x=lfc.col, y='nlg10sig')) + xlim(c(-x.bound, x.bound)) + ylim(c(0, y.bound)) +
-    geom_point(data=tab[ind2p.up,], size=2, color = up.color) + theme(axis.text=element_text(size=12, face="bold")) +
-    geom_point(data=tab[ind2p.down,], size=2, color = down.color) + xlab("log2 fold change") + ylab(y.lab)
-  if (!is.null(comparison)) vol <- vol + ggtitle(comparison)
+  vol <- ggplot2::ggplot(data=tab, aes_string(x=lfc.col, y='nlg10sig')) + xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) +
+    ggplot2::geom_point(data=tab[ind2p.up,], size=2, color = up.color) + ggplot2::theme(axis.text=element_text(size=12, face="bold")) +
+    ggplot2::geom_point(data=tab[ind2p.down,], size=2, color = down.color) + ggplot2::xlab("log2 fold change") + ggplot2::ylab(y.lab)
+  if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
 
   #plot points meeting cut
   if (!is.null(cut.color)){
     cut.pts <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
-    vol <- vol + geom_point(data=tab[cut.pts,], size=2, color = cut.color)
+    vol <- vol + ggplot2::geom_point(data=tab[cut.pts,], size=2, color = cut.color)
   }
 
   #ntop indices to plot with symbol
@@ -106,9 +105,9 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     ind.annot <- union(ind.add.rnames, ind.annot)
   }
   if (!is.null(ind.annot)){
-    vol <- vol + geom_text(data=tab[ind.annot,], mapping=aes_string(x=lfc.col, y='nlg10sig', label=lab.col), size=3, vjust=2)
+    vol <- vol + ggplot2::geom_text(data=tab[ind.annot,], mapping=aes_string(x=lfc.col, y='nlg10sig', label=lab.col), size=3, vjust=2)
   }
 
-  if (!is.na(name)) ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
+  if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
   return(invisible(vol))
 }

@@ -21,7 +21,6 @@
 #' @details Uses colnames(tab) that have suffix \code{logFC} to infer comparisons.
 #' @return List of ggplot objects from \code{\link{ezvolcano}}, invisibly.
 #' @export
-#' @import grDevices
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', add.rnames=NULL,
                           up.color='black', down.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'), cut.color=NULL,

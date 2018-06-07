@@ -18,8 +18,6 @@
 #' @param dotsize Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.
 #' @param bins Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.
 #' @export
-#' @import ggplot2
-#' @import grDevices
 
 plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group',  ylab='Log2 Expression', type='dot',
                         color = NULL, x.angle = 0, add.se = FALSE, dotsize = 0.7, bins = 30){
@@ -38,16 +36,16 @@ plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group'
   for (i in 1:nrow(object)){
     object2p <- data.frame(Exprs = object[i, ], Group = grp)
     binwidth <- (max(object2p$Exprs, na.rm = TRUE) - min(object2p$Exprs, na.rm = TRUE))/bins
-    ggp <- ggplot(data = object2p, mapping = aes(x = Group, y = Exprs)) + theme_bw()
-    ggp <- ggp + labs(title = main.v[i], x = xlab, y = ylab) + theme(legend.position = "none")
+    ggp <- ggplot2::ggplot(data = object2p, mapping = aes(x = Group, y = Exprs)) + ggplot2::theme_bw()
+    ggp <- ggp + ggplot2::labs(title = main.v[i], x = xlab, y = ylab) + ggplot2::theme(legend.position = "none")
     if (type == 'dot'){
-      ggp <- ggp + geom_dotplot(mapping = aes(fill = Group), binaxis='y', stackdir='center', binwidth = binwidth, dotsize = dotsize)
-      if(add.se) { ggp <- ggp + stat_summary(fun.data = mean_se, geom = "crossbar", width = 0.3) }
+      ggp <- ggp + ggplot2::geom_dotplot(mapping = aes(fill = Group), binaxis='y', stackdir='center', binwidth = binwidth, dotsize = dotsize)
+      if(add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data = mean_se, geom = "crossbar", width = 0.3) }
     } else {
-      ggp <- ggp + geom_boxplot(mapping = aes(fill = Group))
+      ggp <- ggp + ggplot2::geom_boxplot(mapping = aes(fill = Group))
     }
-    if(!is.null(color)) { ggp <- ggp + scale_fill_manual(values = color) + scale_color_manual(values = color) }
-    if(x.angle != 0){ ggp <- ggp + theme(axis.text.x = element_text(angle = x.angle, hjust = 1)) }
+    if(!is.null(color)) { ggp <- ggp + ggplot2::scale_fill_manual(values = color) + ggplot2::scale_color_manual(values = color) }
+    if(x.angle != 0){ ggp <- ggp + ggplot2::theme(axis.text.x = element_text(angle = x.angle, hjust = 1)) }
     plot(ggp)
   }
   if (!is.na(name)){ grDevices::dev.off() }
