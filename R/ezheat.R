@@ -16,7 +16,7 @@
 #' @param only.symbols Logical, if \code{TRUE} only include rows where \code{symbols} isn't missing, as per \code{na.lab}.
 #' @param ntop Scalar number of rows to include.
 #' @param stat.tab Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
-#' match \code{object} and it also cannot have \code{NA}s.
+#' match \code{object} and it cannot have \code{NA}s.
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
 #' @param reorder_rows Logical indicating if rows should be reordered with hierarchical clustering.
@@ -29,7 +29,7 @@
 #' @export
 
 #can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', data.type='Log2', name='topgenes_heat',
+ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Expression', data.type='Log2', name='topgenes_heat',
                    sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.symbols=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                    na.lab=c('---', '')){
@@ -67,11 +67,11 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', 
 
   #reorder for heat w/o dendro
   if (reorder_rows){
-    hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "complete")
+    hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward")
     mat <- mat[hc$order, , drop = FALSE]
   }
   if (reorder_cols){
-    hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "complete")
+    hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward")
     mat <- mat[,hc$order, drop = FALSE]
     pheno.df <- pheno.df[hc$order, drop = FALSE]
   }
@@ -93,12 +93,11 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Gene Expression', 
   }
 
   main <- paste(data.type, main)
-  silent <- ifelse(is.na(name), TRUE, FALSE)
-  fname <- paste0(name, ".pdf")
+  fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
 
   # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
   ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
                      cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col, display_numbers = asterisk,
-                     filename=fname, silent = silent)
-  return(invisible(ph))
+                     filename=fname)
+  return(invisible(mat))
 }

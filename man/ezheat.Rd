@@ -4,7 +4,7 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
+ezheat(object, symbols = NULL, pheno.df = NULL, main = "Expression",
   data.type = "Log2", name = "topgenes_heat", sc = "ctr", clip = NA,
   color.v = NULL, unique.rows = FALSE, only.symbols = FALSE,
   ntop = NULL, stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
@@ -38,7 +38,7 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Gene Expression",
 \item{ntop}{Scalar number of rows to include.}
 
 \item{stat.tab}{Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
-match \code{object} and it also cannot have \code{NA}s.}
+match \code{object} and it cannot have \code{NA}s.}
 
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}

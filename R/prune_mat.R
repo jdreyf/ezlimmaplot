@@ -22,11 +22,11 @@ prune_mat <- function(object, symbols=NULL, only.symbols=FALSE, unique.rows=FALS
     }
 
     if (only.symbols){
-      if (verbose) cat('Removing', length(na.sym.ind), 'rows without gene symbols\n')
+      if (verbose) message('Removing', length(na.sym.ind), 'rows without gene symbols.')
       object <- object[-na.sym.ind,]
     }
     if (unique.rows){
-      if (verbose) cat('Removing', sum(duplicated(rownames(object))), 'rows with duplicated names\n')
+      if (verbose) message('Removing', sum(duplicated(rownames(object))), 'rows with duplicated names.')
       object <- object[!duplicated(rownames(object)),]
     }
   }#end if !is.null(sym)
@@ -36,7 +36,7 @@ prune_mat <- function(object, symbols=NULL, only.symbols=FALSE, unique.rows=FALS
     if (ntop <= nrow(object)){
       object <- object[1:ntop,]
     } else {
-      if (verbose) cat("After processing, object has only", nrow(object), "rows, so cannot subset to", ntop, "rows.\n")
+      if (verbose) message("After processing, object has only", nrow(object), "rows, so cannot subset to", ntop, "rows.")
     }
   }
   return(object)

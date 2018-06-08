@@ -5,3 +5,5 @@ sudo: false
 cache: packages
 r_github_packages: jdreyf/ezlimma
 bioc_packages: limma
+after_success:
+    - Rscript -e 'covr::codecov()'
