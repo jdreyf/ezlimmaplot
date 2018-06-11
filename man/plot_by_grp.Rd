@@ -5,8 +5,8 @@
 \title{Make boxplot or dotplots for a feature per group}
 \usage{
 plot_by_grp(object, grp, name = "top_genes", main.v = "", xlab = "Group",
-  ylab = "Log2 Expression", type = "dot", color = NULL, x.angle = 0,
-  add.se = FALSE, dotsize = 0.7, bins = 30)
+  ylab = "Log2 Expression", type = "dot", manual.color = NULL,
+  x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30)
 }
 \arguments{
 \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with
@@ -26,15 +26,18 @@ is appended to plot filename, based on \code{type}.}
 
 \item{type}{Type of plot. Either \code{"dot"} or \code{"box"}.}
 
-\item{color}{Passed to \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.}
+\item{manual.color}{Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.}
 
-\item{x.angle}{Passed to \code{theme(axis.text.x = element_text(angle))}.}
+\item{x.angle}{Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.}
 
-\item{add.se}{Add standard error of the mean.}
+\item{add.se}{Logical indicating if to add standard error of the mean to dotplot.}
 
 \item{dotsize}{Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.}
 
 \item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
+}
+\value{
+A \code{ggplot2} object from the last row that was plotted.
 }
 \description{
 Make boxplot or dotplots for a feature per group using \code{ggplot2}.

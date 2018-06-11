@@ -28,9 +28,9 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{labels}{Logical indicating if sample labels should be added next to points.}
 
-\item{manual.color}{Values passed to \code{\link[ggplot2]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
 
-\item{manual.shape}{Values passed to \code{\link[ggplot2]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
 
 \item{...}{Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.}
 }
