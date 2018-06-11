@@ -9,7 +9,7 @@
 #' @param alpha Transparency, passed to \code{\link[ggplot2]{geom_point}}.
 #' @param all.size Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without
 #' appearing in legend. \code{ggplot2} default is size=2.
-#' @param facet Column name in \code{pheno} to facet by.
+#' @param facet A formula with columns in \code{pheno} to facet by.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
 #' @param labels Logical indicating if sample labels should be added next to points.
 #' @param manual.color Values passed to \code{\link[ggplot2]{scale_colour_manual}}.

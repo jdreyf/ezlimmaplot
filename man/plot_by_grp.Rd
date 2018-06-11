@@ -16,7 +16,7 @@ rows corresponding to genes and columns to samples.}
 length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.}
 
 \item{name}{Name of PDF that gets written. Set to \code{NA} to suppress writing to file. "_dotplots" or "_boxplots"
-is appended to plot filename.}
+is appended to plot filename, based on \code{type}.}
 
 \item{main.v}{Character vector of main titles for plot.}
 

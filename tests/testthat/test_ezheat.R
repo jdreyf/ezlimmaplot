@@ -13,7 +13,7 @@ test_that("ezheat", {
   expect_lte(max(abs(mat0)), 1)
 
   expect_message(mat1 <- ezheat(M[topgenes,], symbols = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA,
-                                clip=1, only.symbols = TRUE), plot=FALSE)
+                                clip=1, only.symbols = TRUE, plot=FALSE))
   expect_equal(nrow(mat1), sum(!is.na(res.df$Gene.Symbol[1:20])))
 })
 

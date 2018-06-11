@@ -22,7 +22,7 @@ ezpca(object, pheno, name = "pca", scale. = FALSE, alpha = 1,
 \item{all.size}{Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without
 appearing in legend. \code{ggplot2} default is size=2.}
 
-\item{facet}{Column name in \code{pheno} to facet by.}
+\item{facet}{A formula with columns in \code{pheno} to facet by.}
 
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
