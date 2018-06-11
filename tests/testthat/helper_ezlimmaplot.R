@@ -1,4 +1,5 @@
 library(testthat)
+library(vdiffr)
 
 set.seed(42)
 M <- matrix(rnorm(100*6, sd=0.3), nrow=100, ncol=6)

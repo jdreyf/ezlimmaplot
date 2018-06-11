@@ -43,7 +43,7 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
   if (plot){
     if (!is.na(name)){ grDevices::pdf(paste0(name, '.pdf')) }
     graphics::par(mfrow=c(2,2))
-    for (ind.tmp in p.cols){
+    for (ind.tmp in 1:length(p.cols)){
       prefix <- prefix.v[ind.tmp]
       p.col <- p.cols[ind.tmp]
       stopifnot(length(p.col)==1)
