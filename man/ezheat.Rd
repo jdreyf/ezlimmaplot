@@ -9,7 +9,7 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Expression",
   color.v = NULL, unique.rows = FALSE, only.symbols = FALSE,
   ntop = NULL, stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""))
+  na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.}
@@ -22,7 +22,7 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Expression",
 
 \item{data.type}{Description of data values in \code{object}; this is included in main title.}
 
-\item{name}{Name of PDF to plot. Set to \code{NA} to suppress writing to PDF.}
+\item{name}{Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.}
 
 \item{sc}{Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
 
@@ -52,6 +52,8 @@ match \code{object} and it cannot have \code{NA}s.}
 \item{fontsize_col}{Font size for column labels.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{plot}{Logical indicating if the heatmap should be plotted.}
 }
 \description{
 Draw heatmap using \code{pheatmap} package.

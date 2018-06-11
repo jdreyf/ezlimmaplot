@@ -1,4 +1,3 @@
-library(testthat)
 library(vdiffr)
 
 set.seed(42)

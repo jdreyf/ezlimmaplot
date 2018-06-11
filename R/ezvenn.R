@@ -15,7 +15,7 @@
 #' @param name Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress writing to file.
 #' @param cex A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 #' the default. See \code{\link[graphics]{par}}.
-#' @param plot If the Venn diagram should be plotted.
+#' @param plot Logical indicating if the Venn diagram should be plotted.
 #' @return Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 #' @details One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
 #' \code{logfc.cutoff} if given is used in addition to these.
@@ -26,10 +26,10 @@
 ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v,
                    main = '', name = NA, cex = c(1, 1, 1), plot = TRUE){
   if (!requireNamespace("limma", quietly = TRUE)){
-    stop("Package 'limma' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package limma needed for this function to work. Please install it.", call. = FALSE)
   }
   if (is.null(fdr.cutoff) & is.null(p.cutoff)){
-    stop("One of 'p.cutoff' or 'fdr.cutoff' must be given.")
+    stop("One of p.cutoff or fdr.cutoff must be given.")
   }
 
   if (is.null(prefix.v)){

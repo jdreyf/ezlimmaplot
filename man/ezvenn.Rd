@@ -31,7 +31,7 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 \item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 the default. See \code{\link[graphics]{par}}.}
 
-\item{plot}{If the Venn diagram should be plotted.}
+\item{plot}{Logical indicating if the Venn diagram should be plotted.}
 }
 \value{
 Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
