@@ -12,15 +12,16 @@
 #' @param xlab Label for x-axis.
 #' @param ylab Label for y-axis.
 #' @param type Type of plot. Either \code{"dot"} or \code{"box"}.
-#' @param color Passed to \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.
-#' @param x.angle Passed to \code{theme(axis.text.x = element_text(angle))}.
-#' @param add.se Add standard error of the mean.
+#' @param manual.color Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.
+#' @param x.angle Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.
+#' @param add.se Logical indicating if to add standard error of the mean to dotplot.
 #' @param dotsize Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.
 #' @param bins Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.
+#' @return A \code{ggplot2} object from the last row that was plotted.
 #' @export
 
 plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group',  ylab='Log2 Expression', type='dot',
-                        color = NULL, x.angle = 0, add.se = FALSE, dotsize = 0.7, bins = 30){
+                        manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package ggplot2 needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -41,11 +42,12 @@ plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group'
     if (type == 'dot'){
       ggp <- ggp + ggplot2::geom_dotplot(mapping = ggplot2::aes(fill = Group), binaxis='y', stackdir='center',
                                          binwidth = binwidth, dotsize = dotsize)
-      if(add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data = mean_se, geom = "crossbar", width = 0.3) }
+      if(add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data = ggplot2::mean_se, geom = "crossbar", width = 0.3) }
     } else {
       ggp <- ggp + ggplot2::geom_boxplot(mapping = ggplot2::aes(fill = Group))
     }
-    if(!is.null(color)) { ggp <- ggp + ggplot2::scale_fill_manual(values = color) + ggplot2::scale_color_manual(values = color) }
+    if(!is.null(manual.color)) { ggp <- ggp + ggplot2::scale_fill_manual(values = manual.color) +
+      ggplot2::scale_color_manual(values = manual.color) }
     if(x.angle != 0){ ggp <- ggp + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = x.angle, hjust = 1)) }
     graphics::plot(ggp)
   }

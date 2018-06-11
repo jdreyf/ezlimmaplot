@@ -12,8 +12,8 @@
 #' @param facet A formula with columns in \code{pheno} to facet by.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
 #' @param labels Logical indicating if sample labels should be added next to points.
-#' @param manual.color Values passed to \code{\link[ggplot2]{scale_colour_manual}}.
-#' @param manual.shape Values passed to \code{\link[ggplot2]{scale_shape_manual}}.
+#' @param manual.color Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.
+#' @param manual.shape Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
 #' @export
 
