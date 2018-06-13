@@ -5,8 +5,7 @@
 #' @param object Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.
 #' @param symbols Labels corresponding to rows, e.g. gene symbols.
 #' @param pheno.df Phenotype dataframe.
-#' @param main Title of plot appended to \code{data.type}.
-#' @param data.type Description of data values in \code{object}; this is included in main title.
+#' @param main Title of plot appended to the name of scaling, if any.
 #' @param name Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.
 #' @param sc Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').
 #' @param clip Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.
@@ -25,18 +24,23 @@
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @param plot Logical indicating if the heatmap should be plotted.
+#' @return A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},
+#' containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 #' @details If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 #' symmetric about zero.
 #' @export
 
 #can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Expression', data.type='Log2', name='topgenes_heat',
+ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Log2 Expression', name='topgenes_heat',
                    sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.symbols=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                    na.lab=c('---', ''), plot=TRUE){
 
-  stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0))
   if (!is.matrix(object)) object <- data.matrix(object)
+  stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0))
+  if (!is.null(pheno.df)){
+    stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
+  }
   mat <- prune_mat(object, symbols = symbols, only.symbols = only.symbols, unique.rows = unique.rows, ntop = ntop, na.lab=na.lab)
 
   if (is.null(color.v)){
@@ -50,7 +54,7 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Expression', data.
   if (!is.null(stat.tab) & !is.null(cutoff)){
     stat.tab <- prune_mat(stat.tab, symbols = symbols, only.symbols = only.symbols, unique.rows = unique.rows,
                           ntop = ntop, verbose = FALSE)
-    stopifnot(dim(stat.tab) == dim(mat), sum(is.na(stat.tab)) == 0)
+    stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
     asterisk[stat.tab < cutoff] <- '*'
   } else {
     asterisk <- FALSE
@@ -60,28 +64,28 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Expression', data.
   if (sc=='ctr'){
     #center but don't scale, so can see logFC
     mat <- t(scale(x=t(mat), scale=FALSE))
-    data.type <- paste('Centered', data.type)
+    main <- paste('Centered', main)
   } else if (sc=='z') {
     mat <- t(scale(x=t(mat), center=TRUE, scale=TRUE))
-    data.type <- 'Z-score'
+    main <- paste('Z-scored', main)
   }
 
   #reorder for heat w/o dendro
   if (reorder_rows){
-    hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward")
-    mat <- mat[hc$order, , drop = FALSE]
+    hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward.D2")
+    mat <- mat[hc$order,, drop = FALSE]
   }
   if (reorder_cols){
-    hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward")
+    hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward.D2")
     mat <- mat[,hc$order, drop = FALSE]
-    pheno.df <- pheno.df[hc$order, drop = FALSE]
+    pheno.df <- pheno.df[hc$order,, drop = FALSE]
   }
 
   # clip
   if (!is.na(clip)){
     mat[mat < -clip] <- -clip
     mat[mat > clip] <- clip
-    data.type <- paste('Clipped', data.type)
+    main <- paste('Clipped', main)
   }
 
   #make key symmetric if has both pos & neg values
@@ -94,13 +98,15 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Expression', data.
   }
 
   if (plot){
-    main <- paste(data.type, main)
     fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
 
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
                              cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col, display_numbers = asterisk,
                              filename=fname)
+    ret <- list(mat=mat, gtable=ph$gtable)
+  } else {
+    ret <- list(mat=mat)
   }
-  return(invisible(mat))
+  return(invisible(ret))
 }
