@@ -7,3 +7,5 @@ r_github_packages: jdreyf/ezlimma
 bioc_packages: limma
 before_install:
   - Rscript -e 'update.packages(ask = FALSE)'
+after_success:
+  - Rscript -e 'covr::codecov()'

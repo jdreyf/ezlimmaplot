@@ -1,8 +1,5 @@
 comment: false
 
-after_success:
-    - Rscript -e 'covr::codecov()'
-
 coverage:
   status:
     project:

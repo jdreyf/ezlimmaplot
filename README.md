@@ -9,7 +9,8 @@ Install `ezlimmaplot` from GitHub using `devtools`  within R. You must install `
 ```
 install.packages("devtools") #if haven't already installed devtools
 library("devtools")
-install_github("jdreyf/ezlimmaplot")
+devtools::install_github("jdreyf/ezlimma")
+devtools::install_github("jdreyf/ezlimmaplot")
 ```
 
 ## Usage

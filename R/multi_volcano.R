@@ -19,7 +19,7 @@
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @details Uses colnames(tab) that have suffix \code{logFC} to infer comparisons.
-#' @return List of ggplot objects from \code{\link{ezvolcano}}, invisibly.
+#' @return Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 #' @export
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', ann.rnames=NULL,
@@ -34,7 +34,7 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volca
   } else {
     sig.cols <- grep(paste0('\\', sep, 'FDR'), colnames(tab))
   }
-  if (length(sig.cols)==0) stop("No significance columns with suffix", type.sig, "detected.")
+  if (length(sig.cols)==0) stop("No significance columns with suffix ", type.sig, " detected.")
   #use logFC cols instead of p cols to get contr.names, in case tab also has cor cols
   contr.names <- sub(paste0('\\', sep, '(logFC)$'), '', colnames(tab)[lfc.cols])
 
