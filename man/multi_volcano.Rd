@@ -5,7 +5,7 @@
 \title{Multiple Volcano plots}
 \usage{
 multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
-  name = "volcanoes", add.rnames = NULL, up.color = "black",
+  name = "volcanoes", ann.rnames = NULL, up.color = "black",
   down.color = "black", same.scale = FALSE, type.sig = c("p", "FDR"),
   cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
   na.lab = c("---", ""))
@@ -21,7 +21,7 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
 
 \item{name}{Name of PDF file to write to. Set to \code{NA} to suppress writing to file.}
 
-\item{add.rnames}{Additional rownames of features to annotate. These must be in \code{rownames(tab)}.}
+\item{ann.rnames}{Additional rownames of features to annotate. These must be in \code{rownames(tab)}.}
 
 \item{up.color}{Color for points that are upregulated (\code{logFC>0}).}
 

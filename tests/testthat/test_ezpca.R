@@ -1,7 +1,5 @@
 context("ezpca")
 
-pheno2 <- data.frame(pheno, tissue=rep(c("muscle", "liver"), 3))
-
 test_that("ezpca", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)

@@ -102,7 +102,7 @@ We see a color bar for the phenotype groups and the strongest change in metaboli
 ## Volcano plots
 We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using **ggplot2**.
 ```{r vol}
-ezvolcano(tab=res.df, comparison = "First3", name=NA)
+ezvolcano(tab=res.df, comparison = "First3", name=NA, lab.col="Gene.Symbol")
 ```
 
 We can automatically create a PDF with volcano plots for all comparisons with:

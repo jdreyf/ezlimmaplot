@@ -4,9 +4,9 @@
 \alias{ezvolcano}
 \title{Volcano plot in ggplot2}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
+ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = NULL,
   ntop.sig = 0, ntop.lfc = 0, comparison = NULL, name = "volcano",
-  add.rnames = NULL, up.color = "black", down.color = "black",
+  ann.rnames = NULL, up.color = "black", down.color = "black",
   x.bound = NULL, y.bound = NULL, type.sig = c("p", "FDR"),
   cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
   na.lab = c("---", ""))
@@ -30,7 +30,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{name}{Name of PNG file to write to. Set to \code{NA} to suppress writing to file.}
 
-\item{add.rnames}{Additional rownames of features to annotate. These must be in \code{rownames(tab)}.}
+\item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 
 \item{up.color}{Color for points that are upregulated (\code{logFC>0}).}
 
@@ -46,8 +46,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
-\item{cut.sig}{Points need to have significance \code{<= cut.sig} to have \code{cut.color}. Significance type is of
-\code{type.sig}.}
+\item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 

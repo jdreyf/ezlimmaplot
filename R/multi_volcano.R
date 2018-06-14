@@ -7,7 +7,7 @@
 #' @param ntop.sig Number of top significant features to annotate.
 #' @param ntop.lfc Number of top logFC features to annotate.
 #' @param name Name of PDF file to write to. Set to \code{NA} to suppress writing to file.
-#' @param add.rnames Additional rownames of features to annotate. These must be in \code{rownames(tab)}.
+#' @param ann.rnames Additional rownames of features to annotate. These must be in \code{rownames(tab)}.
 #' @param up.color Color for points that are upregulated (\code{logFC>0}).
 #' @param down.color Color for points that are downregulated (\code{logFC<0}).
 #' @param same.scale Logical indicating if different volcano plots should have the same x-limits and y-limits.
@@ -22,7 +22,7 @@
 #' @return List of ggplot objects from \code{\link{ezvolcano}}, invisibly.
 #' @export
 
-multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', add.rnames=NULL,
+multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', ann.rnames=NULL,
                           up.color='black', down.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'), cut.color=NULL,
                           cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
 
@@ -49,7 +49,7 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volca
   ret.lst <- list()
   for (contr in contr.names){
     ret.lst[[contr]] <- ezvolcano(tab=tab, lab.col=lab.col, ntop.sig=ntop.sig, ntop.lfc=ntop.lfc, comparison=contr,
-                                  name=NA, add.rnames=add.rnames, up.color=up.color, down.color=down.color, x.bound=x.bound,
+                                  name=NA, ann.rnames=ann.rnames, up.color=up.color, down.color=down.color, x.bound=x.bound,
                                   y.bound=y.bound, type.sig=type.sig, cut.color=cut.color, cut.lfc=cut.lfc, cut.sig=cut.sig,
                                   sep=sep, na.lab=na.lab)
   }

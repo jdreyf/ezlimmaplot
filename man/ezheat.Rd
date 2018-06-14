@@ -4,10 +4,10 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, symbols = NULL, pheno.df = NULL, main = "Expression",
-  data.type = "Log2", name = "topgenes_heat", sc = "ctr", clip = NA,
-  color.v = NULL, unique.rows = FALSE, only.symbols = FALSE,
-  ntop = NULL, stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+ezheat(object, symbols = NULL, pheno.df = NULL, main = "Log2 Expression",
+  name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
+  unique.rows = FALSE, only.symbols = FALSE, ntop = NULL,
+  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
   na.lab = c("---", ""), plot = TRUE)
 }
@@ -18,9 +18,7 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Expression",
 
 \item{pheno.df}{Phenotype dataframe.}
 
-\item{main}{Title of plot appended to \code{data.type}.}
-
-\item{data.type}{Description of data values in \code{object}; this is included in main title.}
+\item{main}{Title of plot appended to the name of scaling, if any.}
 
 \item{name}{Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.}
 
@@ -54,6 +52,10 @@ match \code{object} and it cannot have \code{NA}s.}
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
 \item{plot}{Logical indicating if the heatmap should be plotted.}
+}
+\value{
+A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},
+containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 }
 \description{
 Draw heatmap using \code{pheatmap} package.
