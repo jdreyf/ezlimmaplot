@@ -17,7 +17,7 @@
 #' @param add.se Logical indicating if to add standard error of the mean to dotplot.
 #' @param dotsize Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.
 #' @param bins Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.
-#' @return A \code{ggplot2} object from the last row that was plotted.
+#' @return Invisibly, a \code{ggplot2} object from the last row that was plotted.
 #' @export
 
 plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group',  ylab='Log2 Expression', type='dot',

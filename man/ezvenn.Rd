@@ -36,7 +36,7 @@ the default. See \code{\link[graphics]{par}}.}
 \value{
 Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 
-A matrix with elements: -1, 0, 1, invisibly. 0 indicates no significant change; -1 indicates down; and 1
+Invisibly, a matrix with elements {-1, 0, 1}. 0 indicates no significant change; -1 indicates down; and 1
 indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
 }
 \description{

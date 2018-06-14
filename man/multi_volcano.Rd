@@ -43,7 +43,7 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 }
 \value{
-List of ggplot objects from \code{\link{ezvolcano}}, invisibly.
+Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 }
 \description{
 Multiple Volcano plots from a table output from \code{ezlimma}.

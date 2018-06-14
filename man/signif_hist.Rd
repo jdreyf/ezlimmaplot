@@ -24,7 +24,7 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 \item{plot}{Logical if \code{FALSE} no plot is generated.}
 }
 \value{
-A subset of \code{tab} with only columns that contain significances, invisibly.
+Invisibly, a subset of \code{tab} with only columns that contain significances.
 }
 \description{
 Plot histograms of significance (p-value & FDR) columns.

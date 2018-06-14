@@ -37,7 +37,7 @@ is appended to plot filename, based on \code{type}.}
 \item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
 }
 \value{
-A \code{ggplot2} object from the last row that was plotted.
+Invisibly, a \code{ggplot2} object from the last row that was plotted.
 }
 \description{
 Make boxplot or dotplots for a feature per group using \code{ggplot2}.

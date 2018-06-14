@@ -19,7 +19,7 @@
 #' @return Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 #' @details One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
 #' \code{logfc.cutoff} if given is used in addition to these.
-#' @return A matrix with elements: -1, 0, 1, invisibly. 0 indicates no significant change; -1 indicates down; and 1
+#' @return Invisibly, a matrix with elements {-1, 0, 1}. 0 indicates no significant change; -1 indicates down; and 1
 #' indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
 #' @export
 

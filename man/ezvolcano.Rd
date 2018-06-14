@@ -53,7 +53,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 }
 \value{
-A ggplot object, invisibly.
+Invisibly, a ggplot object.
 }
 \description{
 Volcano plot in ggplot2 using output from \code{ezlimma} package.

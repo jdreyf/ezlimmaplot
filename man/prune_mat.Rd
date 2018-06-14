@@ -23,6 +23,9 @@ prune_mat(object, symbols = NULL, only.symbols = FALSE,
 
 \item{verbose}{Logical indicating whether to print messages to console.}
 }
+\value{
+Pruned matrix.
+}
 \description{
 Prune (subset) matrix before plotting as heatmap.
 }

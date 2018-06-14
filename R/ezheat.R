@@ -7,7 +7,7 @@
 #' @param pheno.df Phenotype dataframe.
 #' @param main Title of plot appended to the name of scaling, if any.
 #' @param name Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.
-#' @param sc Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').
+#' @param sc Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').
 #' @param clip Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.
 #' @param color.v Color palette for heatmap. If \code{NULL}, it's set to
 #' \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.

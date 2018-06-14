@@ -24,7 +24,7 @@
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
-#' @return A ggplot object, invisibly.
+#' @return Invisibly, a ggplot object.
 #' @export
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col=NULL, ntop.sig=0, ntop.lfc=0, comparison=NULL,

@@ -9,6 +9,7 @@
 #' @param ntop Scalar number of rows to include.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @param verbose Logical indicating whether to print messages to console.
+#' @return Pruned matrix.
 
 prune_mat <- function(object, symbols=NULL, only.symbols=FALSE, unique.rows=FALSE, ntop=NULL, na.lab=c('---', ''), verbose=TRUE){
   if (!is.matrix(object)) object <- data.matrix(object)

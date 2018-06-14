@@ -12,7 +12,7 @@
 #' @param plot Logical if \code{FALSE} no plot is generated.
 #' @details Some p-value columns must be identifiable using \code{p.suffix}. If \code{!is.na(fdr.suffix)}, FDR
 #' colnames must have same prefix.
-#' @return A subset of \code{tab} with only columns that contain significances, invisibly.
+#' @return Invisibly, a subset of \code{tab} with only columns that contain significances.
 #' @export
 
 #assume each comparison has a p-value & q-value column unless fdr.suffix=NA

@@ -22,7 +22,7 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Log2 Expression",
 
 \item{name}{Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.}
 
-\item{sc}{Character string. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
+\item{sc}{Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
 
 \item{clip}{Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.}
 
