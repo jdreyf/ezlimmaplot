@@ -21,6 +21,6 @@ extract_prefix <- function(nm, suffix='p', sep='.'){
     #NA instead of "" distinguishes "p" from ".p"
     prefix.v <- sub(patt, NA, nm[ind])
   }
-  if (length(prefix.v)==0) stop("No prefix found.")
+  if (length(prefix.v)==0) stop("Suffix ", suffix, " not found.")
   return(prefix.v)
 }

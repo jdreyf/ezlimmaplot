@@ -9,7 +9,7 @@
 #' @param pi0 Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
 #' \code{TRUE}, \code{limma::propTrueNull} is used, so \code{limma} package is needed.
 #' @param name Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.
-#' @param plot Logical if \code{FALSE} no plot is generated.
+#' @param plot Logical; if \code{FALSE} no plot is generated.
 #' @details Some p-value columns must be identifiable using \code{p.suffix}. If \code{!is.na(fdr.suffix)}, FDR
 #' colnames must have same prefix.
 #' @return Invisibly, a subset of \code{tab} with only columns that contain significances.
