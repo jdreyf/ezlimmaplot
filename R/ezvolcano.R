@@ -11,10 +11,11 @@
 #' @param ntop.lfc Number of top logFC features to annotate.
 #' @param comparison Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
 #' and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and these are over-ridden.
+#' @param alpha Transparency of all points, passed to \code{\link[ggplot2]{geom_point}}.
 #' @param name Name of PNG file to write to. Set to \code{NA} to suppress writing to file.
 #' @param ann.rnames Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.
-#' @param up.color Color for points that are upregulated (\code{logFC>0}).
-#' @param down.color Color for points that are downregulated (\code{logFC<0}).
+#' @param up.ann.color Color for annotated points that are upregulated (\code{logFC>0}).
+#' @param down.ann.color Color for annotated points that are downregulated (\code{logFC<0}).
 #' @param x.bound x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.
 #' @param y.bound y-axis limits are set to \code{c(0, y.bound)}. If \code{NULL, y.bound=max(tab[,'nlg10sig'])}.
 #' @param type.sig Type of significance y-axis should use, either "p" or "FDR".
@@ -27,8 +28,8 @@
 #' @return Invisibly, a ggplot object.
 #' @export
 
-ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col=NULL, ntop.sig=0, ntop.lfc=0, comparison=NULL,
-                      name='volcano', ann.rnames=NULL, up.color='black', down.color='black', x.bound=NULL, y.bound=NULL,
+ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
+                      name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', x.bound=NULL, y.bound=NULL,
                       type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
@@ -77,19 +78,11 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col=NULL, ntop.sig=0,
   if(is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
   if(is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
 
-  #plot up & down
-  ind2p.up <- which(tab[,lfc.col] >= 0)
-  ind2p.down <- which(tab[,lfc.col] < 0)
-  vol <- ggplot2::ggplot(data=tab, ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) +
-    ggplot2::geom_point(data=tab[ind2p.up,], size=2, color = up.color) + ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) +
-    ggplot2::geom_point(data=tab[ind2p.down,], size=2, color = down.color) + ggplot2::xlab("log2 fold change") + ggplot2::ylab(y.lab)
+  #construct ggplot object
+  vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) +
+    ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab("log2 fold change") +
+    ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) + ggplot2::ylab(y.lab)
   if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
-
-  #plot points meeting cut
-  if (!is.null(cut.color)){
-    cut.pts <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
-    vol <- vol + ggplot2::geom_point(data=tab[cut.pts,], size=2, color = cut.color)
-  }
 
   #ntop indices to plot with symbol
   ind.annot <- NULL
@@ -104,10 +97,37 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col=NULL, ntop.sig=0,
     ind.ann.rnames <- which(rownames(tab) %in% ann.rnames)
     ind.annot <- union(ind.ann.rnames, ind.annot)
   }
+  #plot annotated with color
   if (!is.null(ind.annot)){
-    vol <- vol + ggplot2::geom_text(data=tab[ind.annot,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
-                                    size=3, vjust=2)
+    ind.annot.up <- ind.annot[which(tab[ind.annot, lfc.col] >= 0)]
+    if (length(ind.annot.up) > 0){
+      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.up,], alpha=alpha, size=2, color = up.ann.color) +
+        ggplot2::geom_text(data=tab[ind.annot.up,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
+                           size=3, vjust=2, color = up.ann.color)
+    }
+
+    ind.annot.down <- ind.annot[which(tab[ind.annot, lfc.col] < 0)]
+    if (length(ind.annot.down) > 0){
+      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.down,], alpha=alpha, size=2, color = down.ann.color) +
+        ggplot2::geom_text(data=tab[ind.annot.down,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
+                           size=3, vjust=2, color = down.ann.color)
+    }
   }
+
+  #cut points
+  if (!is.null(cut.color)){
+    ind.cut <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
+    ind.cut <- setdiff(ind.cut, ind.annot)
+    if (length(ind.cut) > 0){
+      vol <- vol + ggplot2::geom_point(data=tab[ind.cut,], alpha=alpha, size=2, color = cut.color)
+    }
+  } else {
+    ind.cut <- NULL
+  }
+
+  #plot rest
+  ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
+  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2)
 
   if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
   return(invisible(vol))

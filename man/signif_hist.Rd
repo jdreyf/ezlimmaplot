@@ -21,7 +21,7 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 
 \item{name}{Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.}
 
-\item{plot}{Logical if \code{FALSE} no plot is generated.}
+\item{plot}{Logical; if \code{FALSE} no plot is generated.}
 }
 \value{
 Invisibly, a subset of \code{tab} with only columns that contain significances.

@@ -5,8 +5,8 @@
 \title{Multiple Volcano plots}
 \usage{
 multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
-  name = "volcanoes", ann.rnames = NULL, up.color = "black",
-  down.color = "black", same.scale = FALSE, type.sig = c("p", "FDR"),
+  name = "volcanoes", ann.rnames = NULL, up.ann.color = "black",
+  down.ann.color = "black", same.scale = FALSE, type.sig = c("p", "FDR"),
   cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
   na.lab = c("---", ""))
 }
@@ -23,9 +23,9 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
 
 \item{ann.rnames}{Additional rownames of features to annotate. These must be in \code{rownames(tab)}.}
 
-\item{up.color}{Color for points that are upregulated (\code{logFC>0}).}
+\item{up.ann.color}{Color for points that are upregulated (\code{logFC>0}).}
 
-\item{down.color}{Color for points that are downregulated (\code{logFC<0}).}
+\item{down.ann.color}{Color for points that are downregulated (\code{logFC<0}).}
 
 \item{same.scale}{Logical indicating if different volcano plots should have the same x-limits and y-limits.}
 

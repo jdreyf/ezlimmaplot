@@ -4,12 +4,12 @@
 \alias{ezvolcano}
 \title{Volcano plot in ggplot2}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = NULL,
-  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, name = "volcano",
-  ann.rnames = NULL, up.color = "black", down.color = "black",
-  x.bound = NULL, y.bound = NULL, type.sig = c("p", "FDR"),
-  cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
-  na.lab = c("---", ""))
+ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
+  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
+  name = "volcano", ann.rnames = NULL, up.ann.color = "black",
+  down.ann.color = "black", x.bound = NULL, y.bound = NULL,
+  type.sig = c("p", "FDR"), cut.color = NULL, cut.lfc = 1,
+  cut.sig = 0.05, sep = ".", na.lab = c("---", ""))
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -28,13 +28,15 @@ no points are annotated.}
 \item{comparison}{Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
 and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and these are over-ridden.}
 
+\item{alpha}{Transparency of all points, passed to \code{\link[ggplot2]{geom_point}}.}
+
 \item{name}{Name of PNG file to write to. Set to \code{NA} to suppress writing to file.}
 
 \item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 
-\item{up.color}{Color for points that are upregulated (\code{logFC>0}).}
+\item{up.ann.color}{Color for annotated points that are upregulated (\code{logFC>0}).}
 
-\item{down.color}{Color for points that are downregulated (\code{logFC<0}).}
+\item{down.ann.color}{Color for annotated points that are downregulated (\code{logFC<0}).}
 
 \item{x.bound}{x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.}
 

@@ -50,7 +50,7 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
       subtitle <- NULL
       if(pi0) {
         if (!requireNamespace("limma", quietly = TRUE)){
-          stop("Package 'limma' needed to estimate 'pi0'. Please install it.", call. = FALSE)
+          stop("Package 'limma' needed to estimate pi0. Please install it.", call. = FALSE)
         }
         prop.null <- limma::propTrueNull(tab[,p.col], method = 'convest')
         subtitle <- paste('Proportion of True Null = ', signif(prop.null, 3))
