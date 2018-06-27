@@ -94,7 +94,7 @@ We plot a heatmap of the expression of the first five genes across all samples u
 sym <- c("A", "B", "C", "D", "E")
 pheno.df <- pheno[,"grp",drop=F]
 topgenes <- rownames(res.df)[1:5]
-ezheat(M[topgenes,], symbols = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA)
+ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA)
 ```
 
 We see a color bar for the phenotype groups and the strongest change in metabolite "A".
