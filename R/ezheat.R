@@ -38,7 +38,6 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', 
                    sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                    na.lab=c('---', ''), plot=TRUE){
-
   if (!is.matrix(object)) object <- data.matrix(object)
   stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0),
             is.null(labcols)||length(labcols) %in% c(1, ncol(object)))
