@@ -4,7 +4,7 @@
 \alias{multi_covar_pca}
 \title{PCA plot of top two components}
 \usage{
-multi_covar_pca(object, pheno.df, name = "pca", grp.var = "grp",
+multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
   covars = setdiff(colnames(pheno.df), grp.var), alpha = 1,
   all.size = NULL, facet = NULL, rm.leg.title = FALSE, labels = FALSE,
   manual.color = NULL, manual.shape = NULL)

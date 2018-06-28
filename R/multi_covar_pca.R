@@ -19,7 +19,7 @@
 #' @return Invisibly, a list of the first two principal components appended to \code{pheno.df} for each covariate.
 #' @export
 
-multi_covar_pca <- function(object, pheno.df, name='pca', grp.var='grp', covars=setdiff(colnames(pheno.df), grp.var),
+multi_covar_pca <- function(object, pheno.df, name='covar_pca', grp.var='grp', covars=setdiff(colnames(pheno.df), grp.var),
                             alpha=1, all.size=NULL, facet=NULL, rm.leg.title=FALSE, labels=FALSE, manual.color = NULL,
                             manual.shape = NULL){
   stopifnot(c(grp.var, covars) %in% colnames(pheno.df))
