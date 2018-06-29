@@ -3,7 +3,7 @@
 #' Draw heatmap using \code{pheatmap} package.
 #'
 #' @param object Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.
-#' @param symbols Labels corresponding to rows, e.g. gene symbols.
+#' @param labrows Labels corresponding to rows, e.g. gene symbols.
 #' @param pheno.df Phenotype dataframe.
 #' @param main Title of plot appended to the name of scaling, if any.
 #' @param name Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.
@@ -12,12 +12,15 @@
 #' @param color.v Color palette for heatmap. If \code{NULL}, it's set to
 #' \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.
 #' @param unique.rows Logical, indicating if to remove duplicated row labels to make rows unique.
-#' @param only.symbols Logical, if \code{TRUE} only include rows where \code{symbols} isn't missing, as per \code{na.lab}.
+#' @param only.labrows Logical, if \code{TRUE} only include rows where \code{labrows} aren't missing
+#' (missing is defined by \code{na.lab}).
 #' @param ntop Scalar number of rows to include.
 #' @param stat.tab Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
 #' match \code{object} and it cannot have \code{NA}s.
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
+#' @param labcols Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
+#' \code{ncol(object)}.
 #' @param reorder_rows Logical indicating if rows should be reordered with hierarchical clustering.
 #' @param reorder_cols Logical indicating if columns should be reordered with hierarchical clustering.
 #' @param fontsize_row Font size for row labels.
@@ -31,17 +34,19 @@
 #' @export
 
 #can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Log2 Expression', name='topgenes_heat',
-                   sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.symbols=FALSE, ntop=NULL, stat.tab = NULL,
-                   cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
+ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', name='topgenes_heat',
+                   sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
+                   cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                    na.lab=c('---', ''), plot=TRUE){
-
   if (!is.matrix(object)) object <- data.matrix(object)
-  stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0))
+  stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0),
+            is.null(labcols)||length(labcols) %in% c(1, ncol(object)))
+  if (length(labcols)==1) labcols <- rep(x=labcols, ncol(object))
   if (!is.null(pheno.df)){
     stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
   }
-  mat <- prune_mat(object, symbols = symbols, only.symbols = only.symbols, unique.rows = unique.rows, ntop = ntop, na.lab=na.lab)
+  mat <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
+                   na.lab=na.lab)
 
   if (is.null(color.v)){
     if (!requireNamespace("RColorBrewer", quietly = TRUE)){
@@ -52,7 +57,7 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Log2 Expression', 
 
   asterisk <- matrix(data = '', nrow = nrow(mat), ncol = ncol(mat))
   if (!is.null(stat.tab) & !is.null(cutoff)){
-    stat.tab <- prune_mat(stat.tab, symbols = symbols, only.symbols = only.symbols, unique.rows = unique.rows,
+    stat.tab <- prune_mat(stat.tab, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows,
                           ntop = ntop, verbose = FALSE)
     stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
     asterisk[stat.tab < cutoff] <- '*'
@@ -75,10 +80,14 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Log2 Expression', 
     hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward.D2")
     mat <- mat[hc$order,, drop = FALSE]
   }
+
   if (reorder_cols){
     hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward.D2")
     mat <- mat[,hc$order, drop = FALSE]
     pheno.df <- pheno.df[hc$order,, drop = FALSE]
+    if (!is.null(labcols)){
+      labcols <- labcols[hc$order]
+    }
   }
 
   # clip
@@ -102,8 +111,8 @@ ezheat <- function(object, symbols=NULL, pheno.df=NULL, main='Log2 Expression', 
 
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
-                             cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col, display_numbers = asterisk,
-                             filename=fname)
+                             cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                             display_numbers = asterisk, filename=fname, labels_col = labcols)
     ret <- list(mat=mat, gtable=ph$gtable)
   } else {
     ret <- list(mat=mat)

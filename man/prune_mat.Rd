@@ -4,16 +4,16 @@
 \alias{prune_mat}
 \title{Prune matrix}
 \usage{
-prune_mat(object, symbols = NULL, only.symbols = FALSE,
+prune_mat(object, labrows = NULL, only.labrows = FALSE,
   unique.rows = FALSE, ntop = NULL, na.lab = c("---", ""),
   verbose = TRUE)
 }
 \arguments{
 \item{object}{Matrix-like object.}
 
-\item{symbols}{Labels corresponding to rows, e.g. gene symbols.}
+\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
 
-\item{only.symbols}{Logical, if \code{TRUE} only include rows with a non-missing symbol.}
+\item{only.labrows}{Logical, if \code{TRUE} only include rows with a non-missing symbol.}
 
 \item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
 
