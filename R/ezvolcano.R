@@ -16,6 +16,7 @@
 #' @param ann.rnames Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.
 #' @param up.ann.color Color for annotated points that are upregulated (\code{logFC>0}).
 #' @param down.ann.color Color for annotated points that are downregulated (\code{logFC<0}).
+#' @param shape Shape of non-annotated dots. Set to 1 for empty dots.
 #' @param x.bound x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.
 #' @param y.bound y-axis limits are set to \code{c(0, y.bound)}. If \code{NULL, y.bound=max(tab[,'nlg10sig'])}.
 #' @param type.sig Type of significance y-axis should use, either "p" or "FDR".
@@ -29,8 +30,9 @@
 #' @export
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
-                      name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', x.bound=NULL, y.bound=NULL,
-                      type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
+                      name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
+                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.',
+                      na.lab=c('---', '')){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -119,7 +121,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     ind.cut <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
     ind.cut <- setdiff(ind.cut, ind.annot)
     if (length(ind.cut) > 0){
-      vol <- vol + ggplot2::geom_point(data=tab[ind.cut,], alpha=alpha, size=2, color = cut.color)
+      vol <- vol + ggplot2::geom_point(data=tab[ind.cut,], alpha=alpha, size=2, color = cut.color, shape=shape)
     }
   } else {
     ind.cut <- NULL
@@ -127,7 +129,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
 
   #plot rest
   ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
-  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2)
+  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
 
   if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
   return(invisible(vol))

@@ -7,7 +7,7 @@
 ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
   ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
   name = "volcano", ann.rnames = NULL, up.ann.color = "black",
-  down.ann.color = "black", x.bound = NULL, y.bound = NULL,
+  down.ann.color = "black", shape = 16, x.bound = NULL, y.bound = NULL,
   type.sig = c("p", "FDR"), cut.color = NULL, cut.lfc = 1,
   cut.sig = 0.05, sep = ".", na.lab = c("---", ""))
 }
@@ -37,6 +37,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{up.ann.color}{Color for annotated points that are upregulated (\code{logFC>0}).}
 
 \item{down.ann.color}{Color for annotated points that are downregulated (\code{logFC<0}).}
+
+\item{shape}{Shape of non-annotated dots. Set to 1 for empty dots.}
 
 \item{x.bound}{x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.}
 
