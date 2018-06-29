@@ -4,17 +4,17 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, symbols = NULL, pheno.df = NULL, main = "Log2 Expression",
+ezheat(object, labrows = NULL, pheno.df = NULL, main = "Log2 Expression",
   name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
-  unique.rows = FALSE, only.symbols = FALSE, ntop = NULL,
-  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+  unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
+  stat.tab = NULL, cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
   na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.}
 
-\item{symbols}{Labels corresponding to rows, e.g. gene symbols.}
+\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
 
 \item{pheno.df}{Phenotype dataframe.}
 
@@ -31,7 +31,8 @@ ezheat(object, symbols = NULL, pheno.df = NULL, main = "Log2 Expression",
 
 \item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
 
-\item{only.symbols}{Logical, if \code{TRUE} only include rows where \code{symbols} isn't missing, as per \code{na.lab}.}
+\item{only.labrows}{Logical, if \code{TRUE} only include rows where \code{labrows} aren't missing
+(missing is defined by \code{na.lab}).}
 
 \item{ntop}{Scalar number of rows to include.}
 
@@ -40,6 +41,9 @@ match \code{object} and it cannot have \code{NA}s.}
 
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
+
+\item{labcols}{Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
+\code{ncol(object)}.}
 
 \item{reorder_rows}{Logical indicating if rows should be reordered with hierarchical clustering.}
 

@@ -7,7 +7,8 @@ M <- matrix(rnorm(100*6, sd=0.3), nrow=100, ncol=6)
 dimnames(M) <- list(paste0("gene", 1:nrow(M)), paste0("sample", 1:ncol(M)))
 grp <- rep(c("First3", "Last3"), each=3)
 tissue <- rep(c("muscle", "liver"), times=3)
-pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp=grp, tissue=tissue, stringsAsFactors = FALSE)
+covar_num <- rnorm(n = ncol(M))
+pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp, tissue, covar_num, stringsAsFactors = FALSE)
 M[1,1:3] <- M[1,1:3] + 2
 
 contr.v <- c(First3="First3", Last3="Last3", Last3vsFirst3="Last3-First3")

@@ -11,7 +11,7 @@
 #' @param ntop.lfc Number of top logFC features to annotate.
 #' @param comparison Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
 #' and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and these are over-ridden.
-#' @param alpha Transparency of all points, passed to \code{\link[ggplot2]{geom_point}}.
+#' @param alpha Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.
 #' @param name Name of PNG file to write to. Set to \code{NA} to suppress writing to file.
 #' @param ann.rnames Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.
 #' @param up.ann.color Color for annotated points that are upregulated (\code{logFC>0}).
@@ -101,14 +101,14 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   if (!is.null(ind.annot)){
     ind.annot.up <- ind.annot[which(tab[ind.annot, lfc.col] >= 0)]
     if (length(ind.annot.up) > 0){
-      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.up,], alpha=alpha, size=2, color = up.ann.color) +
+      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.up,], size=2, color = up.ann.color) +
         ggplot2::geom_text(data=tab[ind.annot.up,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
                            size=3, vjust=2, color = up.ann.color)
     }
 
     ind.annot.down <- ind.annot[which(tab[ind.annot, lfc.col] < 0)]
     if (length(ind.annot.down) > 0){
-      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.down,], alpha=alpha, size=2, color = down.ann.color) +
+      vol <- vol + ggplot2::geom_point(data=tab[ind.annot.down,], size=2, color = down.ann.color) +
         ggplot2::geom_text(data=tab[ind.annot.down,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
                            size=3, vjust=2, color = down.ann.color)
     }
