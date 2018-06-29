@@ -52,9 +52,9 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
 
   type.sig <- match.arg(type.sig)
   if (type.sig=="p"){
-    y.lab <- "-log10 p-value"
+    y.lab <- expression("-"*log[10]~p*"-"*value)
   } else {
-    y.lab <- "-log10 FDR"
+    y.lab <- expression("-"*log[10]~FDR)
   }
 
   #infer columns
@@ -79,8 +79,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   if(is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
 
   #construct ggplot object
-  vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) +
-    ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab("log2 fold change") +
+  vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::theme_bw() +
+    ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) +
     ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) + ggplot2::ylab(y.lab)
   if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
 
