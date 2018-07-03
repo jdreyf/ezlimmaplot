@@ -20,7 +20,7 @@
 #' @return Invisibly, a \code{ggplot2} object from the last row that was plotted.
 #' @export
 
-plot_by_grp <- function(object, grp, name='top_genes', main.v='', xlab = 'Group',  ylab='Log2 Expression', type='dot',
+plot_by_grp <- function(object, grp, name='topgenes', main.v='', xlab = 'Group',  ylab='Log2 Expression', type='dot',
                         manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package ggplot2 needed for this function to work. Please install it.", call. = FALSE)
