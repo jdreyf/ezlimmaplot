@@ -2,7 +2,8 @@ Package: ezlimmaplot
 Title: Bioinformatics plots using limma and ggplot2, some from output of ezlimma
 Version: 0.0.0.9000
 Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
-             person("Hui", "Pan", role = "aut"))
+             person("Hui", "Pan", role = "aut"),
+			 person("Grace", "Daher", role="ctb"))
 BugReports: https://github.com/jdreyf/ezlimmaplot/issues
 Description: Bioinformatics plots using limma and ggplot2, some from output of ezlimma.
 Imports:
