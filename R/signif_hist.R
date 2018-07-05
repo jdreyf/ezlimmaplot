@@ -25,7 +25,6 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
   } else {
     p.cols <- match(paste0(prefix.v, sep, p.suffix), colnames(tab))
   }
-  if (any(is.na(p.cols))) stop("No p-value columns were identified.")
 
   if (!is.na(fdr.suffix)){
     if (is.na(prefix.v[1])){
