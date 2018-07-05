@@ -16,11 +16,11 @@
 #' @param cex A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 #' the default. See \code{\link[graphics]{par}}.
 #' @param plot Logical indicating if the Venn diagram should be plotted.
-#' @return Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
 #' @details One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
 #' \code{logfc.cutoff} if given is used in addition to these.
-#' @return Invisibly, a matrix with elements {-1, 0, 1}. 0 indicates no significant change; -1 indicates down; and 1
-#' indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
+#' @return Invisibly, a matrix with elements {-1, 0, 1} indicating which features (rows) of \code{tab} were significant
+#' with specified cutoffs..0 indicates no significant change; -1 indicates down; and 1 indicates up if corresponding
+#'  \code{logFC} columns are found, otherwise it indicates significance.
 #' @export
 
 ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v,

@@ -34,10 +34,9 @@ the default. See \code{\link[graphics]{par}}.}
 \item{plot}{Logical indicating if the Venn diagram should be plotted.}
 }
 \value{
-Binary matrix indicating which features (rows) of \code{tab} were significant with specified cutoffs.
-
-Invisibly, a matrix with elements {-1, 0, 1}. 0 indicates no significant change; -1 indicates down; and 1
-indicates up if corresponding \code{logFC} columns are found, otherwise it indicates significance.
+Invisibly, a matrix with elements {-1, 0, 1} indicating which features (rows) of \code{tab} were significant
+with specified cutoffs..0 indicates no significant change; -1 indicates down; and 1 indicates up if corresponding
+ \code{logFC} columns are found, otherwise it indicates significance.
 }
 \description{
 Venn diagrams using output from \code{ezlimma} package.
