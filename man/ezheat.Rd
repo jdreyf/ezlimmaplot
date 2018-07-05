@@ -9,7 +9,7 @@ ezheat(object, labrows = NULL, pheno.df = NULL, main = "Log2 Expression",
   unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
   stat.tab = NULL, cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE)
+  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.}
@@ -56,6 +56,10 @@ match \code{object} and it cannot have \code{NA}s.}
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
 \item{plot}{Logical indicating if the heatmap should be plotted.}
+
+\item{width}{Manual option for determining the output file width in inches.}
+
+\item{height}{Manual option for determining the output file height in inches.}
 }
 \value{
 A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},

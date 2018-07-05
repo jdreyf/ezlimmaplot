@@ -15,6 +15,13 @@ test_that("mat", {
   expect_equal(nrow(mat1), sum(!is.na(res.df$Gene.Symbol[1:20])))
 })
 
+test_that("sc", {
+  ezh.sc <- ezheat(M, pheno.df=pheno.df, name=NA, sc="z", plot=FALSE)$mat
+  #same as pheatmap:::scale_mat(M, scale = "row")
+  base.sc <- t(scale(t(M), center=TRUE, scale = TRUE))
+  expect_equal(ezh.sc, base.sc)
+})
+
 test_that("gtable", {
   #pheatmap creates two pages, but vdiffr supports only one, so using returned gtable
   ezh <- function(){
