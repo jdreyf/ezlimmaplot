@@ -31,8 +31,7 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   dat <- data.frame(pca$x[rownames(pheno.df), 2:1], pheno.df)
 
   #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw() +
-    ggplot2::theme(panel.grid=ggplot2::element_line(color='black'))
+  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw()
   if (!is.null(all.size)){
     qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
   } else {

@@ -24,7 +24,7 @@ test_that("vdiffr", {
                         cut.lfc=1, lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25")))
   vdiffr::expect_doppelganger(title="vol5", fig=ezvol5)
 
-  #empty dots
+  #shape=1 -> empty dots
   ezvol6 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                 cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), shape = 1)
   vdiffr::expect_doppelganger(title="vol6", fig=ezvol6)
