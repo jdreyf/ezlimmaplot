@@ -1,6 +1,7 @@
-#' PCA plot of top two components
+#' PCA plots of top two components colored by each covariate
 #'
-#' PCA plot of top two principal components using \code{ggplot2}.
+#' PCA plot of top two principal components using \code{ggplot2} whose shape is defined by group and color in each plot
+#' by iterating over each covariate.
 #'
 #' @param object Matrix-like object with samples as columns.
 #' @param pheno.df Dataframe with rows as samples and columns as phenotypes.

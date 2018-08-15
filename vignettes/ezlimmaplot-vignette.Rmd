@@ -46,11 +46,10 @@ We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via .
 ezpca(M, pheno, color="grp", facet = ". ~ tissue", name=NA)
 ```
 
-We can also plot each covariate with `shape="grp"` to PDF.
+We can also plot each covariate with `shape="grp"` to PDF. The PDF is named "covar_pca.pdf" by default.
 ```{r multi_pca}
 multi_covar_pca(M, pheno, grp.var="grp", covars=c("tissue", "covar_num"))
 ```
-
 
 ## Gene level differential analysis
 Assume we want to test if genes are changed in First3, in Last3, or in Last3 - First3. We can do this in two lines of code,
@@ -95,7 +94,7 @@ plot_by_grp(M[1,], pheno$grp, name=NA, type="box")
 We can plot multiple genes, such as the first 5 genes where each gene will be on its own page in a PDF, by passing `object=M[1:5,]`.
 
 ## Heatmap
-We plot a heatmap of the expression of the first five genes across all samples using the **pheatmap** package. We assume their gene symbols are "A", "B", "C", "D", "E". We make a phenotype dataframe with only one column for the group, and with \code{rownames(pheno)==colnames(M)}, which **pheatmap** checks for.
+We plot a heatmap of the expression of the first five genes across all samples using the **pheatmap** package. We assume their gene symbols are "A", "B", "C", "D", "E". `ezheat` requires a data frame, so we make a phenotype data frame with only one column for the group, and with `rownames(pheno)==colnames(M)`, which **pheatmap** checks for.
 
 ```{r heat}
 sym <- c("A", "B", "C", "D", "E")
