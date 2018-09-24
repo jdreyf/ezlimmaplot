@@ -42,7 +42,7 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
     n <- max(nchar(unlist(chars)))
   }
 
-  width <- 7 + n/10
+  width <- 7 + n / 10
   if (!is.na(name)){ pdf(paste0(name, ".pdf"), width = width, height = 7) }
 
   #need to set alpha/all.size in geom_point, else it appears in legend
