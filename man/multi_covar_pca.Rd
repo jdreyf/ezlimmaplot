@@ -2,7 +2,7 @@
 % Please edit documentation in R/multi_covar_pca.R
 \name{multi_covar_pca}
 \alias{multi_covar_pca}
-\title{PCA plot of top two components}
+\title{PCA plots of top two components colored by each covariate}
 \usage{
 multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
   covars = setdiff(colnames(pheno.df), grp.var), alpha = 1,
@@ -39,7 +39,8 @@ appearing in legend. \code{ggplot2} default is size=2.}
 Invisibly, a list of the first two principal components appended to \code{pheno.df} for each covariate.
 }
 \description{
-PCA plot of top two principal components using \code{ggplot2}.
+PCA plot of top two principal components using \code{ggplot2} whose shape is defined by group and color in each plot
+by iterating over each covariate.
 }
 \details{
 PCA is calculated with \code{\link[stats]{prcomp}}.
