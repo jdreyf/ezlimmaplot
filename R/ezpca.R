@@ -28,29 +28,45 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   pca <- stats::prcomp(t(object[rowSums(is.na(object))==0,]), scale. = FALSE)
   pve <- signif(summary(pca)$importance['Proportion of Variance', 1:2]*100, 2)
 
-  dat <- data.frame(pca$x[rownames(pheno.df), 2:1], pheno.df)
+  dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df)
+
+  dots <- list(...)
+  if(is.null(names(dots))){
+    n <- 0
+  }else{
+    chars <- vector("list", 2*length(dots))
+    for(i in seq_along(dots)){
+      chars[[2*i]] <- dots[[i]]
+      chars[[2*i-1]] <- as.character(dat[, dots[[i]]])
+    }
+    n <- max(nchar(unlist(chars)))
+  }
+
+  width <- 7 + n/10
+  if (!is.na(name)){ pdf(paste0(name, ".pdf"), width = width, height = 7) }
 
   #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(y='PC1', x='PC2', ...)) + ggplot2::theme_bw()
+  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x='PC1', y='PC2', ...)) + ggplot2::theme_bw()
   if (!is.null(all.size)){
     qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
   } else {
     qp <- qp + ggplot2::geom_point(alpha=alpha)
   }
   if (!is.null(facet)){ qp <- qp + ggplot2::facet_grid(facet) }
-  qp <- qp + ggplot2::ylab(paste0('PC1 (', pve[1], '%)')) + ggplot2::xlab(paste0('PC2 (', pve[2], '%)', sep=''))
+  qp <- qp + ggplot2::xlab(paste0('PC1 (', pve[1], '%)')) + ggplot2::ylab(paste0('PC2 (', pve[2], '%)', sep=''))
   if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=ggplot2::element_blank()) }
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno.df)
-    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(y='PC1', x='PC2', label='row_names'),
+    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(x='PC1', y='PC2', label='row_names'),
                                   size=2, vjust=-.7)
   }
 
   if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
-  if (!is.na(name)){ ggplot2::ggsave(filename=paste0(name, '.png'), plot=qp) } else { graphics::plot(qp) }
+  graphics::plot(qp)
+  if (!is.na(name)){ dev.off() }
 
   return(invisible(dat))
 }
