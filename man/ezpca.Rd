@@ -5,8 +5,8 @@
 \title{PCA plot of top two components}
 \usage{
 ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
-  facet = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL, ...)
+  facet = NULL, title = NULL, subtitle = NULL, rm.leg.title = FALSE,
+  labels = FALSE, manual.color = NULL, manual.shape = NULL, ...)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns.}
@@ -22,6 +22,8 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{facet}{A formula with columns in \code{pheno.df} to facet by.}
 
+\item{title}{Title text; suppressed if it is \code{NULL}.}
+
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
 \item{labels}{Logical indicating if sample labels should be added next to points.}
@@ -31,6 +33,9 @@ appearing in legend. \code{ggplot2} default is size=2.}
 \item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
 
 \item{...}{Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.}
+
+\item{title}{Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
+\code{subtitle} but no \code{title}, set \code{title = ""}.}
 }
 \value{
 Invisibly, first two principal components appended to \code{pheno.df}.

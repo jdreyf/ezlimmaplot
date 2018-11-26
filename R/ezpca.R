@@ -9,6 +9,9 @@
 #' @param all.size Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without
 #' appearing in legend. \code{ggplot2} default is size=2.
 #' @param facet A formula with columns in \code{pheno.df} to facet by.
+#' @param title Title text; suppressed if it is \code{NULL}.
+#' @param title Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
+#' \code{subtitle} but no \code{title}, set \code{title = ""}.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
 #' @param labels Logical indicating if sample labels should be added next to points.
 #' @param manual.color Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.
@@ -18,8 +21,8 @@
 #' @return Invisibly, first two principal components appended to \code{pheno.df}.
 #' @export
 
-ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NULL, rm.leg.title=FALSE,
-                  labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
+ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
+                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -31,15 +34,15 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df)
 
   dots <- list(...)
-  if(is.null(names(dots))){
+  if (is.null(names(dots))){
     n <- 0
-  }else{
+  } else {
     chars <- vector("list", 2*length(dots))
-    for(i in seq_along(dots)){
+    for (i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
       chars[[2*i-1]] <- as.character(dat[, dots[[i]]])
     }
-    n <- max(nchar(unlist(chars)))
+    n <- max(nchar(unlist(chars)), na.rm = TRUE)
   }
 
   width <- 7 + n / 10
@@ -55,6 +58,8 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   if (!is.null(facet)){ qp <- qp + ggplot2::facet_grid(facet) }
   qp <- qp + ggplot2::xlab(paste0('PC1 (', pve[1], '%)')) + ggplot2::ylab(paste0('PC2 (', pve[2], '%)', sep=''))
   if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=ggplot2::element_blank()) }
+  if (!is.null(title)){ qp <- qp + ggplot2::ggtitle(label=title, subtitle=subtitle) }
+
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno.df)
