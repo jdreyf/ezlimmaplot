@@ -10,7 +10,7 @@
 #' appearing in legend. \code{ggplot2} default is size=2.
 #' @param facet A formula with columns in \code{pheno.df} to facet by.
 #' @param title Title text; suppressed if it is \code{NULL}.
-#' @param title Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
+#' @param subtitle Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
 #' \code{subtitle} but no \code{title}, set \code{title = ""}.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
 #' @param labels Logical indicating if sample labels should be added next to points.

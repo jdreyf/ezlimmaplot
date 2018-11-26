@@ -24,6 +24,9 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{title}{Title text; suppressed if it is \code{NULL}.}
 
+\item{subtitle}{Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
+\code{subtitle} but no \code{title}, set \code{title = ""}.}
+
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
 \item{labels}{Logical indicating if sample labels should be added next to points.}
@@ -33,9 +36,6 @@ appearing in legend. \code{ggplot2} default is size=2.}
 \item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
 
 \item{...}{Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.}
-
-\item{title}{Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
-\code{subtitle} but no \code{title}, set \code{title = ""}.}
 }
 \value{
 Invisibly, first two principal components appended to \code{pheno.df}.
