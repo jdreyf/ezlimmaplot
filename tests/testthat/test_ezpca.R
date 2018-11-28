@@ -15,6 +15,9 @@ test_that("ezpca", {
   ezp.stit2 <- function() ezpca(M, pheno, shape="grp", name=NA, title=NA, subtitle="submain")
   ezp.stit3 <- function() ezpca(M, pheno, shape="grp", name=NA, title="", subtitle="submain")
 
+  pheno.df2 <- data.frame(pheno, "covar num"=pheno$covar_num, check.names = FALSE)
+  ezp.df <- function() ezpca(object=M, pheno.df=pheno.df2, color="`covar num`", name=NA)
+
   #addins ...
   vdiffr::expect_doppelganger(title="pca", fig=ezp)
   vdiffr::expect_doppelganger(title="pca-labels", fig=ezpl)
@@ -28,4 +31,6 @@ test_that("ezpca", {
   vdiffr::expect_doppelganger(title="pca.stit", fig=ezp.stit)
   vdiffr::expect_doppelganger(title="pca.stit2", fig=ezp.stit2)
   vdiffr::expect_doppelganger(title="pca.stit3", fig=ezp.stit3)
+
+  vdiffr::expect_doppelganger(title="pca.df", fig=ezp.df)
 })

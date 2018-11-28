@@ -31,7 +31,7 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   pca <- stats::prcomp(t(object[rowSums(is.na(object))==0,]), scale. = FALSE)
   pve <- signif(summary(pca)$importance['Proportion of Variance', 1:2]*100, 2)
 
-  dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df)
+  dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df, check.names = FALSE)
 
   dots <- list(...)
   if (is.null(names(dots))){
@@ -40,12 +40,14 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
     chars <- vector("list", 2*length(dots))
     for (i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
-      chars[[2*i-1]] <- as.character(dat[, dots[[i]]])
+      #want length of longest element, but dots[[i]] can be an expression not in colnames(dat)
+      #then don't parse & ignore length
+      chars[[2*i-1]] <- ifelse(dots[[i]] %in% colnames(dat), as.character(dat[, dots[[i]] ]), "")
     }
     n <- max(nchar(unlist(chars)), na.rm = TRUE)
   }
 
-  width <- 7 + n / 10
+  width <- 7 + n/10
   if (!is.na(name)){ pdf(paste0(name, ".pdf"), width = width, height = 7) }
 
   #need to set alpha/all.size in geom_point, else it appears in legend
