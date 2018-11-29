@@ -17,7 +17,7 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 \item{sep}{Separator for column names before \code{p} or \code{FDR}.}
 
 \item{pi0}{Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
-\code{TRUE}, \code{limma::propTrueNull} is used, so \code{limma} package is needed.}
+\code{TRUE}, \code{limma::propTrueNull} with \code{method="convest"} is used, so \code{limma} package is needed.}
 
 \item{name}{Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.}
 
