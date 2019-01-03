@@ -8,10 +8,16 @@ R package for plotting bioinformatics results, especially those from the `ezlimm
 Install `ezlimmaplot` from GitHub using `devtools`  within R. You must install `devtools` if you haven't before.
 ```
 install.packages("devtools") #if haven't already installed devtools
-library("devtools")
-devtools::install_github("jdreyf/ezlimma")
-devtools::install_github("jdreyf/ezlimmaplot")
+library(devtools)
+devtools::install_github(repo="jdreyf/ezlimma")
+devtools::install_github(repo="jdreyf/ezlimmaplot", build_vignettes = TRUE)
 ```
 
 ## Usage
-See the vignette for a tutorial.
+The vignette presents a tutorial. To see the vignette:
+```
+library(ezlimma)
+library(ezlimmaplot)
+browseVignettes(package="ezlimmaplot")
+```
+and click on HTML.
