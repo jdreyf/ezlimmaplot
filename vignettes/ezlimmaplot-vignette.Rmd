@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ## Introduction
-Welcome to **ezlimmaplot**. This package is for plotting bioinformatics results, especially those from the **ezlimma** package. Here, I'll load both packages, create some output with **ezlimma**, and then plot it with **ezlimmaplot**.
+Welcome to `ezlimmaplot`. This package is for plotting bioinformatics results, especially those from the `ezlimma` package. Here, I'll load both packages, create some output with `ezlimma`, and then plot it with `ezlimmaplot`.
 
 ## Install package
 See README.md.
@@ -22,7 +22,7 @@ library(ezlimmaplot)
 ```
 
 ## Simulate data
-To demonstrate the package on a dataset, I'll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from **limma** `contrasts.fit`. I add some phenotype variables, including the non-standard column name `covar num`.
+To demonstrate the package on a dataset, I'll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from `limma` `contrasts.fit`. I add some phenotype variables, including the non-standard column name `covar num`.
 
 ```{r sim}
 set.seed(42)
@@ -37,12 +37,12 @@ M[1,1:3] <- M[1,1:3] + 2
 ```
 
 ## Principal component analysis (PCA)
-We can plot the samples by their first two principal components using the **ggplot2** package.
+We can plot the samples by their first two principal components using the `ggplot2` package.
 ```{r pca}
 ezpca(M, pheno, color="grp", name=NA)
 ```
 
-We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to **ggplot2** `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because **ggplot2** expects standard variable names or expressions of them, but we can do it with:
+We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because `ggplot2` expects standard variable names or expressions of them, but we can do it with:
 
 ```{r pca2}
 ezpca(M, pheno, color="`covar num`", name=NA)
@@ -93,7 +93,7 @@ ezvenn(tab=res, p.cutoff = 0.05)
 ```
 
 ## Dotplot and boxplot
-We can plot the top gene by group in a dotplot or boxplot using **ggplot2**. 
+We can plot the top gene by group in a dotplot or boxplot using `ggplot2`. 
 ```{r pbg}
 plot_by_grp(M[1,], pheno$grp, name=NA, type="dot")
 plot_by_grp(M[1,], pheno$grp, name=NA, type="box")
@@ -102,7 +102,7 @@ plot_by_grp(M[1,], pheno$grp, name=NA, type="box")
 We can plot multiple genes, such as the first 5 genes where each gene will be on its own page in a PDF, by passing `object=M[1:5,]`.
 
 ## Heatmap
-We plot a heatmap of the expression of the first five genes across all samples using the **pheatmap** package. We assume their gene symbols are "A", "B", "C", "D", "E". `ezheat` requires a data frame, so we make a phenotype data frame with only one column for the group, and with `rownames(pheno)==colnames(M)`, which **pheatmap** checks for.
+We plot a heatmap of the expression of the first five genes across all samples using the `pheatmap` package. We assume their gene symbols are "A", "B", "C", "D", "E". `ezheat` requires a data frame, so we make a phenotype data frame with only one column for the group, and with `rownames(pheno)==colnames(M)`, which `pheatmap` checks for.
 
 ```{r heat}
 sym <- c("A", "B", "C", "D", "E")
@@ -114,7 +114,7 @@ ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.d
 We see a color bar for the phenotype groups and the strongest change in metabolite "A".
 
 ## Volcano plots
-We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using **ggplot2**.
+We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using `ggplot2`.
 ```{r vol}
 ezvolcano(tab=res.df, comparison = "First3", name=NA, lab.col="Gene.Symbol", ntop.sig = 1)
 ```

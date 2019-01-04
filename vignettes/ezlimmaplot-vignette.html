@@ -12,14 +12,14 @@
 
 <meta name="author" content="Jonathan Dreyfuss" />
 
-<meta name="date" content="2018-11-27" />
+<meta name="date" content="2019-01-03" />
 
 <title>ezlimmaplot vignette</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,13 +92,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">ezlimmaplot vignette</h1>
 <h4 class="author"><em>Jonathan Dreyfuss</em></h4>
-<h4 class="date"><em>2018-11-27</em></h4>
+<h4 class="date"><em>2019-01-03</em></h4>
 
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Welcome to <strong>ezlimmaplot</strong>. This package is for plotting bioinformatics results, especially those from the <strong>ezlimma</strong> package. Here, I’ll load both packages, create some output with <strong>ezlimma</strong>, and then plot it with <strong>ezlimmaplot</strong>.</p>
+<p>Welcome to <code>ezlimmaplot</code>. This package is for plotting bioinformatics results, especially those from the <code>ezlimma</code> package. Here, I’ll load both packages, create some output with <code>ezlimma</code>, and then plot it with <code>ezlimmaplot</code>.</p>
 </div>
 <div id="install-package" class="section level2">
 <h2>Install package</h2>
@@ -90,7 +112,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="simulate-data" class="section level2">
 <h2>Simulate data</h2>
-<p>To demonstrate the package on a dataset, I’ll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from <strong>limma</strong> <code>contrasts.fit</code>. I add some phenotype variables, including the non-standard column name <code>covar num</code>.</p>
+<p>To demonstrate the package on a dataset, I’ll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from <code>limma</code> <code>contrasts.fit</code>. I add some phenotype variables, including the non-standard column name <code>covar num</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">42</span>)
 M &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">100</span><span class="op">*</span><span class="dv">6</span>, <span class="dt">sd=</span><span class="fl">0.3</span>), <span class="dt">nrow=</span><span class="dv">100</span>, <span class="dt">ncol=</span><span class="dv">6</span>)
 <span class="kw">dimnames</span>(M) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">paste0</span>(<span class="st">&quot;gene&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(M)), <span class="kw">paste0</span>(<span class="st">&quot;sample&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(M)))
@@ -103,10 +125,10 @@ M[<span class="dv">1</span>,<span class="dv">1</span><span class="op">:</span><s
 </div>
 <div id="principal-component-analysis-pca" class="section level2">
 <h2>Principal component analysis (PCA)</h2>
-<p>We can plot the samples by their first two principal components using the <strong>ggplot2</strong> package.</p>
+<p>We can plot the samples by their first two principal components using the <code>ggplot2</code> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ezpca</span>(M, pheno, <span class="dt">color=</span><span class="st">&quot;grp&quot;</span>, <span class="dt">name=</span><span class="ot">NA</span>)</code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>We set <code>name=NA</code> to suppress plotting to a PNG file. We pass <code>color=&quot;grp&quot;</code> via … to <strong>ggplot2</strong> <code>aes_string</code>, where <code>&quot;grp&quot;</code> can be any of <code>colnames(pheno)}</code>. We could similarly have used <code>color=&quot;tissue&quot;</code>. Passing <code>color=&quot;covar num&quot;</code> is special, because <strong>ggplot2</strong> expects standard variable names or expressions of them, but we can do it with:</p>
+<p>We set <code>name=NA</code> to suppress plotting to a PNG file. We pass <code>color=&quot;grp&quot;</code> via … to <code>ggplot2</code> <code>aes_string</code>, where <code>&quot;grp&quot;</code> can be any of <code>colnames(pheno)}</code>. We could similarly have used <code>color=&quot;tissue&quot;</code>. Passing <code>color=&quot;covar num&quot;</code> is special, because <code>ggplot2</code> expects standard variable names or expressions of them, but we can do it with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ezpca</span>(M, pheno, <span class="dt">color=</span><span class="st">&quot;`covar num`&quot;</span>, <span class="dt">name=</span><span class="ot">NA</span>)</code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>We can also facet by a phenotype column using the <code>facet</code> argument, which takes a formula.</p>
@@ -343,7 +365,7 @@ res.df<span class="op">$</span>Gene.Symbol[<span class="dv">1</span><span class=
 </div>
 <div id="dotplot-and-boxplot" class="section level2">
 <h2>Dotplot and boxplot</h2>
-<p>We can plot the top gene by group in a dotplot or boxplot using <strong>ggplot2</strong>.</p>
+<p>We can plot the top gene by group in a dotplot or boxplot using <code>ggplot2</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_by_grp</span>(M[<span class="dv">1</span>,], pheno<span class="op">$</span>grp, <span class="dt">name=</span><span class="ot">NA</span>, <span class="dt">type=</span><span class="st">&quot;dot&quot;</span>)</code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_by_grp</span>(M[<span class="dv">1</span>,], pheno<span class="op">$</span>grp, <span class="dt">name=</span><span class="ot">NA</span>, <span class="dt">type=</span><span class="st">&quot;box&quot;</span>)</code></pre></div>
@@ -352,7 +374,7 @@ res.df<span class="op">$</span>Gene.Symbol[<span class="dv">1</span><span class=
 </div>
 <div id="heatmap" class="section level2">
 <h2>Heatmap</h2>
-<p>We plot a heatmap of the expression of the first five genes across all samples using the <strong>pheatmap</strong> package. We assume their gene symbols are “A”, “B”, “C”, “D”, “E”. <code>ezheat</code> requires a data frame, so we make a phenotype data frame with only one column for the group, and with <code>rownames(pheno)==colnames(M)</code>, which <strong>pheatmap</strong> checks for.</p>
+<p>We plot a heatmap of the expression of the first five genes across all samples using the <code>pheatmap</code> package. We assume their gene symbols are “A”, “B”, “C”, “D”, “E”. <code>ezheat</code> requires a data frame, so we make a phenotype data frame with only one column for the group, and with <code>rownames(pheno)==colnames(M)</code>, which <code>pheatmap</code> checks for.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sym &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>)
 pheno.df &lt;-<span class="st"> </span>pheno[,<span class="st">&quot;grp&quot;</span>,drop=F]
 topgenes &lt;-<span class="st"> </span><span class="kw">rownames</span>(res.df)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
@@ -362,7 +384,7 @@ topgenes &lt;-<span class="st"> </span><span class="kw">rownames</span>(res.df)[
 </div>
 <div id="volcano-plots" class="section level2">
 <h2>Volcano plots</h2>
-<p>We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using <strong>ggplot2</strong>.</p>
+<p>We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using <code>ggplot2</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ezvolcano</span>(<span class="dt">tab=</span>res.df, <span class="dt">comparison =</span> <span class="st">&quot;First3&quot;</span>, <span class="dt">name=</span><span class="ot">NA</span>, <span class="dt">lab.col=</span><span class="st">&quot;Gene.Symbol&quot;</span>, <span class="dt">ntop.sig =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>We can automatically create a PDF with volcano plots for all comparisons with:</p>
@@ -389,22 +411,22 @@ topgenes &lt;-<span class="st"> </span><span class="kw">rownames</span>(res.df)[
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ezlimmaplot_0.0.0.9000 ezlimma_0.1.6          limma_3.36.1          
+## [1] ezlimmaplot_0.0.0.9000 ezlimma_0.2.0          limma_3.36.1          
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.17       compiler_3.5.0     pillar_1.2.3      
+##  [1] Rcpp_0.12.17       pillar_1.2.3       compiler_3.5.0    
 ##  [4] RColorBrewer_1.1-2 plyr_1.8.4         highr_0.6         
 ##  [7] bindr_0.1.1        tools_3.5.0        digest_0.6.15     
 ## [10] evaluate_0.10.1    tibble_1.4.2       gtable_0.2.0      
 ## [13] pkgconfig_2.0.1    rlang_0.2.2        yaml_2.1.19       
-## [16] bindrcpp_0.2.2     stringr_1.3.1      dplyr_0.7.6       
-## [19] knitr_1.20         rprojroot_1.3-2    grid_3.5.0        
+## [16] xfun_0.4           bindrcpp_0.2.2     stringr_1.3.1     
+## [19] dplyr_0.7.6        knitr_1.21         grid_3.5.0        
 ## [22] tidyselect_0.2.5   glue_1.3.0         R6_2.2.2          
-## [25] rmarkdown_1.9      pheatmap_1.0.10    ggplot2_3.0.0     
+## [25] rmarkdown_1.11     pheatmap_1.0.10    ggplot2_3.1.0     
 ## [28] purrr_0.2.5        reshape2_1.4.3     magrittr_1.5      
-## [31] backports_1.1.2    scales_0.5.0       htmltools_0.3.6   
-## [34] assertthat_0.2.0   colorspace_1.3-2   labeling_0.3      
-## [37] stringi_1.1.7      lazyeval_0.2.1     munsell_0.4.3</code></pre>
+## [31] scales_0.5.0       htmltools_0.3.6    assertthat_0.2.0  
+## [34] colorspace_1.3-2   labeling_0.3       stringi_1.1.7     
+## [37] lazyeval_0.2.1     munsell_0.4.3</code></pre>
 </div>
 
 
