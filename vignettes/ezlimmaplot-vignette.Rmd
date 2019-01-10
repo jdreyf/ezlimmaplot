@@ -12,17 +12,19 @@ vignette: >
 ## Introduction
 Welcome to `ezlimmaplot`. This package is for plotting bioinformatics results, especially those from the `ezlimma` package. Here, I'll load both packages, create some output with `ezlimma`, and then plot it with `ezlimmaplot`.
 
-## Install package
+## Install & load package
 See README.md.
 
-## Load package
 ```{r lib}
+library(limma)
 library(ezlimma)
 library(ezlimmaplot)
 ```
 
 ## Simulate data
 To demonstrate the package on a dataset, I'll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from `limma` `contrasts.fit`. I add some phenotype variables, including the non-standard column name `covar num`.
+
+For statistical analysis, we treat this data as being already processed. For many datasets, there are zeroes or missing values that might need to be imputed; samples need to be normalized to make them comparable and amenable to statistical tests; absent genes need to be removed; sample outliers need to be assessed to examine whether some experimental variables or batch effects need to be accounted for, or the samples need to be removed or down-weighted; and trends between a gene's mean expression and its variance should be accounted for, especially in RNA-seq data, with `limma`'s `voom` function.
 
 ```{r sim}
 set.seed(42)
