@@ -11,12 +11,12 @@ Imports:
 	ggplot2,
 	graphics,
 	grDevices,
+	knitr,
 	limma,
 	pheatmap,
 	RColorBrewer,
 	stats
 Suggests:
-    knitr,
     rmarkdown,
     testthat,
 	vdiffr,
