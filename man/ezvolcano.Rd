@@ -4,12 +4,13 @@
 \alias{ezvolcano}
 \title{Volcano plot in ggplot2}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
-  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
-  name = "volcano", ann.rnames = NULL, up.ann.color = "black",
-  down.ann.color = "black", shape = 16, x.bound = NULL, y.bound = NULL,
-  type.sig = c("p", "FDR"), cut.color = NULL, cut.lfc = 1,
-  cut.sig = 0.05, sep = ".", na.lab = c("---", ""))
+ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
+  lab.col = "Gene.Symbol", ntop.sig = 0, ntop.lfc = 0,
+  comparison = NULL, alpha = 0.4, name = "volcano",
+  ann.rnames = NULL, up.ann.color = "black",
+  down.ann.color = "black", shape = 16, x.bound = NULL,
+  y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
+  cut.lfc = 1, cut.sig = 0.05, sep = ".", na.lab = c("---", ""))
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}

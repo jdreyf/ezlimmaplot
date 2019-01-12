@@ -110,7 +110,9 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', 
 
   if (plot){
     fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
-
+    if (!requireNamespace("pheatmap", quietly = TRUE)){
+      stop("Package 'pheatmap' needed for this function to work. Please install it.", call. = FALSE)
+    }
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
                              cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col,

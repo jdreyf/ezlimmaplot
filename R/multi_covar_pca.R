@@ -27,13 +27,13 @@ multi_covar_pca <- function(object, pheno.df, name='covar_pca', grp.var='grp', c
 
   pca.lst <- list()
 
-  pdf(paste0(name, ".pdf"))
+  grDevices::pdf(paste0(name, ".pdf"))
   for (cvr.ind in 1:length(covars)){
     pca.lst[[ covars[cvr.ind] ]] <- ezpca(object=object, pheno.df=pheno.df, shape=grp.var, color=covars[cvr.ind], name=NA,
                                   alpha=alpha, all.size=all.size, facet=facet, rm.leg.title=rm.leg.title, labels=labels,
                                   manual.color=manual.color, manual.shape=manual.shape)
   }
-  dev.off()
+  grDevices::dev.off()
 
   return(invisible(pca.lst))
 }

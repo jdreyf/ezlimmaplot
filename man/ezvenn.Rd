@@ -5,8 +5,8 @@
 \title{Venn diagrams}
 \usage{
 ezvenn(tab, prefix.v = NULL, p.cutoff = NULL, fdr.cutoff = NULL,
-  logfc.cutoff = NULL, circle.names = prefix.v, main = "", name = NA,
-  cex = c(1, 1, 1), plot = TRUE)
+  logfc.cutoff = NULL, circle.names = prefix.v, main = "",
+  name = NA, cex = c(1, 1, 1), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}

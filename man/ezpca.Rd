@@ -5,8 +5,9 @@
 \title{PCA plot of top two components}
 \usage{
 ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
-  facet = NULL, title = NULL, subtitle = NULL, rm.leg.title = FALSE,
-  labels = FALSE, manual.color = NULL, manual.shape = NULL, ...)
+  facet = NULL, title = NULL, subtitle = NULL,
+  rm.leg.title = FALSE, labels = FALSE, manual.color = NULL,
+  manual.shape = NULL, ...)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns.}

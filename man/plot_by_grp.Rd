@@ -4,9 +4,10 @@
 \alias{plot_by_grp}
 \title{Make boxplot or dotplots for a feature per group}
 \usage{
-plot_by_grp(object, grp, name = "topgenes", main.v = "", xlab = "Group",
-  ylab = "Log2 Expression", type = "dot", manual.color = NULL,
-  x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30)
+plot_by_grp(object, grp, name = "topgenes", main.v = "",
+  xlab = "Group", ylab = "Log2 Expression", type = "dot",
+  manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1,
+  bins = 30)
 }
 \arguments{
 \item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with

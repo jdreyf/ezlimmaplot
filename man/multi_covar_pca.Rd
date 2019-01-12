@@ -6,8 +6,8 @@
 \usage{
 multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
   covars = setdiff(colnames(pheno.df), grp.var), alpha = 1,
-  all.size = NULL, facet = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL)
+  all.size = NULL, facet = NULL, rm.leg.title = FALSE,
+  labels = FALSE, manual.color = NULL, manual.shape = NULL)
 }
 \arguments{
 \item{object}{Matrix-like object with samples as columns.}

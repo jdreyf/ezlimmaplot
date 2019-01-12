@@ -4,10 +4,11 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, labrows = NULL, pheno.df = NULL, main = "Log2 Expression",
-  name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
-  unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
-  stat.tab = NULL, cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
+ezheat(object, labrows = NULL, pheno.df = NULL,
+  main = "Log2 Expression", name = "topgenes_heat", sc = "ctr",
+  clip = NA, color.v = NULL, unique.rows = FALSE,
+  only.labrows = FALSE, ntop = NULL, stat.tab = NULL,
+  cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
   na.lab = c("---", ""), plot = TRUE, width = NA, height = NA)
 }
