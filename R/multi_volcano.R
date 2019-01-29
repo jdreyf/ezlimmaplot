@@ -2,6 +2,7 @@
 #'
 #' Multiple Volcano plots from a table output from \code{ezlimma}.
 #'
+#' @param same.scale Logical, should axes' scales be the same for the different plots?
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @inheritParams ezvolcano
@@ -10,8 +11,8 @@
 #' @export
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', ann.rnames=NULL,
-                          up.ann.color='black', down.ann.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'), cut.color=NULL,
-                          cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
+                          up.ann.color='black', down.ann.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'),
+                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
 
   type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0('\\', sep, 'logFC$'), colnames(tab))

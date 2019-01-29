@@ -28,6 +28,8 @@ no points are annotated.}
 
 \item{down.ann.color}{Color for annotated points that are downregulated (\code{logFC<0}).}
 
+\item{same.scale}{Logical, should axes' scales be the same for the different plots?}
+
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
 \item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.}
