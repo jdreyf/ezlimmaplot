@@ -2,23 +2,10 @@
 #'
 #' Multiple Volcano plots from a table output from \code{ezlimma}.
 #'
-#' @param tab Table of output from \code{ezlimma}.
-#' @param lab.col Column with labels, such as gene symbol, annotating features.
-#' @param ntop.sig Number of top significant features to annotate.
-#' @param ntop.lfc Number of top logFC features to annotate.
-#' @param name Name of PDF file to write to. Set to \code{NA} to suppress writing to file.
-#' @param ann.rnames Additional rownames of features to annotate. These must be in \code{rownames(tab)}.
-#' @param up.ann.color Color for points that are upregulated (\code{logFC>0}).
-#' @param down.ann.color Color for points that are downregulated (\code{logFC<0}).
-#' @param same.scale Logical indicating if different volcano plots should have the same x-limits and y-limits.
-#' @param type.sig Type of significance y-axis should use, either "p" or "FDR".
-#' @param cut.color Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.
-#' @param cut.lfc Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.
-#' @param cut.sig Points need to have significance \code{<= cut.sig} to have \code{cut.color}. Significance type is of
-#' \code{type.sig}.
-#' @param sep Separator string between contrast names and suffix such as \code{logFC}.
-#' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
-#' @details Uses colnames(tab) that have suffix \code{logFC} to infer comparisons.
+#' @inheritParams ezheat
+#' @inheritParams ezvenn
+#' @inheritParams ezvolcano
+#' @details Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.
 #' @return Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 #' @export
 

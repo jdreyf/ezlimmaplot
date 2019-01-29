@@ -10,14 +10,12 @@ plot_by_grp(object, grp, name = "topgenes", main.v = "",
   bins = 30)
 }
 \arguments{
-\item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with
-rows corresponding to genes and columns to samples.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
 \item{grp}{Vector of phenotype groups of the samples, which represent valid variable names in R. Should be same
 length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.}
 
-\item{name}{Name of PDF that gets written. Set to \code{NA} to suppress writing to file. "_dotplots" or "_boxplots"
-is appended to plot filename, based on \code{type}.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
 
 \item{main.v}{Character vector of main titles for plot.}
 
@@ -42,4 +40,7 @@ Invisibly, a \code{ggplot2} object from the last row that was plotted.
 }
 \description{
 Make boxplot or dotplots for a feature per group using \code{ggplot2}.
+}
+\details{
+Based on \code{type}, \code{"_dotplots"} or \code{"_boxplots"} is appended to \code{name}.
 }

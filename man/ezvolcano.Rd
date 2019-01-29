@@ -31,7 +31,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{alpha}{Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.}
 
-\item{name}{Name of PNG file to write to. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
 
 \item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 

@@ -13,21 +13,20 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
 
-\item{lab.col}{Column with labels, such as gene symbol, annotating features.}
+\item{lab.col}{Column name or index of tab with labels, such as gene symbol, annotating features. If \code{NULL},
+no points are annotated.}
 
 \item{ntop.sig}{Number of top significant features to annotate.}
 
 \item{ntop.lfc}{Number of top logFC features to annotate.}
 
-\item{name}{Name of PDF file to write to. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
 
-\item{ann.rnames}{Additional rownames of features to annotate. These must be in \code{rownames(tab)}.}
+\item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 
-\item{up.ann.color}{Color for points that are upregulated (\code{logFC>0}).}
+\item{up.ann.color}{Color for annotated points that are upregulated (\code{logFC>0}).}
 
-\item{down.ann.color}{Color for points that are downregulated (\code{logFC<0}).}
-
-\item{same.scale}{Logical indicating if different volcano plots should have the same x-limits and y-limits.}
+\item{down.ann.color}{Color for annotated points that are downregulated (\code{logFC<0}).}
 
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
@@ -35,8 +34,7 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
 
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
-\item{cut.sig}{Points need to have significance \code{<= cut.sig} to have \code{cut.color}. Significance type is of
-\code{type.sig}.}
+\item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
@@ -49,5 +47,5 @@ Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 Multiple Volcano plots from a table output from \code{ezlimma}.
 }
 \details{
-Uses colnames(tab) that have suffix \code{logFC} to infer comparisons.
+Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.
 }

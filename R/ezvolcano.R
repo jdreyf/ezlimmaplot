@@ -2,7 +2,6 @@
 #'
 #' Volcano plot in ggplot2 using output from \code{ezlimma} package.
 #'
-#' @param tab Table of output from \code{ezlimma}.
 #' @param lfc.col Column name or index of tab with logFC. Some features should be > 0 and others < 0.
 #' @param sig.col Column name or index of tab with p-values or FDRs.
 #' @param lab.col Column name or index of tab with labels, such as gene symbol, annotating features. If \code{NULL},
@@ -12,7 +11,6 @@
 #' @param comparison Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
 #' and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and these are over-ridden.
 #' @param alpha Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.
-#' @param name Name of PNG file to write to. Set to \code{NA} to suppress writing to file.
 #' @param ann.rnames Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.
 #' @param up.ann.color Color for annotated points that are upregulated (\code{logFC>0}).
 #' @param down.ann.color Color for annotated points that are downregulated (\code{logFC<0}).
@@ -25,6 +23,8 @@
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
+#' @inheritParams ezheat
+#' @inheritParams ezvenn
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
 #' @return Invisibly, a ggplot object.
 #' @export

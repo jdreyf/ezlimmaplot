@@ -10,11 +10,11 @@ ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
   manual.shape = NULL, ...)
 }
 \arguments{
-\item{object}{Matrix-like object with samples as columns.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{pheno.df}{Dataframe with rows as samples and columns as phenotypes.}
+\item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
 
-\item{name}{Name of PNG to write out. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
 
 \item{alpha}{Transparency, passed to \code{\link[ggplot2]{geom_point}}.}
 
@@ -30,7 +30,7 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
-\item{labels}{Logical indicating if sample labels should be added next to points.}
+\item{labels}{Logical, should sample labels be added next to points?}
 
 \item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
 

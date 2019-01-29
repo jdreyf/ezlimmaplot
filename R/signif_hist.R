@@ -2,14 +2,13 @@
 #'
 #' Plot histograms of significance (p-value & FDR) columns.
 #'
-#' @param tab Table of output from \code{ezlimma}.
 #' @param p.suffix Suffix for p-value columns. P-value column names cannot be duplicated.
 #' @param fdr.suffix Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.
 #' @param sep Separator for column names before \code{p} or \code{FDR}.
 #' @param pi0 Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
 #' \code{TRUE}, \code{limma::propTrueNull} with \code{method="convest"} is used, so \code{limma} package is needed.
-#' @param name Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.
-#' @param plot Logical; if \code{FALSE} no plot is generated.
+#' @inheritParams ezheat
+#' @inheritParams ezvenn
 #' @details Some p-value columns must be identifiable using \code{p.suffix}. If \code{!is.na(fdr.suffix)}, FDR
 #' colnames must have same prefix.
 #' @return Invisibly, a subset of \code{tab} with only columns that contain significances.

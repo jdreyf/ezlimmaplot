@@ -2,12 +2,8 @@
 #'
 #' Make boxplot or dotplots for a feature per group using \code{ggplot2}.
 #'
-#' @param object A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with
-#' rows corresponding to genes and columns to samples.
 #' @param grp Vector of phenotype groups of the samples, which represent valid variable names in R. Should be same
 #' length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.
-#' @param name Name of PDF that gets written. Set to \code{NA} to suppress writing to file. "_dotplots" or "_boxplots"
-#' is appended to plot filename, based on \code{type}.
 #' @param main.v Character vector of main titles for plot.
 #' @param xlab Label for x-axis.
 #' @param ylab Label for y-axis.
@@ -17,6 +13,8 @@
 #' @param add.se Logical indicating if to add standard error of the mean to dotplot.
 #' @param dotsize Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.
 #' @param bins Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.
+#' @inheritParams ezheat
+#' @details Based on \code{type}, \code{"_dotplots"} or \code{"_boxplots"} is appended to \code{name}.
 #' @return Invisibly, a \code{ggplot2} object from the last row that was plotted.
 #' @export
 

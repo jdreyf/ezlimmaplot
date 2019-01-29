@@ -9,19 +9,20 @@ prune_mat(object, labrows = NULL, only.labrows = FALSE,
   verbose = TRUE)
 }
 \arguments{
-\item{object}{Matrix-like object.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
 \item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
 
-\item{only.labrows}{Logical, if \code{TRUE} only include rows with a non-missing symbol.}
+\item{only.labrows}{Logical, only include rows where \code{labrows} aren't missing
+(missing is defined by \code{na.lab})?}
 
-\item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
+\item{unique.rows}{Logical, remove duplicated row labels to make rows unique?}
 
 \item{ntop}{Scalar number of rows to include.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
-\item{verbose}{Logical indicating whether to print messages to console.}
+\item{verbose}{Logical, print messages to console?}
 }
 \value{
 Pruned matrix.

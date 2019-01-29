@@ -2,9 +2,6 @@
 #'
 #' PCA plot of top two principal components using \code{ggplot2}.
 #'
-#' @param object Matrix-like object with samples as columns.
-#' @param pheno.df Dataframe with rows as samples and columns as phenotypes.
-#' @param name Name of PNG to write out. Set to \code{NA} to suppress writing to file.
 #' @param alpha Transparency, passed to \code{\link[ggplot2]{geom_point}}.
 #' @param all.size Passed to \code{\link[ggplot2]{geom_point}} \code{size} parameter to give size for all points without
 #' appearing in legend. \code{ggplot2} default is size=2.
@@ -13,9 +10,10 @@
 #' @param subtitle Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
 #' \code{subtitle} but no \code{title}, set \code{title = ""}.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
-#' @param labels Logical indicating if sample labels should be added next to points.
+#' @param labels Logical, should sample labels be added next to points?
 #' @param manual.color Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.
 #' @param manual.shape Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.
+#' @inheritParams ezheat
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
 #' @details PCA is calculated with \code{\link[stats]{prcomp}}.
 #' @return Invisibly, first two principal components appended to \code{pheno.df}.
