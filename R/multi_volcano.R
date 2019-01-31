@@ -12,7 +12,7 @@
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', ann.rnames=NULL,
                           up.ann.color='black', down.ann.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'),
-                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.', na.lab=c('---', '')){
+                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE, sep='.', na.lab=c('---', '')){
 
   type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0('\\', sep, 'logFC$'), colnames(tab))

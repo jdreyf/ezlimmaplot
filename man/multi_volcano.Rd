@@ -7,8 +7,8 @@
 multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
   name = "volcanoes", ann.rnames = NULL, up.ann.color = "black",
   down.ann.color = "black", same.scale = FALSE, type.sig = c("p",
-  "FDR"), cut.color = NULL, cut.lfc = 1, cut.sig = 0.05, sep = ".",
-  na.lab = c("---", ""))
+  "FDR"), cut.color = NULL, cut.lfc = 1, cut.sig = 0.05,
+  p05.line = FALSE, sep = ".", na.lab = c("---", ""))
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -37,6 +37,8 @@ no points are annotated.}
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
+
+\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 

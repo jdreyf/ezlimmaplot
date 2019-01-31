@@ -21,6 +21,7 @@
 #' @param cut.color Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.
 #' @param cut.lfc Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
+#' @param p05.line Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @inheritParams ezheat
@@ -31,8 +32,8 @@
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
-                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, sep='.',
-                      na.lab=c('---', '')){
+                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE,
+                      sep='.', na.lab=c('---', '')){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -130,6 +131,12 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   #plot rest
   ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
   vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
+
+  if (p05.line){
+    if (type.sig != "p") warning("p=0.05 line added, but FDR is plotted.")
+    #y is already -log10(sig)
+    vol <- vol + ggplot2::geom_hline(yintercept = -log10(0.05), linetype = 2, show.legend = TRUE)
+  }
 
   if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
   return(invisible(vol))
