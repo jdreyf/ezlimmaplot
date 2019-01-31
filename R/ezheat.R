@@ -15,8 +15,8 @@
 #' @param only.labrows Logical, only include rows where \code{labrows} aren't missing
 #' (missing is defined by \code{na.lab})?
 #' @param ntop Scalar number of rows to include.
-#' @param stat.tab Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
-#' match \code{object} and it cannot have \code{NA}s.
+#' @param stat.tab Matrix-like object with statistics, such as p-values, per column, used to add "*". If given, its
+#' dimensions should match \code{object} and it cannot have \code{NA}s.
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
 #' @param labcols Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length

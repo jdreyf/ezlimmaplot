@@ -32,9 +32,9 @@ test_that("vdiffr", {
   expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                            lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25")))
 
-  #can't see line in SVG!
   ezvol7 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                 cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), p05.line = TRUE)
-  vdiffr::expect_doppelganger(title="vol7", fig=ezvol)
+  vdiffr::expect_doppelganger(title="vol7", fig=ezvol7)
+
   expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, type.sig="FDR", p05.line = TRUE))
 })
