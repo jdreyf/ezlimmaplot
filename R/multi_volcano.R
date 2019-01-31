@@ -37,9 +37,9 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volca
   ret.lst <- list()
   for (contr in contr.names){
     ret.lst[[contr]] <- ezvolcano(tab=tab, lab.col=lab.col, ntop.sig=ntop.sig, ntop.lfc=ntop.lfc, comparison=contr,
-                                  name=NA, ann.rnames=ann.rnames, up.ann.color=up.ann.color, down.ann.color=down.ann.color, x.bound=x.bound,
-                                  y.bound=y.bound, type.sig=type.sig, cut.color=cut.color, cut.lfc=cut.lfc, cut.sig=cut.sig,
-                                  sep=sep, na.lab=na.lab)
+                                  name=NA, ann.rnames=ann.rnames, up.ann.color=up.ann.color, down.ann.color=down.ann.color,
+                                  x.bound=x.bound, y.bound=y.bound, type.sig=type.sig, cut.color=cut.color,
+                                  cut.lfc=cut.lfc, cut.sig=cut.sig, p05.line=p05.line, sep=sep, na.lab=na.lab)
   }
   if (!is.na(name)) grDevices::dev.off()
   return(invisible(ret.lst))
