@@ -19,7 +19,7 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 \item{pi0}{Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
 \code{TRUE}, \code{limma::propTrueNull} with \code{method="convest"} is used, so \code{limma} package is needed.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{plot}{Logical, should plot be generated?}
 }

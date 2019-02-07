@@ -15,7 +15,7 @@ plot_by_grp(object, grp, name = "topgenes", main.v = "",
 \item{grp}{Vector of phenotype groups of the samples, which represent valid variable names in R. Should be same
 length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{main.v}{Character vector of main titles for plot.}
 

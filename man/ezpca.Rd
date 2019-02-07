@@ -14,7 +14,7 @@ ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
 
 \item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{alpha}{Transparency, passed to \code{\link[ggplot2]{geom_point}}.}
 

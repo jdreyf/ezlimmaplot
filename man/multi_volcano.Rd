@@ -20,7 +20,7 @@ no points are annotated.}
 
 \item{ntop.lfc}{Number of top logFC features to annotate.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 

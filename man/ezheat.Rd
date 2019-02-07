@@ -21,7 +21,7 @@ ezheat(object, labrows = NULL, pheno.df = NULL,
 
 \item{main}{Main title of plot.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{sc}{Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
 

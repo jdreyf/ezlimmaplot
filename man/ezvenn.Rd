@@ -26,7 +26,7 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 
 \item{main}{Main title of plot.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 the default. See \code{\link[graphics]{par}}.}

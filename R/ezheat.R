@@ -6,7 +6,7 @@
 #' @param labrows Labels corresponding to rows, e.g. gene symbols.
 #' @param pheno.df Data frame with rows as samples and columns as phenotypes.
 #' @param main Main title of plot.
-#' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.
+#' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file.
 #' @param sc Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').
 #' @param clip Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.
 #' @param color.v Color palette for heatmap. If \code{NULL}, it's set to

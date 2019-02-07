@@ -14,7 +14,7 @@ multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
 
 \item{pheno.df}{Dataframe with rows as samples and columns as phenotypes.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{grp.var}{Column of \code{pheno.df} to include as group variable in PCA plots.}
 
