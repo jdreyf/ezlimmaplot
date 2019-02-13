@@ -13,7 +13,6 @@
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name="volcanoes", ann.rnames=NULL,
                           up.ann.color="black", down.ann.color="black", same.scale=FALSE, type.sig=c("p", "FDR"),
                           cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE, sep=".", na.lab=c("---", "")){
-
   type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0("\\", sep, "logFC$"), colnames(tab))
   if (length(lfc.cols)==0) stop("No logFC columns detected.")
@@ -23,7 +22,7 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name="volca
     sig.cols <- grep(paste0("\\", sep, "FDR"), colnames(tab))
   }
   if (length(sig.cols)==0) stop("No significance columns with suffix ", type.sig, " detected.")
-  #use logFC cols instead of p cols to get contr.names, in case tab also has cor cols
+  #use logFC cols instead of p cols to get contr.names, in case tab also has cor cols, whose p cols are not wanted
   contr.names <- sub(paste0("\\", sep, "(logFC)$"), "", colnames(tab)[lfc.cols])
 
   if(same.scale){

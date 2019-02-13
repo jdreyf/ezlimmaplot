@@ -38,6 +38,8 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
     prefix.v <- sub(paste0("\\.p$"), "", colnames(tab)[p.cols])
   }
 
+  stopifnot(length(prefix.v) >= 1)
+
   if (!is.null(fdr.cutoff)){
     fdr.col <- paste0(prefix.v, ".FDR")
     stopifnot(fdr.col %in% colnames(tab))

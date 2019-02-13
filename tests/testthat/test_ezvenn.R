@@ -1,12 +1,11 @@
 context("ezvenn")
 
 test_that("ezvenn", {
+  #One of p.cutoff or fdr.cutoff must be given
   expect_error(ezvenn(res.df, plot=FALSE))
 
   ezv <- ezvenn(res.df, p.cutoff = 0.05, plot=FALSE)
   expect_equal(as.numeric(ezv["gene1",]), c(1,0,-1))
-  expect_lte(max(res.df["gene74", c("Last3.p", "Last3vsFirst3.p")]), 0.05)
-  expect_gt(res.df["gene74", "First3.p"], 0.05)
 
   ezv <- ezvenn(res.df, p.cutoff = 0.05, logfc.cutoff = 1, plot=FALSE)
   expect_equal(sum(abs(ezv)), 2)

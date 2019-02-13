@@ -5,7 +5,7 @@
 \title{Multiple Venn diagrams}
 \usage{
 multi_venn(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL,
-  logfc.cutoff = NULL, circle.names.lst = NULL, main.v = "",
+  logfc.cutoff = NULL, circle.names.lst = prefix.lst, main.v = "",
   name = "multi", cex = c(1, 1, 1))
 }
 \arguments{
@@ -20,8 +20,8 @@ multi_venn(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL,
 \item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came from
 \code{\link[ezlimma]{limma_contrasts}}.}
 
-\item{circle.names.lst}{List of \code{circle.names} of length \code{length(prefix.lst)} passed to \code{\link{ezvenn}}.
-By default, it is a list of \code{names} of each element of \code{prefix.lst}.}
+\item{circle.names.lst}{List of length \code{length(prefix.lst)}, where each element is a \code{circle.names} vector.
+Passed to \code{\link{ezvenn}}.}
 
 \item{main.v}{Vector of names of length \code{length(prefix.lst)}.}
 
@@ -37,7 +37,7 @@ with specified cutoffs. 0 indicates no significant change; -1 indicates down; an
 }
 \description{
 Plot multiple Venn diagrams using output from \code{ezlimma} package. Each is a page in a PDF, and a single table
-with all results is returned.
+with all results is invisibly returned.
 }
 \details{
 One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
