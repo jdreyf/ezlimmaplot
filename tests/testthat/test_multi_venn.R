@@ -1,25 +1,30 @@
 context("multi_venn")
 
-# verified by eye that these match ezvenn figs; diff is main
+# verified by eye that these match ezvenn figs; diff is main title
 
 test_that("multi_venn", {
   pref <- list(alone=names(contr.v)[1:2], all=names(contr.v))
 
-  #One of p.cutoff or fdr.cutoff must be given.
+  #One of p.cutoff or fdr.cutoff must be given
   expect_error(multi_venn(res.df, prefix.lst = pref, prefix.lst = pref))
 
   mv <- multi_venn(tab=res.df, prefix.lst = pref, p.cutoff = 0.05, name=NA)
-  expect_equal(ncol(mv), 3)
-  expect_equal(as.numeric(mv["gene1",]), c(1,0,-1))
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, name=NA)
+  #row names differ in ties
+  expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
+  expect_equal(mv[rownames(ezv),], ezv)
 
-  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1)
-  expect_equal(sum(abs(mv)), 2)
-  expect_equal(as.numeric(mv["gene1",]), c(1,0,-1))
+  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
+  expect_equal(mv[rownames(ezv),], ezv)
 
-  mv <- multi_venn(res.df, prefix.lst = pref, fdr.cutoff = 0.01)
-  expect_equal(sum(abs(mv)), 2)
-  expect_equal(as.numeric(mv["gene1",]), c(1,0,-1))
+  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
+  expect_equal(mv[rownames(ezv),], ezv)
 
+  #vdiffr
   mv.fn <- function() ret <- multi_venn(res.df, prefix.lst = pref[2], p.cutoff = 0.05, name=NA)
   vdiffr::expect_doppelganger("mvenn", mv.fn)
 

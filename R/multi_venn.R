@@ -45,6 +45,6 @@ multi_venn <- function(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL, logf
     }#end else
   }#end for
   if (!is.na(name)) grDevices::dev.off()
-  tab.sig <- tab.sig[order(-abs(rowSums(tab.sig))), ]
+  tab.sig <- tab.sig[order(rowSums(abs(tab.sig)), decreasing = TRUE), ]
   return(invisible(tab.sig))
 }

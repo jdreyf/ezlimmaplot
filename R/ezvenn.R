@@ -80,6 +80,6 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
   if (!is.na(name) & plot) grDevices::dev.off()
 
   colnames(tab.sig) <- gsub("\\.(logFC|p|FDR)$", ".sig", colnames(tab.sig))
-  tab.sig <- tab.sig[order(-abs(rowSums(tab.sig))), ]
+  tab.sig <- tab.sig[order(rowSums(abs(tab.sig)), decreasing = TRUE), ]
   return(invisible(tab.sig))
 }
