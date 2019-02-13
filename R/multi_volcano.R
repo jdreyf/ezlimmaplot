@@ -10,21 +10,21 @@
 #' @return Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 #' @export
 
-multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volcanoes', ann.rnames=NULL,
-                          up.ann.color='black', down.ann.color='black', same.scale=FALSE, type.sig=c('p', 'FDR'),
-                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE, sep='.', na.lab=c('---', '')){
+multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name="volcanoes", ann.rnames=NULL,
+                          up.ann.color="black", down.ann.color="black", same.scale=FALSE, type.sig=c("p", "FDR"),
+                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE, sep=".", na.lab=c("---", "")){
 
   type.sig <- match.arg(type.sig)
-  lfc.cols <- grep(paste0('\\', sep, 'logFC$'), colnames(tab))
+  lfc.cols <- grep(paste0("\\", sep, "logFC$"), colnames(tab))
   if (length(lfc.cols)==0) stop("No logFC columns detected.")
   if (type.sig=="p"){
-    sig.cols <- grep(paste0('\\', sep, 'p'), colnames(tab))
+    sig.cols <- grep(paste0("\\", sep, "p"), colnames(tab))
   } else {
-    sig.cols <- grep(paste0('\\', sep, 'FDR'), colnames(tab))
+    sig.cols <- grep(paste0("\\", sep, "FDR"), colnames(tab))
   }
   if (length(sig.cols)==0) stop("No significance columns with suffix ", type.sig, " detected.")
   #use logFC cols instead of p cols to get contr.names, in case tab also has cor cols
-  contr.names <- sub(paste0('\\', sep, '(logFC)$'), '', colnames(tab)[lfc.cols])
+  contr.names <- sub(paste0("\\", sep, "(logFC)$"), "", colnames(tab)[lfc.cols])
 
   if(same.scale){
     x.bound <- max(abs(tab[,lfc.cols]))
@@ -33,7 +33,7 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, name='volca
     x.bound <- y.bound <- NULL
   }
 
-  if (!is.na(name)) grDevices::pdf(paste0(name, '.pdf'))
+  if (!is.na(name)) grDevices::pdf(paste0(name, ".pdf"))
   ret.lst <- list()
   for (contr in contr.names){
     ret.lst[[contr]] <- ezvolcano(tab=tab, lab.col=lab.col, ntop.sig=ntop.sig, ntop.lfc=ntop.lfc, comparison=contr,
