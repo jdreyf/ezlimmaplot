@@ -14,7 +14,7 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 
 \item{fdr.suffix}{Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.}
 
-\item{sep}{Separator for column names before \code{p} or \code{FDR}, passed to \code{\link[ezlimma]{extract_prefix}}.
+\item{sep}{Separator for column names before \code{p} or \code{FDR}, passed to \code{\link{extract_prefix}}.
 If not found, it is assumed to be \code{NA}.}
 
 \item{pi0}{Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
