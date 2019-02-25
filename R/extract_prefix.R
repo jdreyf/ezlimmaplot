@@ -13,7 +13,7 @@ extract_prefix <- function(nm, suffix="p", sep="."){
 
   if (length(grep(paste0("\\", sep), nm)) == 0){
     sep <- NA
-    message("sep not found, so assigned NA.")
+    message("Name separator 'sep' not found, so treated asn NA.")
   }
 
   if (!is.na(sep)){
