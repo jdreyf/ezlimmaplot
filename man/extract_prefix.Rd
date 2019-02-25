@@ -11,12 +11,12 @@ extract_prefix(nm, suffix = "p", sep = ".")
 
 \item{suffix}{Character string to search for at end of \code{nm}.}
 
-\item{sep}{Separator in \code{nm} preceeding \code{suffix}. One of \code{'.', '_', NA}, If \code{NA}, elements
+\item{sep}{Separator in \code{nm} preceeding \code{suffix}. One of \code{".", "_", NA}, If \code{NA}, elements
 of \code{nm} must match \code{suffix} exactly.}
 }
 \value{
 A character vector of prefixes. If there is no prefix and no sep, \code{NA} is returned.
 }
 \description{
-Extract prefixes from names, presumably colnames.
+Extract prefixes from names, presumably colnames. For example, the prefix of \code{"x.p"} would be \code{"x"}.
 }

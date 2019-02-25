@@ -14,10 +14,11 @@ signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
 
 \item{fdr.suffix}{Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.}
 
-\item{sep}{Separator for column names before \code{p} or \code{FDR}.}
+\item{sep}{Separator for column names before \code{p} or \code{FDR}, passed to \code{\link[ezlimma]{extract_prefix}}.
+If not found, it is assumed to be \code{NA}.}
 
 \item{pi0}{Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
-\code{TRUE}, \code{limma::propTrueNull} with \code{method="convest"} is used, so \code{limma} package is needed.}
+\code{TRUE}, \code{\link[limma]{propTrueNull}} with \code{method="convest"} is used.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
