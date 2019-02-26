@@ -36,11 +36,13 @@ length as \code{ncol(object)}. If the vector is named, names should match \code{
 \item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
 }
 \value{
-Invisibly, a \code{ggplot2} object from the last row that was plotted.
+Invisibly, a \pkg{ggplot2} object from the last row that was plotted.
 }
 \description{
 Make boxplot or dotplots for a feature per group using \code{ggplot2}.
 }
 \details{
 Based on \code{type}, \code{"_dotplots"} or \code{"_boxplots"} is appended to \code{name}.
+
+If \code{object} is a data frame, it is coerced to a \code{matrix} using \code{data.matrix}.
 }

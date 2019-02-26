@@ -13,4 +13,8 @@ test_that("pbg", {
   #pbg returns last row as ggp object
   pbg3 <- plot_by_grp(object=M[1:3,], grp=pheno$grp, name=NA, x.angle=15, manual.color = c("black", "orange"))
   vdiffr::expect_doppelganger("gene3", pbg3)
+
+  #plot_by_group can error when object is a df, maybe b/c it doesn't drop columns in object[i,]
+  pbg2df <- plot_by_grp(object=data.frame(M)["gene2",], grp=pheno$grp, name=NA, type="box", main="gene 2", xlab="grp")
+  vdiffr::expect_doppelganger("gene2", pbg2df)
 })
