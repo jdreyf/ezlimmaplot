@@ -7,7 +7,7 @@
 ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
   facet = NULL, title = NULL, subtitle = NULL,
   rm.leg.title = FALSE, labels = FALSE, manual.color = NULL,
-  manual.shape = NULL, ...)
+  manual.shape = NULL, check_names = TRUE, ...)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -35,6 +35,8 @@ appearing in legend. \code{ggplot2} default is size=2.}
 \item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
 
 \item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
+
+\item{check_names}{Logical; should \code{names(phenotype)==rownames(object)} be checked?}
 
 \item{...}{Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.}
 }
