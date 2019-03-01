@@ -13,7 +13,6 @@
 #' @param labels Logical, should sample labels be added next to points?
 #' @param manual.color Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.
 #' @param manual.shape Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.
-#' @param check_names Logical; should \code{names(phenotype)==rownames(object)} be checked?
 #' @inheritParams ezheat
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
 #' @details PCA is calculated with \code{\link[stats]{prcomp}}.
@@ -21,12 +20,11 @@
 #' @export
 
 ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
-                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, check_names=TRUE, ...){
+                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
   }
-  stopifnot(ncol(object)==nrow(pheno.df))
-  if (check_names) stopifnot(colnames(object)==rownames(pheno.df))
+  stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
 
   pca <- stats::prcomp(t(object[rowSums(is.na(object))==0,]), scale. = FALSE)
   pve <- signif(summary(pca)$importance['Proportion of Variance', 1:2]*100, 2)
