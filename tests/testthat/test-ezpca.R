@@ -34,3 +34,9 @@ test_that("ezpca", {
 
   vdiffr::expect_doppelganger(title="pca.df", fig=ezp.df)
 })
+
+test_that("ezpca without pheno", {
+  expect_silent(ezp <- ezpca(M, labels = TRUE))
+})
+
+teardown(unlink("pca.pdf"))

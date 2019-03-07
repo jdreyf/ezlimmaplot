@@ -15,21 +15,30 @@
 #' @param manual.shape Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.
 #' @inheritParams ezheat
 #' @param ... Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.
-#' @details PCA is calculated with \code{\link[stats]{prcomp}}.
+#' @details PCA is calculated with \code{\link[stats]{prcomp}}. \code{object} must have colnames, and if \code{pheno.df}
+#' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
 #' @return Invisibly, first two principal components appended to \code{pheno.df}.
 #' @export
 
-ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
+ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
                   rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
   if (!requireNamespace("ggplot2", quietly = TRUE)){
     stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
   }
-  stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
+  stopifnot(limma::isNumeric(object), nrow(object[rowSums(is.na(object))==0,]) > 0, ncol(object) > 0,
+            !is.null(colnames(object)))
 
   pca <- stats::prcomp(t(object[rowSums(is.na(object))==0,]), scale. = FALSE)
-  pve <- signif(summary(pca)$importance['Proportion of Variance', 1:2]*100, 2)
+  pve <- signif(summary(pca)$importance["Proportion of Variance", 1:2]*100, 2)
 
-  dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df, check.names = FALSE)
+  if (!is.null(pheno.df)){
+    stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
+    dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df, check.names = FALSE)
+    dat$row_names <- rownames(pheno.df)
+  } else{
+    dat <- data.frame(pca$x[colnames(object), 1:2], check.names = FALSE)
+    dat$row_names <- colnames(object)
+  }
 
   dots <- list(...)
   if (is.null(names(dots))){
@@ -38,8 +47,8 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
     chars <- vector("list", 2*length(dots))
     for (i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
-      #want length of longest element, but dots[[i]] can be an expression not in colnames(dat)
-      #then don't parse & ignore length
+      # want length of longest element, but dots[[i]] can be an expression not in colnames(dat)
+      # then don"t parse & ignore length
       chars[[2*i-1]] <- ifelse(dots[[i]] %in% colnames(dat), as.character(dat[, dots[[i]] ]), "")
     }
     n <- max(nchar(unlist(chars)), na.rm = TRUE)
@@ -48,22 +57,20 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
   width <- 7 + n/10
   if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf"), width = width, height = 7) }
 
-  #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x='PC1', y='PC2', ...)) + ggplot2::theme_bw()
+  # need to set alpha/all.size in geom_point, else it appears in legend
+  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", ...)) + ggplot2::theme_bw()
   if (!is.null(all.size)){
     qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
   } else {
     qp <- qp + ggplot2::geom_point(alpha=alpha)
   }
   if (!is.null(facet)){ qp <- qp + ggplot2::facet_grid(facet) }
-  qp <- qp + ggplot2::xlab(paste0('PC1 (', pve[1], '%)')) + ggplot2::ylab(paste0('PC2 (', pve[2], '%)', sep=''))
+  qp <- qp + ggplot2::xlab(paste0("PC1 (", pve[1], "%)")) + ggplot2::ylab(paste0("PC2 (", pve[2], "%)", sep=""))
   if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=ggplot2::element_blank()) }
   if (!is.null(title)){ qp <- qp + ggplot2::ggtitle(label=title, subtitle=subtitle) }
 
   if (labels){
-    dat2 <- dat
-    dat2$row_names <- rownames(pheno.df)
-    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(x='PC1', y='PC2', label='row_names'),
+    qp <- qp + ggplot2::geom_text(data=dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", label="row_names"),
                                   size=2, vjust=-.7)
   }
 
@@ -72,6 +79,5 @@ ezpca <- function(object, pheno.df, name='pca', alpha=1, all.size=NULL, facet=NU
 
   graphics::plot(qp)
   if (!is.na(name)){ grDevices::dev.off() }
-
   return(invisible(dat))
 }

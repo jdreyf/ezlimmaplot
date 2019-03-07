@@ -18,3 +18,5 @@ test_that("pbg", {
   pbg2df <- plot_by_grp(object=data.frame(M)["gene2",], grp=pheno$grp, name=NA, type="box", main="gene 2", xlab="grp")
   vdiffr::expect_doppelganger("gene2", pbg2df)
 })
+
+teardown(unlink("Rplots.pdf"))

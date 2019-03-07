@@ -6,3 +6,5 @@ test_that("multi_covar_pca agrees with ezpca", {
   expect_equal(ezp, mcp[["covar_num"]])
   unlink("covar_pca.pdf")
 })
+
+teardown(unlink("Rplots.pdf"))

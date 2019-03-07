@@ -22,3 +22,4 @@ test_that("missing logFC or p-value/FDR columns", {
                             cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'))
 })
 
+teardown(unlink("Rplots.pdf"))

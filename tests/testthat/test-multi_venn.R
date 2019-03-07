@@ -38,3 +38,5 @@ test_that("multi_venn", {
   mv.fn4 <- function() ret <- multi_venn(res2, prefix.lst = pref[2], fdr.cutoff = 0.01, name=NA)
   vdiffr::expect_doppelganger("mvenn_noLFC2", mv.fn4)
 })
+
+teardown(unlink("Rplots.pdf"))
