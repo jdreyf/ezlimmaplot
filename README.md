@@ -15,7 +15,6 @@ install.packages("BiocManager", repos="https://cloud.r-project.org") #if haven't
 library(BiocManager)
 BiocManager::install("limma")
 
-install.packages("remotes") #if haven't already installed remotes
 library(remotes)
 remotes::install_github(repo="jdreyf/ezlimma", build_opts = c("--no-resave-data", "--no-manual"))
 remotes::install_github(repo="jdreyf/ezlimmaplot", build_opts = c("--no-resave-data", "--no-manual"))
