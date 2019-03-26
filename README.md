@@ -8,7 +8,7 @@ R package for plotting bioinformatics results, especially those from the `ezlimm
 ## Install
 On Windows, you need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 
-Install `ezlimmaplot` from GitHub using `remotes`  within R. You must install `remotes` if you haven't before. `ezlimmaplot` is intended for use with `ezlimma`, which depends on `limma`, so you should install these if you haven't before.
+Install `ezlimmaplot` from GitHub using `remotes`  within R. You must install `remotes`, e.g. with install.packages("remotes", repos="https://cloud.r-project.org"), if you haven't before. `ezlimmaplot` is intended for use with `ezlimma`, which depends on `limma`, so you should install these with instructions below if you haven't before.
 ```
 #if haven't already installed limma
 install.packages("BiocManager", repos="https://cloud.r-project.org") #if haven't already installed BiocManager
