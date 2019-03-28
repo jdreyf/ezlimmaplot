@@ -3,7 +3,9 @@
 language: r
 sudo: false
 cache: packages
-r_github_packages: jdreyf/ezlimma
+r_github_packages: 
+  - jdreyf/ezlimma
+  - r-lib/vdiffr
 bioc_packages: limma
 before_install:
   - Rscript -e 'update.packages(ask = FALSE)'

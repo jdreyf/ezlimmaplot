@@ -12,7 +12,7 @@ Imports:
 	graphics,
 	grDevices,
 	knitr,
-	limma,
+	limma (>= 3.34.8),
 	pheatmap,
 	stats
 Suggests:
@@ -20,7 +20,7 @@ Suggests:
 	RColorBrewer,
     rmarkdown,
     testthat,
-	vdiffr,
+	vdiffr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
