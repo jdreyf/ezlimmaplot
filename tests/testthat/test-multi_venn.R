@@ -8,23 +8,23 @@ test_that("multi_venn", {
   #One of p.cutoff or fdr.cutoff must be given
   expect_error(multi_venn(res.df, prefix.lst = pref, prefix.lst = pref))
 
-  mv <- multi_venn(tab=res.df, prefix.lst = pref, p.cutoff = 0.05, name=NA)
-  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, name=NA)
+  mv <- multi_venn(tab=res.df, prefix.lst = pref, p.cutoff = 0.05, name="tmp")
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, name="tmp")
   #row names differ in ties
   expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
   expect_equal(mv[rownames(ezv),], ezv)
 
-  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
-  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name="tmp")
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name="tmp")
   expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
   expect_equal(mv[rownames(ezv),], ezv)
 
-  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
-  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
+  mv <- multi_venn(res.df, prefix.lst = pref, p.cutoff = 0.05, logfc.cutoff = 1, name="tmp")
+  ezv <- ezvenn(tab=res.df, p.cutoff = 0.05, logfc.cutoff = 1, name="tmp")
   expect_equal(as.numeric(rowSums(abs(mv))), as.numeric(rowSums(abs(ezv))))
   expect_equal(mv[rownames(ezv),], ezv)
 
-  #vdiffr
+  #vdiffr: does not return printable object
   mv.fn <- function() ret <- multi_venn(res.df, prefix.lst = pref[2], p.cutoff = 0.05, name=NA)
   vdiffr::expect_doppelganger("mvenn", mv.fn)
 
@@ -38,5 +38,3 @@ test_that("multi_venn", {
   mv.fn4 <- function() ret <- multi_venn(res2, prefix.lst = pref[2], fdr.cutoff = 0.01, name=NA)
   vdiffr::expect_doppelganger("mvenn_noLFC2", mv.fn4)
 })
-
-teardown(unlink("Rplots.pdf"))

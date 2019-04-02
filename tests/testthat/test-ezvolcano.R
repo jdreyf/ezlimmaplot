@@ -38,5 +38,3 @@ test_that("vdiffr", {
 
   expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, type.sig="FDR", p05.line = TRUE))
 })
-
-teardown(unlink("Rplots.pdf"))

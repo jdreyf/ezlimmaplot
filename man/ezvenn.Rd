@@ -31,7 +31,7 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 \item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 the default. See \code{\link[graphics]{par}}.}
 
-\item{plot}{Logical, should plot be generated?}
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a matrix with elements {-1, 0, 1} indicating which features (rows) of \code{tab} were significant

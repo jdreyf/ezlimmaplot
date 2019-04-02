@@ -10,7 +10,8 @@ ezheat(object, labrows = NULL, pheno.df = NULL,
   only.labrows = FALSE, ntop = NULL, stat.tab = NULL,
   cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
   reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA)
+  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
+  verbose = FALSE)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -30,9 +31,9 @@ ezheat(object, labrows = NULL, pheno.df = NULL,
 \item{color.v}{Color palette for heatmap. If \code{NULL}, it's set to
 \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.}
 
-\item{unique.rows}{Logical, remove duplicated row labels to make rows unique?}
+\item{unique.rows}{Logical; remove duplicated row labels to make rows unique?}
 
-\item{only.labrows}{Logical, only include rows where \code{labrows} aren't missing
+\item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
 (missing is defined by \code{na.lab})?}
 
 \item{ntop}{Scalar number of rows to include.}
@@ -46,9 +47,9 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 \item{labcols}{Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
 \code{ncol(object)}.}
 
-\item{reorder_rows}{Logical, should rows be reordered with hierarchical clustering?}
+\item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 
-\item{reorder_cols}{Logical should columns be reordered with hierarchical clustering?}
+\item{reorder_cols}{Logical; should columns be reordered with hierarchical clustering?}
 
 \item{fontsize_row}{Font size for row labels.}
 
@@ -56,18 +57,20 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
-\item{plot}{Logical, should plot be generated?}
+\item{plot}{Logical; should plot be generated?}
 
 \item{width}{Manual option for determining the output file width in inches.}
 
 \item{height}{Manual option for determining the output file height in inches.}
+
+\item{verbose}{Logical; print pruning messages to console?}
 }
 \value{
-A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},
-containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
+A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element
+\code{gtable}, containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 }
 \description{
-Draw heatmap using \code{pheatmap} package.
+Draw heatmap using \pkg{pheatmap} package.
 }
 \details{
 \code{main} is modified to describe data transformations.

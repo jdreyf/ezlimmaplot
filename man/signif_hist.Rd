@@ -22,7 +22,7 @@ If not found, it is assumed to be \code{NA}.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
-\item{plot}{Logical, should plot be generated?}
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a subset of \code{tab} with only columns that contain significances.

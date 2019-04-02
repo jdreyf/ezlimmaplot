@@ -28,5 +28,3 @@ test_that("ezvenn", {
   ezv.fn4 <- function() ret <- ezvenn(res2, fdr.cutoff = 0.01, name=NA)
   vdiffr::expect_doppelganger("venn_noLFC2", ezv.fn4)
 })
-
-teardown(unlink("Rplots.pdf"))

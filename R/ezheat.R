@@ -1,6 +1,6 @@
 #' Plot heatmap
 #'
-#' Draw heatmap using \code{pheatmap} package.
+#' Draw heatmap using \pkg{pheatmap} package.
 #'
 #' @param object Matrix-like object with features (e.g. genes) as rows and samples as columns.
 #' @param labrows Labels corresponding to rows, e.g. gene symbols.
@@ -11,8 +11,8 @@
 #' @param clip Values with magnitude > \code{clip} are reset to value \code{clip}. If given, must be > 0.
 #' @param color.v Color palette for heatmap. If \code{NULL}, it's set to
 #' \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.
-#' @param unique.rows Logical, remove duplicated row labels to make rows unique?
-#' @param only.labrows Logical, only include rows where \code{labrows} aren't missing
+#' @param unique.rows Logical; remove duplicated row labels to make rows unique?
+#' @param only.labrows Logical; only include rows where \code{labrows} aren't missing
 #' (missing is defined by \code{na.lab})?
 #' @param ntop Scalar number of rows to include.
 #' @param stat.tab Matrix-like object with statistics, such as p-values, per column, used to add "*". If given, its
@@ -21,16 +21,17 @@
 #' \code{cutoff} are not \code{NULL}.
 #' @param labcols Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
 #' \code{ncol(object)}.
-#' @param reorder_rows Logical, should rows be reordered with hierarchical clustering?
-#' @param reorder_cols Logical should columns be reordered with hierarchical clustering?
+#' @param reorder_rows Logical; should rows be reordered with hierarchical clustering?
+#' @param reorder_cols Logical; should columns be reordered with hierarchical clustering?
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
-#' @param plot Logical, should plot be generated?
+#' @param plot Logical; should plot be generated?
 #' @param width Manual option for determining the output file width in inches.
 #' @param height Manual option for determining the output file height in inches.
-#' @return A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},
-#' containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
+#' @param verbose Logical; print pruning messages to console?
+#' @return A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element
+#' \code{gtable}, containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 #' @details \code{main} is modified to describe data transformations.
 #'
 #' If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
@@ -39,46 +40,46 @@
 #' \code{object} cannot have \code{NA}s.
 #' @export
 
-#can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', name='topgenes_heat',
-                   sc='ctr', clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
+# can avoid dendro (& clustering) by eg cluster_rows=FALSE
+ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", name="topgenes_heat",
+                   sc="ctr", clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
-                   na.lab=c('---', ''), plot=TRUE, width=NA, height=NA){
+                   na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
   if (!is.matrix(object)) object <- data.matrix(object)
-  stopifnot(sum(is.na(object)) == 0, sc %in% c('ctr', 'z', 'none'), is.na(clip)|(length(clip)==1 && clip > 0),
+  stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip)|(length(clip)==1 && clip > 0),
             is.null(labcols)||length(labcols) %in% c(1, ncol(object)))
   if (length(labcols)==1) labcols <- rep(x=labcols, ncol(object))
   if (!is.null(pheno.df)){
     stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
   }
   mat <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
-                   na.lab=na.lab)
+                   na.lab=na.lab, verbose=verbose)
 
   if (is.null(color.v)){
     if (!requireNamespace("RColorBrewer", quietly = TRUE)){
       stop("Package 'RColorBrewer' needed for this function to work. Please install it.", call. = FALSE)
     }
-    color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name='RdYlBu')))(50)
+    color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name="RdYlBu")))(50)
   }
 
-  asterisk <- matrix(data = '', nrow = nrow(mat), ncol = ncol(mat))
+  asterisk <- matrix(data = "", nrow = nrow(mat), ncol = ncol(mat))
   if (!is.null(stat.tab) & !is.null(cutoff)){
     stat.tab <- prune_mat(stat.tab, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows,
-                          ntop = ntop, verbose = FALSE)
+                          ntop = ntop, verbose = verbose)
     stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
-    asterisk[stat.tab < cutoff] <- '*'
+    asterisk[stat.tab < cutoff] <- "*"
   } else {
     asterisk <- FALSE
   }
 
   # scale mat
-  if (sc=='ctr'){
-    #center but don't scale, so can see logFC
+  if (sc=="ctr"){
+    #center but do not scale, so can see logFC
     mat <- t(scale(x=t(mat), scale=FALSE))
-    main <- paste('Centered', main)
-  } else if (sc=='z') {
+    main <- paste("Centered", main)
+  } else if (sc=="z") {
     mat <- t(scale(x=t(mat), center=TRUE, scale=TRUE))
-    main <- paste('Z-scored', main)
+    main <- paste("Z-scored", main)
   }
 
   #reorder for heat w/o dendro
@@ -100,7 +101,7 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', 
   if (!is.na(clip)){
     mat[mat < -clip] <- -clip
     mat[mat > clip] <- clip
-    main <- paste('Clipped', main)
+    main <- paste("Clipped", main)
   }
 
   #make key symmetric if has both pos & neg values
@@ -115,7 +116,7 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main='Log2 Expression', 
   if (plot){
     fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
     if (!requireNamespace("pheatmap", quietly = TRUE)){
-      stop("Package 'pheatmap' needed for this function to work. Please install it.", call. = FALSE)
+      stop("Package 'pheatmap'' needed for this function to work. Please install it.", call. = FALSE)
     }
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,

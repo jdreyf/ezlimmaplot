@@ -21,6 +21,6 @@ test_that("ntop", {
   pmnt <- ezlimmaplot:::prune_mat(M, labrows = sym.v, only.labrows = TRUE, ntop=5, verbose=FALSE)
   expect_equal(rownames(pmnt), letters[1:5])
 
-  pmnt2 <- ezlimmaplot:::prune_mat(M, labrows = sym.v, only.labrows = TRUE, ntop=15, verbose=FALSE)
+  expect_warning(pmnt2 <- ezlimmaplot:::prune_mat(M, labrows = sym.v, only.labrows = TRUE, ntop=15, verbose=FALSE))
   expect_equal(rownames(pmnt2), c(letters[1:9], "a", "~"))
 })

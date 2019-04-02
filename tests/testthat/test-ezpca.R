@@ -38,5 +38,3 @@ test_that("ezpca", {
 test_that("ezpca without pheno", {
   expect_silent(ezp <- ezpca(M, labels = TRUE))
 })
-
-teardown(unlink("pca.pdf"))

@@ -25,7 +25,8 @@ length as \code{ncol(object)}. If the vector is named, names should match \code{
 
 \item{type}{Type of plot. Either \code{"dot"} or \code{"box"}.}
 
-\item{manual.color}{Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.}
+\item{manual.color}{Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and
+\code{\link[ggplot2]{scale_color_manual}}.}
 
 \item{x.angle}{Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.}
 
@@ -36,7 +37,7 @@ length as \code{ncol(object)}. If the vector is named, names should match \code{
 \item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
 }
 \value{
-Invisibly, a \pkg{ggplot2} object from the last row that was plotted.
+Invisibly, a \code{ggplot} object from the last row of \code{object} that was plotted.
 }
 \description{
 Make boxplot or dotplots for a feature per group using \code{ggplot2}.
