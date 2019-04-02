@@ -33,7 +33,8 @@ dimnames(M) <- list(paste0("gene", 1:nrow(M)), paste0("sample", 1:ncol(M)))
 grp <- rep(c("First3", "Last3"), each=3)
 tissue <- rep(c("muscle", "liver"), times=3)
 covar_num <- rnorm(n = ncol(M))
-pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp, tissue, "covar num"=covar_num, covar2=covar_num,
+pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp, tissue, 
+                    "covar num"=covar_num, covar2=covar_num,
                     stringsAsFactors = FALSE, check.names = FALSE)
 M[1,1:3] <- M[1,1:3] + 2
 ```
@@ -44,7 +45,7 @@ We can plot the samples by their first two principal components using the `ggplo
 ezpca(M, pheno, color="grp", name=NA)
 ```
 
-We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because `ggplot2` expects standard variable names or expressions of them, but we can do it with:
+We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because `ggplot2` expects standard variable names or expressions of them whereas `"covar num"` has a space, but we can do it with:
 
 ```{r pca2}
 ezpca(M, pheno, color="`covar num`", name=NA)
@@ -124,6 +125,11 @@ ezvolcano(tab=res.df, comparison = "First3", name=NA, lab.col="Gene.Symbol", nto
 We can automatically create a PDF with volcano plots for all comparisons with:
 ```{r mvol, eval=FALSE}
 multi_volcano(tab=res.df, lab.col="Gene.Symbol", ntop.sig = 1)
+```
+
+```{r unlink, echo=FALSE}
+# remove files that were made during knitting
+unlink("covar_pca.pdf")
 ```
 
 ## System info
