@@ -15,11 +15,10 @@
 #' @return Invisibly, a subset of \code{tab} with only columns that contain significances.
 #' @export
 
-#assume each comparison has a p-value & q-value column unless fdr.suffix=NA
-#could allow for no prefix, ie colnames(tab)=c("p", "FDR")
+# assume each comparison has a p-value & q-value column unless fdr.suffix=NA
+# could allow for no prefix, ie colnames(tab)=c("p", "FDR")
 signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALSE, name="signif_hist", plot=TRUE){
   stopifnot(nrow(tab) > 0, ncol(tab) > 0, !is.null(colnames(tab)))
-
   prefix.v <- extract_prefix(colnames(tab), suffix=p.suffix, sep=sep)
   if (any(duplicated(prefix.v))) stop("p-value column names are duplicated.")
   if (is.na(prefix.v[1])){
@@ -40,7 +39,7 @@ signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALS
     tab.ss <- tab[,p.cols]
   }
 
-  #set name=NA to turn off pdf
+  # set name=NA to turn off pdf
   if (plot){
     if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf")) }
     graphics::par(mfrow=c(2,2))
@@ -56,7 +55,10 @@ signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALS
         prop.null <- limma::propTrueNull(tab[,p.col], method = "convest")
         subtitle <- paste("Proportion of True Null = ", signif(prop.null, 3))
       }
-      graphics::hist(tab[,p.col], xlab="P-value", main=prefix, sub = subtitle)
+      tab.pv <- tab[,p.col]
+      graphics::hist(tab.pv, breaks=20, xlab="P-value", main=prefix, sub = subtitle)
+      graphics::abline(h=0.05*length(tab.pv[!is.na(tab.pv)]), lty=3)
+      graphics::legend(x="topright", legend="Random", lty=3, bty="n")
 
       if (!is.na(fdr.suffix)){
         fdr.col <- fdr.cols[ind.tmp]
