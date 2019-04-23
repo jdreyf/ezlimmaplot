@@ -1,6 +1,6 @@
 #' Make boxplot or dotplots for a feature per group
 #'
-#' Make boxplot or dotplots for a feature per group using \code{ggplot2}.
+#' Make boxplot or dotplots for a feature per group using \pkg{ggplot2}.
 #'
 #' @param grp Vector of phenotype groups of the samples, which represent valid variable names in R. Should be same
 #' length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.
@@ -8,8 +8,8 @@
 #' @param xlab Label for x-axis.
 #' @param ylab Label for y-axis.
 #' @param type Type of plot. Either \code{"dot"} or \code{"box"}.
-#' @param manual.color Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and
-#' \code{\link[ggplot2]{scale_color_manual}}.
+#' @param manual.color Vector passed to both \code{\link[ggplot2:scale_manual]{scale_fill_manual}} and
+#' \code{\link[ggplot2:scale_manual]{scale_color_manual}}.
 #' @param x.angle Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.
 #' @param add.se Logical indicating if to add standard error of the mean to dotplot.
 #' @param dotsize Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.
@@ -23,10 +23,6 @@
 
 plot_by_grp <- function(object, grp, name="topgenes", main.v="", xlab = "Group",  ylab="Log2 Expression", type="dot",
                         manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30){
-  if (!requireNamespace("ggplot2", quietly = TRUE)){
-    stop("Package ggplot2 needed for this function to work. Please install it.", call. = FALSE)
-  }
-
   if (is.vector(object)){ object <- t(as.matrix(object)) }
   if (is.data.frame(object)){ object <- data.matrix(object) }
   if (all(main.v == "") & !is.null(rownames(object))){ main.v <- rownames(object) }

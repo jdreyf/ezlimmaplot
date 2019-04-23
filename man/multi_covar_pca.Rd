@@ -31,9 +31,9 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
 }
 \value{
 Invisibly, a list of the first two principal components appended to \code{pheno.df} for each covariate.
