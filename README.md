@@ -6,7 +6,7 @@ R package for plotting bioinformatics results, especially those from the `ezlimm
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 ## Install
-On Windows, you need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
+On Windows, you should have [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 
 Install `ezlimmaplot` from GitHub using `remotes`  within R. You must install `remotes`, e.g. with install.packages("remotes", repos="https://cloud.r-project.org"), if you haven't before. `ezlimmaplot` is intended for use with `ezlimma`, which depends on `limma`, so you should install these with instructions below if you haven't before.
 ```
