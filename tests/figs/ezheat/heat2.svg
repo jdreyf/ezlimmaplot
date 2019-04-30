@@ -159,28 +159,28 @@
 <text x='602.88' y='471.17' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='33.38px' lengthAdjust='spacingAndGlyphs'>gene69</text>
 <text x='602.88' y='495.36' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='33.38px' lengthAdjust='spacingAndGlyphs'>gene50</text>
 <text x='602.88' y='519.55' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='33.38px' lengthAdjust='spacingAndGlyphs'>gene37</text>
-<rect x='5.00' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
-<rect x='104.15' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
-<rect x='203.29' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
-<rect x='302.44' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
-<rect x='401.58' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
-<rect x='500.73' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
-<rect x='5.00' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
-<rect x='104.15' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
-<rect x='203.29' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
-<rect x='302.44' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
-<rect x='401.58' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
-<rect x='500.73' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
+<rect x='5.00' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
+<rect x='104.15' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
+<rect x='203.29' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
+<rect x='302.44' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
+<rect x='401.58' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
+<rect x='500.73' y='31.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
+<rect x='5.00' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
+<rect x='104.15' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
+<rect x='203.29' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
+<rect x='302.44' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
+<rect x='401.58' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
+<rect x='500.73' y='19.41' width='99.15' height='10.00' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
 <text x='602.88' y='39.84' style='font-size: 10.00px; font-weight: bold; font-family: Liberation Sans;' textLength='16.11px' lengthAdjust='spacingAndGlyphs'>grp</text>
 <text x='602.88' y='27.84' style='font-size: 10.00px; font-weight: bold; font-family: Liberation Sans;' textLength='28.91px' lengthAdjust='spacingAndGlyphs'>tissue</text>
 <text x='678.00' y='25.28' style='font-size: 10.00px; font-weight: bold; font-family: Liberation Sans;' textLength='28.91px' lengthAdjust='spacingAndGlyphs'>tissue</text>
-<rect x='678.00' y='28.72' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
-<rect x='678.00' y='42.47' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
+<rect x='678.00' y='28.72' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #00DAE0;' />
+<rect x='678.00' y='42.47' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
 <text x='694.50' y='39.03' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='18.33px' lengthAdjust='spacingAndGlyphs'>liver</text>
 <text x='694.50' y='52.78' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='31.67px' lengthAdjust='spacingAndGlyphs'>muscle</text>
 <text x='678.00' y='73.41' style='font-size: 10.00px; font-weight: bold; font-family: Liberation Sans;' textLength='16.11px' lengthAdjust='spacingAndGlyphs'>grp</text>
-<rect x='678.00' y='76.84' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #E199FF;' />
-<rect x='678.00' y='90.59' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
+<rect x='678.00' y='76.84' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #96CA00;' />
+<rect x='678.00' y='90.59' width='13.75' height='13.75' style='stroke-width: 0.75; stroke: #999999; fill: #FF9289;' />
 <text x='694.50' y='87.16' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='25.00px' lengthAdjust='spacingAndGlyphs'>First3</text>
 <text x='694.50' y='100.91' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>Last3</text>
 <rect x='643.25' y='165.41' width='10.00' height='3.00' style='stroke-width: 0.75; stroke: none; fill: #4575B4;' />
