@@ -9,9 +9,10 @@ ezheat(object, labrows = NULL, pheno.df = NULL,
   clip = NA, color.v = NULL, unique.rows = FALSE,
   only.labrows = FALSE, ntop = NULL, stat.tab = NULL,
   cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
-  reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
-  verbose = FALSE)
+  reorder_cols = FALSE, gaps_col = NULL, gaps_row = NULL,
+  annotation_row = NA, annotation_colors = NA, fontsize_row = 10,
+  fontsize_col = 10, na.lab = c("---", ""), plot = TRUE,
+  width = NA, height = NA, verbose = FALSE)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -50,6 +51,19 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 \item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 
 \item{reorder_cols}{Logical; should columns be reordered with hierarchical clustering?}
+
+\item{gaps_col}{vector of column indices after which to insert gaps.}
+
+\item{gaps_row}{vector of row indices after which to insert gaps.}
+
+\item{annotation_row}{data frame that specifies the annotations shown on left
+ side of the heatmap. Each row defines the features for a specific row. The 
+rows in the data and in the annotation are matched using corresponding row
+ names. Note that color schemes takes into account if variable is continuous
+ or discrete.}
+
+\item{annotation_colors}{list for specifying annotation_row and annotation_col track colors manually.
+It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.}
 
 \item{fontsize_row}{Font size for row labels.}
 

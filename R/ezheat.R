@@ -23,6 +23,10 @@
 #' \code{ncol(object)}.
 #' @param reorder_rows Logical; should rows be reordered with hierarchical clustering?
 #' @param reorder_cols Logical; should columns be reordered with hierarchical clustering?
+#' @param annotation_colors list for specifying annotation_row and annotation_col track colors manually.
+#' It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.
+#' @param gaps_col vector of column indices after which to insert gaps.
+#' @param gaps_row vector of row indices after which to insert gaps.
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
@@ -30,6 +34,7 @@
 #' @param width Manual option for determining the output file width in inches.
 #' @param height Manual option for determining the output file height in inches.
 #' @param verbose Logical; print pruning messages to console?
+#' @inheritParams pheatmap::pheatmap
 #' @return A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element
 #' \code{gtable}, containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 #' @details \code{main} is modified to describe data transformations.
@@ -43,8 +48,9 @@
 # can avoid dendro (& clustering) by eg cluster_rows=FALSE
 ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", name="topgenes_heat",
                    sc="ctr", clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
-                   cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
-                   na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
+                   cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, gaps_col = NULL, gaps_row = NULL,
+                   annotation_row = NA, annotation_colors = NA, fontsize_row=10, fontsize_col=10, na.lab=c("---", ""),
+                   plot=TRUE, width=NA, height=NA, verbose=FALSE){
   if (!is.matrix(object)) object <- data.matrix(object)
   stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip)|(length(clip)==1 && clip > 0),
             is.null(labcols)||length(labcols) %in% c(1, ncol(object)))
@@ -120,7 +126,9 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", 
     }
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
-                             cluster_cols=FALSE, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                             cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
+                             fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                             annotation_row=annotation_row, annotation_colors=annotation_colors,
                              display_numbers = asterisk, filename=fname, labels_col = labcols, width=width, height=height)
     ret <- list(mat=mat, gtable=ph$gtable)
   } else {
