@@ -16,8 +16,8 @@ test_that("missing logFC or p-value/FDR columns", {
  cols <-  grep(paste0('\\', ".", 'logFC$'), colnames(res.df))
  res.df2 <- res.df[,-cols]
  expect_error(multi_volcano(tab=res.df2, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, type.sig="FDR", same.scale = TRUE,
-                            cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'))
+                            cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'), plot=FALSE)
  res.df3 <- res.df[,-c(grep(paste0('\\', ".", 'FDR'), colnames(res.df)))]
  expect_error(multi_volcano(tab=res.df3, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, type.sig="FDR", same.scale = TRUE,
-                            cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'))
+                            cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'), plot=FALSE)
 })

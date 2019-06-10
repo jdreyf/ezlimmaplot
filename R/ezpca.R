@@ -21,12 +21,9 @@
 #' @export
 
 ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
-                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, ...){
-  if (!requireNamespace("ggplot2", quietly = TRUE)){
-    stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
-  }
+                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, plot=TRUE, ...){
   stopifnot(limma::isNumeric(object), nrow(object[rowSums(is.na(object))==0,]) > 0, ncol(object) > 0,
-            !is.null(colnames(object)))
+            !is.null(colnames(object)), is.logical(plot))
 
   pca <- stats::prcomp(t(object[rowSums(is.na(object))==0,]), scale. = FALSE)
   pve <- signif(summary(pca)$importance["Proportion of Variance", 1:2]*100, 2)
@@ -77,7 +74,7 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
-  graphics::plot(qp)
+  if (plot) graphics::plot(qp)
   if (!is.na(name)){ grDevices::dev.off() }
   return(invisible(dat))
 }

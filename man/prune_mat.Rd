@@ -4,14 +4,15 @@
 \alias{prune_mat}
 \title{Prune matrix}
 \usage{
-prune_mat(object, labrows = NULL, only.labrows = FALSE,
+prune_mat(object, labrows = rownames(object), only.labrows = FALSE,
   unique.rows = FALSE, ntop = NULL, na.lab = c("---", ""),
   verbose = TRUE)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
+\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+of length \code{nrow(object)}.}
 
 \item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
 (missing is defined by \code{na.lab})?}
@@ -25,8 +26,8 @@ prune_mat(object, labrows = NULL, only.labrows = FALSE,
 \item{verbose}{Logical; print pruning messages to console?}
 }
 \value{
-Pruned matrix.
+Vector of pruned matrix rownames; vectors names are from rownames(object).
 }
 \description{
-Prune (subset) matrix before plotting as heatmap.
+Prune (subset) rows of matrix for plotting as heatmap.
 }

@@ -3,8 +3,11 @@
 #' Draw heatmap using \pkg{pheatmap} package.
 #'
 #' @param object Matrix-like object with features (e.g. genes) as rows and samples as columns.
-#' @param labrows Labels corresponding to rows, e.g. gene symbols.
 #' @param pheno.df Data frame with rows as samples and columns as phenotypes.
+#' @param labrows Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+#' of length \code{nrow(object)}.
+#' @param labcols Labels for columns. This can be of length 1 (in which case it is recycled),
+#' of length \code{ncol(object)}.
 #' @param main Main title of plot.
 #' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file.
 #' @param sc Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').
@@ -19,14 +22,12 @@
 #' dimensions should match \code{object} and it cannot have \code{NA}s.
 #' @param cutoff Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 #' \code{cutoff} are not \code{NULL}.
-#' @param labcols Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
-#' \code{ncol(object)}.
 #' @param reorder_rows Logical; should rows be reordered with hierarchical clustering?
 #' @param reorder_cols Logical; should columns be reordered with hierarchical clustering?
 #' @param annotation_colors list for specifying annotation_row and annotation_col track colors manually.
 #' It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.
-#' @param gaps_col vector of column indices after which to insert gaps.
 #' @param gaps_row vector of row indices after which to insert gaps.
+#' @param gaps_col vector of column indices after which to insert gaps.
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
@@ -46,36 +47,31 @@
 #' @export
 
 # can avoid dendro (& clustering) by eg cluster_rows=FALSE
-ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", name="topgenes_heat",
-                   sc="ctr", clip=NA, color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
-                   cutoff = 0.05, labcols=NULL, reorder_rows=FALSE, reorder_cols=FALSE, gaps_col = NULL, gaps_row = NULL,
-                   annotation_row = NA, annotation_colors = NA, fontsize_row=10, fontsize_col=10, na.lab=c("---", ""),
-                   plot=TRUE, width=NA, height=NA, verbose=FALSE){
+# keep object & labrows separate, to use annotate_row w/o labrows
+# labrows works like labcols for consistency
+ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
+                   main="Log2 Expression", name="topgenes_heat", sc="ctr", clip=NA,
+                   color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
+                   cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, gaps_row = NULL, gaps_col = NULL,
+                   annotation_row = NA, annotation_colors = NA,
+                   fontsize_row=10, fontsize_col=10, na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
   if (!is.matrix(object)) object <- data.matrix(object)
-  stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip)|(length(clip)==1 && clip > 0),
-            is.null(labcols)||length(labcols) %in% c(1, ncol(object)))
+  stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
+            length(labrows) %in% c(1, nrow(object)), length(labcols) %in% c(1, ncol(object)),
+            is.null(stat.tab) || !is.na(stat.tab))
+  if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   if (length(labcols)==1) labcols <- rep(x=labcols, ncol(object))
+
   if (!is.null(pheno.df)){
     stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
   }
-  mat <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
+  # ok if labrows NULL
+  labrows <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
                    na.lab=na.lab, verbose=verbose)
+  mat <- object[names(labrows),]
 
   if (is.null(color.v)){
-    if (!requireNamespace("RColorBrewer", quietly = TRUE)){
-      stop("Package 'RColorBrewer' needed for this function to work. Please install it.", call. = FALSE)
-    }
     color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name="RdYlBu")))(50)
-  }
-
-  asterisk <- matrix(data = "", nrow = nrow(mat), ncol = ncol(mat))
-  if (!is.null(stat.tab) & !is.null(cutoff)){
-    stat.tab <- prune_mat(stat.tab, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows,
-                          ntop = ntop, verbose = verbose)
-    stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
-    asterisk[stat.tab < cutoff] <- "*"
-  } else {
-    asterisk <- FALSE
   }
 
   # scale mat
@@ -92,15 +88,25 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", 
   if (reorder_rows){
     hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward.D2")
     mat <- mat[hc$order,, drop = FALSE]
+    labrows <- labrows[hc$order]
   }
 
   if (reorder_cols){
     hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward.D2")
-    mat <- mat[,hc$order, drop = FALSE]
+    mat <- mat[, hc$order, drop = FALSE]
     pheno.df <- pheno.df[hc$order,, drop = FALSE]
     if (!is.null(labcols)){
       labcols <- labcols[hc$order]
     }
+  }
+
+  asterisk <- matrix(data = "", nrow = nrow(mat), ncol = ncol(mat))
+  if (!is.null(stat.tab) & !is.null(cutoff)){
+    stat.tab <- stat.tab[rownames(mat),]
+    stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
+    asterisk[stat.tab < cutoff] <- "*"
+  } else {
+    asterisk <- FALSE
   }
 
   # clip
@@ -121,15 +127,13 @@ ezheat <- function(object, labrows=NULL, pheno.df=NULL, main="Log2 Expression", 
 
   if (plot){
     fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
-    if (!requireNamespace("pheatmap", quietly = TRUE)){
-      stop("Package 'pheatmap'' needed for this function to work. Please install it.", call. = FALSE)
-    }
     # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
-    ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main, cluster_rows=FALSE,
-                             cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
-                             fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+    ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main,
+                             cluster_rows=FALSE, cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
                              annotation_row=annotation_row, annotation_colors=annotation_colors,
-                             display_numbers = asterisk, filename=fname, labels_col = labcols, width=width, height=height)
+                             labels_row = labrows, labels_col = labcols,
+                             fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                             display_numbers = asterisk, filename=fname, width=width, height=height)
     ret <- list(mat=mat, gtable=ph$gtable)
   } else {
     ret <- list(mat=mat)

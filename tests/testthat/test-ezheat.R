@@ -22,36 +22,53 @@ test_that("sc", {
   expect_equal(ezh.sc, base.sc)
 })
 
-test_that("gtable", {
+test_that("vdiffr", {
   #pheatmap creates two pages, but vdiffr supports only one, so using returned gtable
   ezh <- function(){
-    ret <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA)$gtable
+    lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+    ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno.df, name=NA)$gtable
   }
   vdiffr::expect_doppelganger(title="heat", fig=ezh)
 
   ezh2 <- function(){
-    ret <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno2, name=NA, sc="z")$gtable
+    lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+    ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno2, name=NA, sc="z")$gtable
   }
   vdiffr::expect_doppelganger(title="heat2", fig=ezh2)
 
   #all avg+10 > 0
   ezh3 <- function(){
-    ret <- ezheat(object=res.df[topgenes, 1:2]+10, labrows = res.df[topgenes, "Gene.Symbol"], name=NA, sc="none",
+    lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+    ret <- ezheat(object=res.df[topgenes, 1:2]+10, labrows = lr, name=NA, sc="none",
                   stat.tab=res.df[topgenes, c("First3.p", "Last3.p")])$gtable
   }
   vdiffr::expect_doppelganger(title="heat3", fig=ezh3)
 
   ezh4 <- function(){
-    ret <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno2, name=NA,
+    lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+    ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno2, name=NA,
                   reorder_rows = TRUE, reorder_cols = TRUE)$gtable
   }
   #verify by eye that columns & rows are reordered; title is only "Log2 Expression"
   vdiffr::expect_doppelganger(title="heat4", fig=ezh4)
 
   ezh5 <- function(){
-    ret <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA,
+    lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+    ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno.df, name=NA,
                   reorder_rows = TRUE, reorder_cols = TRUE, labcols=letters[1:6])$gtable
   }
   #verify by eye that columns & rows are reordered; title is only "Log2 Expression"
   vdiffr::expect_doppelganger(title="heat5", fig=ezh5)
+})
+
+test_that("vdiff low res", {
+  # low res heat w/ clusters & w/o rowlabs
+  cl.df <- data.frame(cl=LETTERS[as.numeric(sub("gene", "", rownames(M))) %% 5 + 1])
+  rownames(cl.df) <- rownames(M)
+
+  ezh6 <- function(){
+    ret <- ezheat(M, pheno.df=pheno.df, labrows = "", name=NA, annotation_row = cl.df)
+  }
+  #verify by eye that columns & rows are reordered; title is only "Log2 Expression"
+  vdiffr::expect_doppelganger(title="heat6", fig=ezh6)
 })

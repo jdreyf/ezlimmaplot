@@ -4,12 +4,12 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, labrows = NULL, pheno.df = NULL,
-  main = "Log2 Expression", name = "topgenes_heat", sc = "ctr",
-  clip = NA, color.v = NULL, unique.rows = FALSE,
-  only.labrows = FALSE, ntop = NULL, stat.tab = NULL,
-  cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
-  reorder_cols = FALSE, gaps_col = NULL, gaps_row = NULL,
+ezheat(object, pheno.df = NULL, labrows = rownames(object),
+  labcols = colnames(object), main = "Log2 Expression",
+  name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
+  unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
+  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+  reorder_cols = FALSE, gaps_row = NULL, gaps_col = NULL,
   annotation_row = NA, annotation_colors = NA, fontsize_row = 10,
   fontsize_col = 10, na.lab = c("---", ""), plot = TRUE,
   width = NA, height = NA, verbose = FALSE)
@@ -17,9 +17,13 @@ ezheat(object, labrows = NULL, pheno.df = NULL,
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
-
 \item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
+
+\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+of length \code{nrow(object)}.}
+
+\item{labcols}{Labels for columns. This can be of length 1 (in which case it is recycled),
+of length \code{ncol(object)}.}
 
 \item{main}{Main title of plot.}
 
@@ -45,16 +49,13 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
 
-\item{labcols}{Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
-\code{ncol(object)}.}
-
 \item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 
 \item{reorder_cols}{Logical; should columns be reordered with hierarchical clustering?}
 
-\item{gaps_col}{vector of column indices after which to insert gaps.}
-
 \item{gaps_row}{vector of row indices after which to insert gaps.}
+
+\item{gaps_col}{vector of column indices after which to insert gaps.}
 
 \item{annotation_row}{data frame that specifies the annotations shown on left
  side of the heatmap. Each row defines the features for a specific row. The 

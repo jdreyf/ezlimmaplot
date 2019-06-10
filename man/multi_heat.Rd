@@ -4,22 +4,27 @@
 \alias{multi_heat}
 \title{Plot one heatmap per comparison}
 \usage{
-multi_heat(tab, object, labrows = NULL, pheno.df = NULL,
-  main = "Log2 Expression", name = "heats", sc = "ctr", clip = NA,
-  color.v = NULL, unique.rows = FALSE, only.labrows = FALSE,
-  ntop = 50, stat.tab = NULL, cutoff = 0.05, labcols = NULL,
-  reorder_rows = FALSE, reorder_cols = FALSE, fontsize_row = 10,
-  fontsize_col = 10, na.lab = c("---", ""), plot = TRUE,
-  width = NA, height = NA, verbose = FALSE)
+multi_heat(tab, object, pheno.df = NULL, labrows = rownames(object),
+  labcols = colnames(object), main = "Log2 Expression",
+  name = "heats", sc = "ctr", clip = NA, color.v = NULL,
+  unique.rows = FALSE, only.labrows = FALSE, ntop = 50,
+  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+  reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
+  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
+  verbose = FALSE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
 
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
-
 \item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
+
+\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+of length \code{nrow(object)}.}
+
+\item{labcols}{Labels for columns. This can be of length 1 (in which case it is recycled),
+of length \code{ncol(object)}.}
 
 \item{main}{Main title of plot.}
 
@@ -44,9 +49,6 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
-
-\item{labcols}{Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
-\code{ncol(object)}.}
 
 \item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 

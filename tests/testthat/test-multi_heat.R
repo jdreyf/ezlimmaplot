@@ -1,7 +1,9 @@
 context("multi_heat")
 
 test_that("mat", {
-  expect_warning(mat0 <- multi_heat(tab=res.ss, M, labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df,
+  lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+  # warning prune_mat n rows < 50
+  expect_warning(mat0 <- multi_heat(tab=res.ss, object=M[topgenes,], labrows = lr, pheno.df=pheno.df,
                                     name=NA, clip=1, plot=FALSE)[[1]]$mat)
   gene.d <- rownames(res.df)[4]
   expect_gt(M[gene.d, "sample5"], max(M[gene.d, setdiff(colnames(M), "sample5")]))

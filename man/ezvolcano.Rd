@@ -11,7 +11,7 @@ ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
   down.ann.color = "black", shape = 16, x.bound = NULL,
   y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
   cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
-  na.lab = c("---", ""))
+  na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -59,6 +59,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a ggplot object.

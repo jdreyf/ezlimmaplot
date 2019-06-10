@@ -33,10 +33,7 @@
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE,
-                      sep='.', na.lab=c('---', '')){
-  if (!requireNamespace("ggplot2", quietly = TRUE)){
-    stop("Package 'ggplot2' needed for this function to work. Please install it.", call. = FALSE)
-  }
+                      sep='.', na.lab=c('---', ''), plot=TRUE){
   #can't annot if no lab.col
   if (is.null(lab.col)){
     if (ntop.lfc > 0){
@@ -74,7 +71,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   stopifnot((ntop.sig==0 & ntop.lfc==0) | lab.col %in% colnames(tab), ntop.sig==as.integer(ntop.sig),
             ntop.lfc==as.integer(ntop.lfc), is.null(ann.rnames)|ann.rnames %in% rownames(tab),
             lfc.col %in% colnames(tab), sig.col %in% colnames(tab), any(tab[,lfc.col]<0), any(tab[,lfc.col]>=0),
-            length(x.bound)<=1, length(y.bound)<=1)
+            length(x.bound)<=1, length(y.bound)<=1, is.logical(plot))
 
   tab <- data.frame(tab, nlg10sig=-log10(tab[,sig.col]))
   #want symmetric x-axis
@@ -138,6 +135,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     vol <- vol + ggplot2::geom_hline(yintercept = -log10(0.05), linetype = 2, show.legend = TRUE)
   }
 
-  if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
+  if (plot){
+    if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
+  }
   return(invisible(vol))
 }

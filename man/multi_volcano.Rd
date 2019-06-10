@@ -8,7 +8,7 @@ multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
   name = "volcanoes", ann.rnames = NULL, up.ann.color = "black",
   down.ann.color = "black", same.scale = FALSE, type.sig = c("p",
   "FDR"), cut.color = NULL, cut.lfc = 1, cut.sig = 0.05,
-  p05.line = FALSE, sep = ".", na.lab = c("---", ""))
+  p05.line = FALSE, sep = ".", na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -43,6 +43,8 @@ no points are annotated.}
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
