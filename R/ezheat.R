@@ -58,7 +58,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
   if (!is.matrix(object)) object <- data.matrix(object)
   stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
             length(labrows) %in% c(1, nrow(object)), length(labcols) %in% c(1, ncol(object)),
-            is.null(stat.tab) || !is.na(stat.tab))
+            is.null(stat.tab) || !any(is.na(stat.tab)))
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   if (length(labcols)==1) labcols <- rep(x=labcols, ncol(object))
 
