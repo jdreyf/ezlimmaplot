@@ -4,23 +4,30 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, labrows = NULL, pheno.df = NULL, main = "Log2 Expression",
+ezheat(object, pheno.df = NULL, labrows = rownames(object),
+  labcols = colnames(object), main = "Log2 Expression",
   name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
   unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
-  stat.tab = NULL, cutoff = 0.05, labcols = NULL, reorder_rows = FALSE,
-  reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA)
+  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
+  reorder_cols = FALSE, gaps_row = NULL, gaps_col = NULL,
+  annotation_row = NA, annotation_colors = NA, fontsize_row = 10,
+  fontsize_col = 10, na.lab = c("---", ""), plot = TRUE,
+  width = NA, height = NA, verbose = FALSE)
 }
 \arguments{
-\item{object}{Matrix-like object with samples as columns and features as rows. Cannot have \code{NA}s.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
+\item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
 
-\item{pheno.df}{Phenotype dataframe.}
+\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+of length \code{nrow(object)}.}
 
-\item{main}{Title of plot appended to the name of scaling, if any.}
+\item{labcols}{Labels for columns. This can be of length 1 (in which case it is recycled),
+of length \code{ncol(object)}.}
 
-\item{name}{Name of PDF to plot. Set to \code{NA} to plot to screen instead of to PDF.}
+\item{main}{Main title of plot.}
+
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{sc}{Row scaling. Should rows be centered ('ctr'), z-scored ('z'), or neither ('none').}
 
@@ -29,25 +36,35 @@ ezheat(object, labrows = NULL, pheno.df = NULL, main = "Log2 Expression",
 \item{color.v}{Color palette for heatmap. If \code{NULL}, it's set to
 \code{colorRampPalette(rev(brewer.pal(n=9, name='RdYlBu')))(50)}.}
 
-\item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
+\item{unique.rows}{Logical; remove duplicated row labels to make rows unique?}
 
-\item{only.labrows}{Logical, if \code{TRUE} only include rows where \code{labrows} aren't missing
-(missing is defined by \code{na.lab}).}
+\item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
+(missing is defined by \code{na.lab})?}
 
 \item{ntop}{Scalar number of rows to include.}
 
-\item{stat.tab}{Matrix-like object with statistics, such as p-values, per column. If given, its dimensions should
-match \code{object} and it cannot have \code{NA}s.}
+\item{stat.tab}{Matrix-like object with statistics, such as p-values, per column, used to add "*". If given, its
+dimensions should match \code{object} and it cannot have \code{NA}s.}
 
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
 
-\item{labcols}{Labels for columns. This can be \code{NULL}, of length 1 (in which case it is recycled), or of length
-\code{ncol(object)}.}
+\item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 
-\item{reorder_rows}{Logical indicating if rows should be reordered with hierarchical clustering.}
+\item{reorder_cols}{Logical; should columns be reordered with hierarchical clustering?}
 
-\item{reorder_cols}{Logical indicating if columns should be reordered with hierarchical clustering.}
+\item{gaps_row}{vector of row indices after which to insert gaps.}
+
+\item{gaps_col}{vector of column indices after which to insert gaps.}
+
+\item{annotation_row}{data frame that specifies the annotations shown on left
+ side of the heatmap. Each row defines the features for a specific row. The 
+rows in the data and in the annotation are matched using corresponding row
+ names. Note that color schemes takes into account if variable is continuous
+ or discrete.}
+
+\item{annotation_colors}{list for specifying annotation_row and annotation_col track colors manually.
+It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.}
 
 \item{fontsize_row}{Font size for row labels.}
 
@@ -55,20 +72,26 @@ match \code{object} and it cannot have \code{NA}s.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
-\item{plot}{Logical indicating if the heatmap should be plotted.}
+\item{plot}{Logical; should plot be generated?}
 
 \item{width}{Manual option for determining the output file width in inches.}
 
 \item{height}{Manual option for determining the output file height in inches.}
+
+\item{verbose}{Logical; print pruning messages to console?}
 }
 \value{
-A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element \code{gtable},
-containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
+A list with element \code{mat} of the matrix of values plotted, and if \code{plot=TRUE} element
+\code{gtable}, containing the \code{gtable} object returned by \code{\link[pheatmap]{pheatmap}}.
 }
 \description{
-Draw heatmap using \code{pheatmap} package.
+Draw heatmap using \pkg{pheatmap} package.
 }
 \details{
+\code{main} is modified to describe data transformations.
+
 If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 symmetric about zero.
+
+\code{object} cannot have \code{NA}s.
 }

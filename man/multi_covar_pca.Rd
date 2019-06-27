@@ -2,19 +2,20 @@
 % Please edit documentation in R/multi_covar_pca.R
 \name{multi_covar_pca}
 \alias{multi_covar_pca}
-\title{PCA plot of top two components}
+\title{PCA plots of top two components colored by each covariate}
 \usage{
 multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
   covars = setdiff(colnames(pheno.df), grp.var), alpha = 1,
-  all.size = NULL, facet = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL)
+  all.size = NULL, facet = NULL, rm.leg.title = FALSE,
+  labels = FALSE, manual.color = NULL, manual.shape = NULL,
+  plot = TRUE)
 }
 \arguments{
-\item{object}{Matrix-like object with samples as columns.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
 \item{pheno.df}{Dataframe with rows as samples and columns as phenotypes.}
 
-\item{name}{Name of PDF to write out.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{grp.var}{Column of \code{pheno.df} to include as group variable in PCA plots.}
 
@@ -29,17 +30,20 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
-\item{labels}{Logical indicating if sample labels should be added next to points.}
+\item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
+
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a list of the first two principal components appended to \code{pheno.df} for each covariate.
 }
 \description{
-PCA plot of top two principal components using \code{ggplot2}.
+PCA plot of top two principal components using \code{ggplot2} whose shape is defined by group and color in each plot
+by iterating over each covariate.
 }
 \details{
 PCA is calculated with \code{\link[stats]{prcomp}}.

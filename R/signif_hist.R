@@ -2,22 +2,23 @@
 #'
 #' Plot histograms of significance (p-value & FDR) columns.
 #'
-#' @param tab Table of output from \code{ezlimma}.
 #' @param p.suffix Suffix for p-value columns. P-value column names cannot be duplicated.
 #' @param fdr.suffix Suffix for FDR columns. Set to \code{NA} if no FDR columns. FDR column names cannot be duplicated.
-#' @param sep Separator for column names before \code{p} or \code{FDR}.
+#' @param sep Separator for column names before \code{p} or \code{FDR}, passed to \code{\link{extract_prefix}}.
+#' If not found, it is assumed to be \code{NA}.
 #' @param pi0 Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
-#' \code{TRUE}, \code{limma::propTrueNull} is used, so \code{limma} package is needed.
-#' @param name Name of PDF file to write. Set to \code{NA} to suppress writing to PDF.
-#' @param plot Logical; if \code{FALSE} no plot is generated.
+#' \code{TRUE}, \code{\link[limma]{propTrueNull}} with \code{method="convest"} is used.
+#' @inheritParams ezheat
+#' @inheritParams ezvenn
 #' @details Some p-value columns must be identifiable using \code{p.suffix}. If \code{!is.na(fdr.suffix)}, FDR
 #' colnames must have same prefix.
 #' @return Invisibly, a subset of \code{tab} with only columns that contain significances.
 #' @export
 
-#assume each comparison has a p-value & q-value column unless fdr.suffix=NA
-#could allow for no prefix, ie colnames(tab)=c('p', 'FDR')
-signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALSE, name='signif_hist', plot=TRUE){
+# assume each comparison has a p-value & q-value column unless fdr.suffix=NA
+# could allow for no prefix, ie colnames(tab)=c("p", "FDR")
+signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALSE, name="signif_hist", plot=TRUE){
+  stopifnot(nrow(tab) > 0, ncol(tab) > 0, !is.null(colnames(tab)))
   prefix.v <- extract_prefix(colnames(tab), suffix=p.suffix, sep=sep)
   if (any(duplicated(prefix.v))) stop("p-value column names are duplicated.")
   if (is.na(prefix.v[1])){
@@ -38,9 +39,9 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
     tab.ss <- tab[,p.cols]
   }
 
-  #set name=NA to turn off pdf
+  # set name=NA to turn off pdf
   if (plot){
-    if (!is.na(name)){ grDevices::pdf(paste0(name, '.pdf')) }
+    if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf")) }
     graphics::par(mfrow=c(2,2))
     for (ind.tmp in 1:length(p.cols)){
       prefix <- prefix.v[ind.tmp]
@@ -51,15 +52,18 @@ signif_hist <- function(tab, p.suffix='p', fdr.suffix='FDR', sep='.', pi0 = FALS
         if (!requireNamespace("limma", quietly = TRUE)){
           stop("Package 'limma' needed to estimate pi0. Please install it.", call. = FALSE)
         }
-        prop.null <- limma::propTrueNull(tab[,p.col], method = 'convest')
-        subtitle <- paste('Proportion of True Null = ', signif(prop.null, 3))
+        prop.null <- limma::propTrueNull(tab[,p.col], method = "convest")
+        subtitle <- paste("Proportion of True Null = ", signif(prop.null, 3))
       }
-      graphics::hist(tab[,p.col], xlab='P-value', main=prefix, sub = subtitle)
+      tab.pv <- tab[,p.col]
+      graphics::hist(tab.pv, breaks=20, xlab="P-value", main=prefix, sub = subtitle)
+      graphics::abline(h=0.05*length(tab.pv[!is.na(tab.pv)]), lty=3)
+      graphics::legend(x="topright", legend="Random", lty=3, bty="n")
 
       if (!is.na(fdr.suffix)){
         fdr.col <- fdr.cols[ind.tmp]
         stopifnot(length(fdr.col)==1)
-        graphics::hist(tab[,fdr.col], xlab='FDR', main=prefix)
+        graphics::hist(tab[,fdr.col], xlab="FDR", main=prefix)
       }
     }
     if (!is.na(name)){ grDevices::dev.off() }

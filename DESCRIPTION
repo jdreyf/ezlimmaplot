@@ -1,6 +1,6 @@
 Package: ezlimmaplot
 Title: Bioinformatics plots using limma and ggplot2, some from output of ezlimma
-Version: 0.0.0.9000
+Version: 0.0.1.9012
 Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
              person("Hui", "Pan", role = "aut"),
 			 person("Grace", "Daher", role="ctb"))
@@ -11,18 +11,18 @@ Imports:
 	ggplot2,
 	graphics,
 	grDevices,
-	limma,
+	knitr,
+	limma (>= 3.34.8),
 	pheatmap,
 	RColorBrewer,
 	stats
 Suggests:
-    knitr,
+	covr,
     rmarkdown,
     testthat,
-	vdiffr,
-    covr
+	vdiffr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr

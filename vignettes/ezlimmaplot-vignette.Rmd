@@ -10,19 +10,22 @@ vignette: >
 ---
 
 ## Introduction
-Welcome to **ezlimmaplot**. This package is for plotting bioinformatics results, especially those from the **ezlimma** package. Here, I'll load both packages, create some output with **ezlimma**, and then plot it with **ezlimmaplot**.
+Welcome to `ezlimmaplot`. This package is for plotting bioinformatics results, especially those from the `ezlimma` package. Here, I'll load both packages, create some output with `ezlimma`, and then plot it with `ezlimmaplot`.
 
-## Install package
+## Install & load package
 See README.md.
 
-## Load package
 ```{r lib}
+library(limma)
 library(ezlimma)
 library(ezlimmaplot)
 ```
 
 ## Simulate data
-To demonstrate the package on a dataset, I'll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from **limma** `contrasts.fit`.
+To demonstrate the package on a dataset, I'll simulate log2 expression data with 100 genes and 6 samples in two groups, with the first gene up-regulated in the first group. This is the example data from `limma` `contrasts.fit`. I add some phenotype variables, including the non-standard column name `covar num`.
+
+For statistical analysis, we treat this data as being already processed. For many datasets, there are zeroes or missing values that might need to be imputed; samples need to be normalized to make them comparable and amenable to statistical tests; absent genes need to be removed; sample outliers need to be assessed to examine whether some experimental variables or batch effects need to be accounted for, or the samples need to be removed or down-weighted; and trends between a gene's mean expression and its variance should be accounted for, especially in RNA-seq data, with `limma`'s `voom` function.
+
 ```{r sim}
 set.seed(42)
 M <- matrix(rnorm(100*6, sd=0.3), nrow=100, ncol=6)
@@ -30,25 +33,33 @@ dimnames(M) <- list(paste0("gene", 1:nrow(M)), paste0("sample", 1:ncol(M)))
 grp <- rep(c("First3", "Last3"), each=3)
 tissue <- rep(c("muscle", "liver"), times=3)
 covar_num <- rnorm(n = ncol(M))
-pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp, tissue, covar_num, stringsAsFactors = FALSE)
+pheno <- data.frame(row.names = colnames(M), sample=colnames(M), grp, tissue, 
+                    "covar num"=covar_num, covar2=covar_num,
+                    stringsAsFactors = FALSE, check.names = FALSE)
 M[1,1:3] <- M[1,1:3] + 2
 ```
 
 ## Principal component analysis (PCA)
-We can plot the samples by their first two principal components using the **ggplot2** package.
+We can plot the samples by their first two principal components using the `ggplot2` package.
 ```{r pca}
 ezpca(M, pheno, color="grp", name=NA)
 ```
 
-We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to **ggplot2** `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. We can also facet by a phenotype column using the `facet` argument, which takes a formula.
+We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because `ggplot2` expects standard variable names or expressions of them whereas `"covar num"` has a space, but we can do it with:
+
+```{r pca2}
+ezpca(M, pheno, color="`covar num`", name=NA)
+```
+
+We can also facet by a phenotype column using the `facet` argument, which takes a formula.
 
 ```{r pca_facet}
 ezpca(M, pheno, color="grp", facet = ". ~ tissue", name=NA)
 ```
 
-We can also plot each covariate with `shape="grp"` to PDF. The PDF is named "covar_pca.pdf" by default.
+We can also plot covariates as colors with `shape="grp"` using `multi_covar_pca` to PDF. `multi_covar_pca` only accepts covariates whose name corresponds to a column in `pheno`. The PDF is named "covar_pca.pdf" by default.
 ```{r multi_pca}
-multi_covar_pca(M, pheno, grp.var="grp", covars=c("tissue", "covar_num"))
+multi_covar_pca(M, pheno, grp.var="grp", covars=c("tissue", "covar2"))
 ```
 
 ## Gene level differential analysis
@@ -85,7 +96,7 @@ ezvenn(tab=res, p.cutoff = 0.05)
 ```
 
 ## Dotplot and boxplot
-We can plot the top gene by group in a dotplot or boxplot using **ggplot2**. 
+We can plot the top gene by group in a dotplot or boxplot using `ggplot2`. 
 ```{r pbg}
 plot_by_grp(M[1,], pheno$grp, name=NA, type="dot")
 plot_by_grp(M[1,], pheno$grp, name=NA, type="box")
@@ -94,7 +105,7 @@ plot_by_grp(M[1,], pheno$grp, name=NA, type="box")
 We can plot multiple genes, such as the first 5 genes where each gene will be on its own page in a PDF, by passing `object=M[1:5,]`.
 
 ## Heatmap
-We plot a heatmap of the expression of the first five genes across all samples using the **pheatmap** package. We assume their gene symbols are "A", "B", "C", "D", "E". `ezheat` requires a data frame, so we make a phenotype data frame with only one column for the group, and with `rownames(pheno)==colnames(M)`, which **pheatmap** checks for.
+We plot a heatmap of the expression of the first five genes across all samples using the `pheatmap` package. We assume their gene symbols are "A", "B", "C", "D", "E". `ezheat` requires a data frame, so we make a phenotype data frame with only one column for the group, and with `rownames(pheno)==colnames(M)`, which `pheatmap` checks for.
 
 ```{r heat}
 sym <- c("A", "B", "C", "D", "E")
@@ -106,7 +117,7 @@ ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.d
 We see a color bar for the phenotype groups and the strongest change in metabolite "A".
 
 ## Volcano plots
-We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using **ggplot2**.
+We can create volcano plots, which have logFC on the x-axis and log(p-value) on the y-axis, for a comparison using `ggplot2`.
 ```{r vol}
 ezvolcano(tab=res.df, comparison = "First3", name=NA, lab.col="Gene.Symbol", ntop.sig = 1)
 ```
@@ -114,6 +125,11 @@ ezvolcano(tab=res.df, comparison = "First3", name=NA, lab.col="Gene.Symbol", nto
 We can automatically create a PDF with volcano plots for all comparisons with:
 ```{r mvol, eval=FALSE}
 multi_volcano(tab=res.df, lab.col="Gene.Symbol", ntop.sig = 1)
+```
+
+```{r unlink, echo=FALSE}
+# remove files that were made during knitting
+unlink("covar_pca.pdf")
 ```
 
 ## System info

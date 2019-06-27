@@ -4,12 +4,14 @@
 \alias{ezvolcano}
 \title{Volcano plot in ggplot2}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL, lab.col = "Gene.Symbol",
-  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
-  name = "volcano", ann.rnames = NULL, up.ann.color = "black",
-  down.ann.color = "black", shape = 16, x.bound = NULL, y.bound = NULL,
-  type.sig = c("p", "FDR"), cut.color = NULL, cut.lfc = 1,
-  cut.sig = 0.05, sep = ".", na.lab = c("---", ""))
+ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
+  lab.col = "Gene.Symbol", ntop.sig = 0, ntop.lfc = 0,
+  comparison = NULL, alpha = 0.4, name = "volcano",
+  ann.rnames = NULL, up.ann.color = "black",
+  down.ann.color = "black", shape = 16, x.bound = NULL,
+  y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
+  cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
+  na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -30,7 +32,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{alpha}{Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.}
 
-\item{name}{Name of PNG file to write to. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
 
@@ -52,9 +54,13 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
+\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.}
+
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a ggplot object.

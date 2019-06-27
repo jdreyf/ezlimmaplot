@@ -5,8 +5,8 @@
 \title{Venn diagrams}
 \usage{
 ezvenn(tab, prefix.v = NULL, p.cutoff = NULL, fdr.cutoff = NULL,
-  logfc.cutoff = NULL, circle.names = prefix.v, main = "", name = NA,
-  cex = c(1, 1, 1), plot = TRUE)
+  logfc.cutoff = NULL, circle.names = prefix.v, main = "",
+  name = NA, cex = c(1, 1, 1), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -22,21 +22,21 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 \item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came from
 \code{\link[ezlimma]{limma_contrasts}}.}
 
-\item{circle.names}{Names of circles corresponding to \code{prefix.v}.}
+\item{circle.names}{Vector of circle names corresponding to \code{prefix.v}.}
 
 \item{main}{Main title of plot.}
 
-\item{name}{Name of PDF that gets "_venn" appended, then written. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{cex}{A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 the default. See \code{\link[graphics]{par}}.}
 
-\item{plot}{Logical indicating if the Venn diagram should be plotted.}
+\item{plot}{Logical; should plot be generated?}
 }
 \value{
 Invisibly, a matrix with elements {-1, 0, 1} indicating which features (rows) of \code{tab} were significant
-with specified cutoffs..0 indicates no significant change; -1 indicates down; and 1 indicates up if corresponding
- \code{logFC} columns are found, otherwise it indicates significance.
+with specified cutoffs. 0 indicates no significant change; -1 indicates down; and 1 indicates up if corresponding
+\code{logFC} columns are found, otherwise 1 indicates significance.
 }
 \description{
 Venn diagrams using output from \code{ezlimma} package.
@@ -44,4 +44,6 @@ Venn diagrams using output from \code{ezlimma} package.
 \details{
 One of \code{fdr.cutoff} or \code{p.cutoff} must be given. If both are given, only \code{fdr.cutoff} is used.
 \code{logfc.cutoff} if given is used in addition to these.
+
+\code{"_venn.pdf"} is appended to \code{name}.
 }

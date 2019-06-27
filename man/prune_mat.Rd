@@ -4,28 +4,30 @@
 \alias{prune_mat}
 \title{Prune matrix}
 \usage{
-prune_mat(object, labrows = NULL, only.labrows = FALSE,
+prune_mat(object, labrows = rownames(object), only.labrows = FALSE,
   unique.rows = FALSE, ntop = NULL, na.lab = c("---", ""),
   verbose = TRUE)
 }
 \arguments{
-\item{object}{Matrix-like object.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels corresponding to rows, e.g. gene symbols.}
+\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
+of length \code{nrow(object)}.}
 
-\item{only.labrows}{Logical, if \code{TRUE} only include rows with a non-missing symbol.}
+\item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
+(missing is defined by \code{na.lab})?}
 
-\item{unique.rows}{Logical, indicating if to remove duplicated row labels to make rows unique.}
+\item{unique.rows}{Logical; remove duplicated row labels to make rows unique?}
 
 \item{ntop}{Scalar number of rows to include.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
-\item{verbose}{Logical indicating whether to print messages to console.}
+\item{verbose}{Logical; print pruning messages to console?}
 }
 \value{
-Pruned matrix.
+Vector of pruned matrix rownames; vectors names are from rownames(object).
 }
 \description{
-Prune (subset) matrix before plotting as heatmap.
+Prune (subset) rows of matrix for plotting as heatmap.
 }

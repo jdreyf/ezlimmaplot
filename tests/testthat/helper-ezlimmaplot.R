@@ -23,3 +23,5 @@ sym.v[10:13] <- c("---", "a", "~", "")
 pheno.df <- pheno[,"grp",drop=F]
 pheno2 <- pheno[,c("grp", "tissue"),drop=F]
 topgenes <- rownames(res.df)[1:20]
+
+res.ss <- res.df[topgenes, grep("avg$|^Last3vsFirst|^Gene", colnames(res.df))]

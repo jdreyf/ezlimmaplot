@@ -4,19 +4,18 @@
 \alias{plot_by_grp}
 \title{Make boxplot or dotplots for a feature per group}
 \usage{
-plot_by_grp(object, grp, name = "topgenes", main.v = "", xlab = "Group",
-  ylab = "Log2 Expression", type = "dot", manual.color = NULL,
-  x.angle = 0, add.se = FALSE, dotsize = 1, bins = 30)
+plot_by_grp(object, grp, name = "topgenes", main.v = "",
+  xlab = "Group", ylab = "Log2 Expression", type = "dot",
+  manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1,
+  bins = 30)
 }
 \arguments{
-\item{object}{A matrix-like data object containing log-ratios or log-expression values for a series of arrays, with
-rows corresponding to genes and columns to samples.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
 \item{grp}{Vector of phenotype groups of the samples, which represent valid variable names in R. Should be same
 length as \code{ncol(object)}. If the vector is named, names should match \code{colnames(object)}.}
 
-\item{name}{Name of PDF that gets written. Set to \code{NA} to suppress writing to file. "_dotplots" or "_boxplots"
-is appended to plot filename, based on \code{type}.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{main.v}{Character vector of main titles for plot.}
 
@@ -26,7 +25,8 @@ is appended to plot filename, based on \code{type}.}
 
 \item{type}{Type of plot. Either \code{"dot"} or \code{"box"}.}
 
-\item{manual.color}{Vector passed to both \code{\link[ggplot2]{scale_fill_manual}} and \code{\link[ggplot2]{scale_color_manual}}.}
+\item{manual.color}{Vector passed to both \code{\link[ggplot2:scale_manual]{scale_fill_manual}} and
+\code{\link[ggplot2:scale_manual]{scale_color_manual}}.}
 
 \item{x.angle}{Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.}
 
@@ -37,8 +37,13 @@ is appended to plot filename, based on \code{type}.}
 \item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
 }
 \value{
-Invisibly, a \code{ggplot2} object from the last row that was plotted.
+Invisibly, a \code{ggplot} object from the last row of \code{object} that was plotted.
 }
 \description{
-Make boxplot or dotplots for a feature per group using \code{ggplot2}.
+Make boxplot or dotplots for a feature per group using \pkg{ggplot2}.
+}
+\details{
+Based on \code{type}, \code{"_dotplots"} or \code{"_boxplots"} is appended to \code{name}.
+
+If \code{object} is a data frame, it is coerced to a \code{matrix} using \code{data.matrix}.
 }

@@ -23,7 +23,7 @@ test_that("error messages fires if duplicate p-value column names, or no p-value
   res.df2 <- cbind(res.df, First3.p = res.df[,"First3.p"])
   expect_error(signif_hist(tab=res.df2, plot=FALSE))
 
- # The test on line 28 isn't needed because extract_prefix will catch the lack of p-val columns before you hit this line.
-  #res.df3 <- res.df[,-c(3,7,11)] #removes all p-val columns
-  #expect_error(signif_hist(tab=res.df3, plot=FALSE))
+  # The test on line 28 isn't needed because extract_prefix will catch the lack of p-val columns before you hit this line.
+  # res.df3 <- res.df[,-c(3,7,11)] #removes all p-val columns
+  # expect_error(signif_hist(tab=res.df3, plot=FALSE))
 })

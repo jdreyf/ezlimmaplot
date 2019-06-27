@@ -7,6 +7,7 @@ test_that("nm", {
   expect_error(extract_prefix(nm=NULL))
   expect_equal(extract_prefix(nm=".p", suffix="p"), "")
   expect_error(extract_prefix(nm="_p", suffix="p"))
+  expect_error(expect_message(extract_prefix(nm="p")), NA)
 })
 
 test_that("suffix", {
@@ -29,6 +30,5 @@ test_that("sep", {
 })
 
 test_that("integration", {
-  expect_error(extract_prefix(nm="p", suffix="p"))
   expect_equal(extract_prefix(nm=c("x.p", "x.fdr"), suffix="p"), "x")
 })

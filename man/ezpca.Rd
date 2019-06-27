@@ -4,16 +4,17 @@
 \alias{ezpca}
 \title{PCA plot of top two components}
 \usage{
-ezpca(object, pheno.df, name = "pca", alpha = 1, all.size = NULL,
-  facet = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL, ...)
+ezpca(object, pheno.df = NULL, name = "pca", alpha = 1,
+  all.size = NULL, facet = NULL, title = NULL, subtitle = NULL,
+  rm.leg.title = FALSE, labels = FALSE, manual.color = NULL,
+  manual.shape = NULL, plot = TRUE, ...)
 }
 \arguments{
-\item{object}{Matrix-like object with samples as columns.}
+\item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{pheno.df}{Dataframe with rows as samples and columns as phenotypes.}
+\item{pheno.df}{Data frame with rows as samples and columns as phenotypes.}
 
-\item{name}{Name of PNG to write out. Set to \code{NA} to suppress writing to file.}
+\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{alpha}{Transparency, passed to \code{\link[ggplot2]{geom_point}}.}
 
@@ -22,15 +23,22 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{facet}{A formula with columns in \code{pheno.df} to facet by.}
 
+\item{title}{Title text; suppressed if it is \code{NULL}.}
+
+\item{subtitle}{Subtitle text; suppressed if it is \code{NULL} or \code{title} is \code{NULL}. If you'd like a
+\code{subtitle} but no \code{title}, set \code{title = ""}.}
+
 \item{rm.leg.title}{Logical indicating if legend title should be removed.}
 
-\item{labels}{Logical indicating if sample labels should be added next to points.}
+\item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
 
-\item{...}{Passed to \code{\link[ggplot2]{ggplot}} \code{aes_string} parameter.}
+\item{plot}{Logical; should plot be generated?}
+
+\item{...}{Passed to \code{\link[ggplot2:aes_]{aes_string}}.}
 }
 \value{
 Invisibly, first two principal components appended to \code{pheno.df}.
@@ -39,5 +47,6 @@ Invisibly, first two principal components appended to \code{pheno.df}.
 PCA plot of top two principal components using \code{ggplot2}.
 }
 \details{
-PCA is calculated with \code{\link[stats]{prcomp}}.
+PCA is calculated with \code{\link[stats]{prcomp}}. \code{object} must have colnames, and if \code{pheno.df}
+is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
 }
