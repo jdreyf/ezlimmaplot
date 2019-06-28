@@ -3,6 +3,7 @@
 language: r
 sudo: false
 cache: packages
+bioc_packages: limma
 r_github_packages: 
   - jdreyf/ezlimma
 # https://www.tidyverse.org/articles/2019/01/vdiffr-0-3-0/
