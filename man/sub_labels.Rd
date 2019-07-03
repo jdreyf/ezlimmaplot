@@ -2,14 +2,14 @@
 % Please edit documentation in R/sub_labels.R
 \name{sub_labels}
 \alias{sub_labels}
-\title{Replace names with non-missing labels}
+\title{Replace names with non-missing label.v}
 \usage{
-sub_labels(nms, labels, na.lab = c("---", ""))
+sub_labels(nms, label.v, na.lab = c("---", ""))
 }
 \arguments{
 \item{nms}{Vector of names, e.g. rownames.}
 
-\item{labels}{Vector of labels, e.g. \code{labrows}.}
+\item{label.v}{Vector of label.v, e.g. \code{labrows}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 }
@@ -17,5 +17,6 @@ sub_labels(nms, labels, na.lab = c("---", ""))
 Vector of replaced rownames; vector's names are rownames
 }
 \description{
-Replace names, esp. rownames, with non-missing labels.
+Replace names, esp. rownames, with non-missing label.v. \code{nms} and \code{label.v} must be of same length,
+and \code{nms} must not have \code{NA}s.
 }
