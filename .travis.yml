@@ -3,9 +3,12 @@
 language: r
 sudo: false
 cache: packages
+bioc_packages: limma
 r_github_packages: 
   - jdreyf/ezlimma
-  - r-lib/vdiffr
+# https://www.tidyverse.org/articles/2019/01/vdiffr-0-3-0/
+env:
+  - VDIFFR_RUN_TESTS=false
 before_install:
   - Rscript -e 'update.packages(ask = FALSE)'
 after_success:
