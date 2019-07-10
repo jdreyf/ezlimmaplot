@@ -1,5 +1,5 @@
 context("ezpca")
-
+if(FALSE) {
 test_that("ezpca", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
@@ -34,7 +34,7 @@ test_that("ezpca", {
 
   vdiffr::expect_doppelganger(title="pca.df", fig=ezp.df)
 })
-
+}
 test_that("ezpca without pheno", {
   expect_silent(ezp <- ezpca(M, labels = TRUE))
 })
