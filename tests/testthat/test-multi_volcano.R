@@ -1,5 +1,5 @@
 context("multi_volcano")
-if(FALSE) {
+if (get_os()!='osx') {
 test_that("vdiffr", {
   mvol <- multi_volcano(tab=res.df, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
                         ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol')

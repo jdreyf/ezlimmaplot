@@ -1,5 +1,5 @@
 context("ezvolcano")
-if(FALSE) {
+if (get_os()!='osx') {
 test_that("vdiffr", {
   ezvol <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                 cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"))

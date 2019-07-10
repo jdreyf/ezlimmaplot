@@ -1,5 +1,5 @@
 context("plot_by_grp")
-if(FALSE) {
+if (get_os()!='osx') {
 # need to name plot to avoid vdiffr error "svglite only supports one page"
 test_that("pbg", {
   pbg1 <- plot_by_grp(object=M["gene1",], grp=pheno$grp, ylab="Log2 abundance", add.se=TRUE, main="gene 1",

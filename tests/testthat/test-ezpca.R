@@ -1,5 +1,5 @@
 context("ezpca")
-if(FALSE) {
+if (get_os()!='osx'){
 test_that("ezpca", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
