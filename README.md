@@ -29,3 +29,8 @@ library(ezlimmaplot)
 browseVignettes(package="ezlimmaplot")
 ```
 and click on HTML.
+
+
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/TableauServerbyPackt/ezlimmaplot.svg?branch=master)](https://travis-ci.org/TableauServerbyPackt/ezlimmaplot)
+  <!-- badges: end -->
