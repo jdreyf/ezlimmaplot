@@ -1,6 +1,6 @@
 library(testthat)
 library(ezlimmaplot)
 
-Sys.setenv(NOT_CRAN="true")
+Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
 
 test_check("ezlimmaplot")
