@@ -1,3 +1,5 @@
+Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
+
 library(covr)
 library(testthat)
 library(vdiffr)
