@@ -101,10 +101,11 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
       if (min(feat.tab[, stat.colnm])<0 && max(feat.tab[, stat.colnm])>0){
         # use yellow in middle to distinguish NAs, which are grey
         ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1,
-                      limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))))
+                      limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))),
+                      guide = ggplot2::guide_colourbar(title=colorbar.nm))
       } else {
         ggg <- ggg + ggplot2::scale_colour_distiller(type="seq", palette = "Reds", direction = 1,
-                                                   limits=range(feat.tab[, stat.colnm]))
+                      limits=range(feat.tab[, stat.colnm]), guide = ggplot2::guide_colourbar(title=colorbar.nm))
       }
       graphics::plot(ggg)
     })
