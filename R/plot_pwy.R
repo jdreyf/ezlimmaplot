@@ -37,6 +37,7 @@
 # cannot infer graph from ker
 plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, name = NULL, colorbar.nm=stat.colnm,
                      alternative=c("two.sided", "greater", "less"), repel=FALSE, plot = TRUE, seed = 0){
+
   stopifnot(ncol(feat.tab)>=1, limma::isNumeric(feat.tab[, stat.colnm]), !is.null(colnames(feat.tab)),
             !is.null(rownames(feat.tab)), all(is.na(feat.tab[, stat.colnm]) | is.finite(feat.tab[, stat.colnm])),
             length(intersect(rownames(feat.tab), G.pwy$genes)) > 0, names(G.pwy)==c("name", "description", "genes"),
@@ -44,34 +45,31 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
             igraph::is_simple(gr), is.numeric(ntop), is.logical(repel), is.logical(plot), is.numeric(seed))
 
   pwy.nm <- G.pwy$name
-  if (ntop > nrow(feat.tab)) ntop <- nrow(feat.tab)
+  pwy.genes <- intersect(rownames(feat.tab), G.pwy$genes)
+  feat.pwy <- feat.tab[pwy.genes,]
+  if (ntop > nrow(feat.pwy)) ntop <- nrow(feat.pwy)
   if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
 
   # expand graph to include all features, even if they are isolated
-  new.v <- setdiff(G.pwy$genes, igraph::V(gr)$name)
+  new.v <- setdiff(pwy.genes, igraph::V(gr)$name)
   gr <- igraph::add_vertices(graph=gr, nv=length(new.v), name=new.v)
-
-  pwy.nodes <- G.pwy$genes
-  # look for 1st degree neighbors to plot
-  pwy.neighbors <- setdiff(neighbor_nms(gr, pwy.nodes), pwy.nodes)
 
   # want highest positive impact
   top.nodes <- switch(alternative,
-   greater = rownames(feat.tab)[order(feat.tab[, stat.colnm], decreasing = TRUE)][1:ntop],
-   two.sided = rownames(feat.tab)[order(abs(feat.tab[, stat.colnm]), decreasing = TRUE)][1:ntop],
-   less = rownames(feat.tab)[order(feat.tab[, stat.colnm], decreasing = FALSE)][1:ntop],
-  )
+   greater = rownames(feat.pwy)[order(feat.pwy[, stat.colnm], decreasing = TRUE)][1:ntop],
+   two.sided = rownames(feat.pwy)[order(abs(feat.pwy[, stat.colnm]), decreasing = TRUE)][1:ntop],
+   less = rownames(feat.pwy)[order(feat.pwy[, stat.colnm], decreasing = FALSE)][1:ntop])
 
-  # get neighbors
-  pwy.neighbors.ss <- intersect(pwy.neighbors, top.nodes)
+  # look for 1st degree neighbors to plot
+  # pwy.neighbors <- setdiff(neighbor_nms(gr, top.nodes), top.nodes)
+  # get neighbors in pwy of top nodes
+  # pwy.neighbors.ss <- intersect(pwy.neighbors, pwy.genes)
   # get pwy nodes with large stats OR pwy nodes connected to neighbors with large stats
-  pwy.nodes.ss <- union(intersect(pwy.nodes, top.nodes),
-                        intersect(pwy.nodes, neighbor_nms(gr, pwy.neighbors.ss)))
-
-  gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% c(pwy.nodes.ss, pwy.neighbors.ss)))
+  pwy.nodes.ss <- union(top.nodes, intersect(pwy.genes, neighbor_nms(gr, top.nodes)))
+  # add edges
+  gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% pwy.nodes.ss))
 
   gg.pwy <- tidygraph::as_tbl_graph(gr.pwy) %>%
-    dplyr::mutate(Pathway = c("outside", "inside")[(igraph::V(gr.pwy)$name %in% pwy.nodes)+1])  %>%
     dplyr::mutate(!!stat.colnm := feat.tab[igraph::V(gr.pwy)$name, stat.colnm])
 
   # sub V(gg.pwy)$name w/ feat.tab[,2]
@@ -94,18 +92,20 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
       ggg <- ggraph::ggraph(gg.pwy, layout = "nicely") + ggraph::geom_edge_link() +
         ggraph::theme_graph(base_family = "sans") +
         ggplot2::guides(shape = ggplot2::guide_legend(override.aes = list(size=4))) +
-        ggraph::geom_node_point(mapping=ggplot2::aes(shape=Pathway, color = !!rlang::ensym(stat.colnm)), size=12) +
+        ggraph::geom_node_point(mapping=ggplot2::aes(color = !!rlang::ensym(stat.colnm)), size=12) +
         ggraph::geom_node_text(mapping=ggplot2::aes(label=I(name)), repel = repel)
+
+      # colorbar title
+      guide <- ggplot2::guide_colourbar(title=colorbar.nm, title.theme=ggplot2::element_text(face="bold", size=16))
 
       # creates common lim using all feat.tab[, stat.colnm], so pwys have consistent colorbar
       if (min(feat.tab[, stat.colnm])<0 && max(feat.tab[, stat.colnm])>0){
         # use yellow in middle to distinguish NAs, which are grey
-        ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1,
-                      limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))),
-                      guide = ggplot2::guide_colourbar(title=colorbar.nm))
+        ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1, guide=guide,
+                      limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))))
       } else {
-        ggg <- ggg + ggplot2::scale_colour_distiller(type="seq", palette = "Reds", direction = 1,
-                      limits=range(feat.tab[, stat.colnm]), guide = ggplot2::guide_colourbar(title=colorbar.nm))
+        ggg <- ggg + ggplot2::scale_colour_distiller(type="seq", palette = "Reds", direction = 1, guide=guide,
+                      limits=range(feat.tab[, stat.colnm]))
       }
       graphics::plot(ggg)
     })
