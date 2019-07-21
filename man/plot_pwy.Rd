@@ -5,8 +5,8 @@
 \title{Plot network diagram for a pathway}
 \usage{
 plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.col = NULL, ntop = 7,
-  name = NULL, repel = FALSE, alternative = c("two.sided", "greater",
-  "less"), plot = TRUE, seed = 0)
+  name = NULL, colorbar.nm = stat.colnm, alternative = c("two.sided",
+  "greater", "less"), repel = FALSE, plot = TRUE, seed = 0)
 }
 \arguments{
 \item{feat.tab}{Matrix-like object for all analytes with rownames as analyte names, which should
@@ -29,10 +29,12 @@ for consistency across pathway visualizations. 1st column name used as stat desc
 \item{name}{Name of file to plot to. If \code{NULL}, a filename is created using \code{colnames(Gmat.pwy)[1]}.
 Set to \code{NA} to plot to screen instead of to file.}
 
-\item{repel}{Logcal; use the repel functionality from \pkg{ggrepel} to avoid overlapping text?}
+\item{colorbar.nm}{Title of color bar.}
 
 \item{alternative}{Alternative hypothesis; must be one of \code{"two.sided"}, \code{"greater"} or \code{"less"}. 
 \code{"greater"} corresponds to positive association, \code{"less"} to negative association.}
+
+\item{repel}{Logcal; use the repel functionality from \pkg{ggrepel} to avoid overlapping text?}
 
 \item{plot}{Logical; should plot be generated?}
 

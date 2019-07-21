@@ -17,6 +17,7 @@
 #' @param ntop Number of top impactful analytes to plot. Their network neighbors may also be included.
 #' @param name Name of file to plot to. If \code{NULL}, a filename is created using \code{colnames(Gmat.pwy)[1]}.
 #' Set to \code{NA} to plot to screen instead of to file.
+#' @param colorbar.nm Title of color bar.
 #' @param repel Logcal; use the repel functionality from \pkg{ggrepel} to avoid overlapping text?
 #' @param plot Logical; should plot be generated?
 #' @inheritParams ezlimma::roast_contrasts
@@ -34,16 +35,16 @@
 # do not calculate redundantly to p(h)
 # check if data 2-sided instead of alternative, which may be diff than used in p(h), so confusing
 # cannot infer graph from ker
-plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, name = NULL, repel=FALSE,
-                     alternative=c("two.sided", "greater", "less"), plot = TRUE, seed = 0){
-  stopifnot(ncol(feat.tab)>=1, limma::isNumeric(feat.tab[,1]), !is.null(colnames(feat.tab)),
-            !is.null(rownames(feat.tab)), all(is.na(feat.tab[,1]) | is.finite(feat.tab[,1])),
-            length(intersect(rownames(feat.tab), G.pwy)) > 0, names(G.pwy)==c("name", "description", "genes"),
-            impact.col %in% colnames(feat.tab), annot.col %in% colnames(feat.tab),
+plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, name = NULL, colorbar.nm=stat.colnm,
+                     alternative=c("two.sided", "greater", "less"), repel=FALSE, plot = TRUE, seed = 0){
+  stopifnot(ncol(feat.tab)>=1, limma::isNumeric(feat.tab[, stat.colnm]), !is.null(colnames(feat.tab)),
+            !is.null(rownames(feat.tab)), all(is.na(feat.tab[, stat.colnm]) | is.finite(feat.tab[, stat.colnm])),
+            length(intersect(rownames(feat.tab), G.pwy$genes)) > 0, names(G.pwy)==c("name", "description", "genes"),
+            stat.colnm %in% colnames(feat.tab), annot.col %in% colnames(feat.tab),
             igraph::is_simple(gr), is.numeric(ntop), is.logical(repel), is.logical(plot), is.numeric(seed))
 
   pwy.nm <- G.pwy$name
-  if (ntop > nrow(feat.tab)) ntop <- nrow(impact.tab)
+  if (ntop > nrow(feat.tab)) ntop <- nrow(feat.tab)
   if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
 
   # expand graph to include all features, even if they are isolated
@@ -71,7 +72,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
 
   gg.pwy <- tidygraph::as_tbl_graph(gr.pwy) %>%
     dplyr::mutate(Pathway = c("outside", "inside")[(igraph::V(gr.pwy)$name %in% pwy.nodes)+1])  %>%
-    dplyr::mutate(!!stat.colnm := feat.tab[igraph::V(gr.pwy)$name, 1])
+    dplyr::mutate(!!stat.colnm := feat.tab[igraph::V(gr.pwy)$name, stat.colnm])
 
   # sub V(gg.pwy)$name w/ feat.tab[,2]
   if (!is.null(annot.col) && any(!is.na(feat.tab[, annot.col]))){
@@ -96,14 +97,14 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
         ggraph::geom_node_point(mapping=ggplot2::aes(shape=Pathway, color = !!rlang::ensym(stat.colnm)), size=12) +
         ggraph::geom_node_text(mapping=ggplot2::aes(label=I(name)), repel = repel)
 
-      # creates common lim using all feat.tab[,1], so pwys have consistent colorbar
-      if (min(feat.tab[,1])<0 && max(feat.tab[,1])>0){
+      # creates common lim using all feat.tab[, stat.colnm], so pwys have consistent colorbar
+      if (min(feat.tab[, stat.colnm])<0 && max(feat.tab[, stat.colnm])>0){
         # use yellow in middle to distinguish NAs, which are grey
         ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1,
-                                                     limits=c(-max(abs(feat.tab[,1])), max(abs(feat.tab[,1]))))
+                      limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))))
       } else {
         ggg <- ggg + ggplot2::scale_colour_distiller(type="seq", palette = "Reds", direction = 1,
-                                                   limits=range(feat.tab[,1]))
+                                                   limits=range(feat.tab[, stat.colnm]))
       }
       graphics::plot(ggg)
     })
