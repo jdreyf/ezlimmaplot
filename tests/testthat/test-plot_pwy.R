@@ -3,13 +3,13 @@ context("plot_pwy")
 test_that("returned object", {
   # tbl_graph is subclass of `igraph`
   # vertex a is most significant or tied
-  expect_gte(V(pp)$EMY.z[match("a", V(pp)$name)], max(V(pp)$EMY.z[-match("a", V(pp)$name)]))
+  expect_gte(V(pp)$EMY.z[match("A", V(pp)$name)], max(V(pp)$EMY.z[-match("A", V(pp)$name)]))
 })
 
 test_that("ntop & seed", {
   pp2 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.z", annot.col = "symbol",
                  gr=gr, name = NA, colorbar.nm = "z", ntop = 3, seed = 0, plot = T, alternative="greater")
-  expect_equal(names(V(pp2)), c("a", "b"))
+  expect_equal(names(V(pp2)), c("A", "B"))
 })
 
 test_that("annot vdiffr", {

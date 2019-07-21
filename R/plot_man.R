@@ -7,7 +7,7 @@
 #' @inheritParams plot_by_grp
 #' @inheritParams ezlimma::lotman
 #' @inheritParams ezlimma::hitman
-#' @return Invisibly, a \code{ggplot} object from the last row of \code{M} that was plotted.
+#' @return Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted.
 #' @export
 
 plot_man <- function(E, M, Y, name="top_mediators", main.v="", xlab = "Log2 abundance",  ylab="Outcome",

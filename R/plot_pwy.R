@@ -77,8 +77,8 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
   # sub V(gg.pwy)$name w/ feat.tab[,2]
   if (!is.null(annot.col) && any(!is.na(feat.tab[, annot.col]))){
     na.annot <- is.na(feat.tab[, annot.col])
-    feat.tab[na.annot, annot.col] <- names(feat.tab[na.annot, annot.col])
-    nms.int <- intersect(names(feat.tab[, annot.col]), igraph::V(gg.pwy)$name)
+    feat.tab[na.annot, annot.col] <- rownames(feat.tab[na.annot,])
+    nms.int <- intersect(rownames(feat.tab), igraph::V(gg.pwy)$name)
     if (length(nms.int) > 0){
       igraph::V(gg.pwy)$name[match(nms.int, igraph::V(gg.pwy)$name)] <- feat.tab[nms.int, annot.col]
     }

@@ -29,7 +29,7 @@ plot_man(E, M, Y, name = "top_mediators", main.v = "",
 \code{\link[ggplot2:scale_manual]{scale_color_manual}}.}
 }
 \value{
-Invisibly, a \code{ggplot} object from the last row of \code{M} that was plotted.
+Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted.
 }
 \description{
 Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[ezlimma]{lotman}} &
