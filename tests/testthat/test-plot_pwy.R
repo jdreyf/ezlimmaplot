@@ -1,5 +1,7 @@
 context("plot_pwy")
 
+# set plot=T to test more of the fcn, since teardown rm PDFs
+
 test_that("returned object", {
   # tbl_graph is subclass of `igraph`
   # vertex a is most significant or tied
@@ -7,8 +9,10 @@ test_that("returned object", {
 })
 
 test_that("ntop & seed", {
+  expect_error(plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.z", annot.col = "symbol",
+           gr=gr, name = NA, colorbar.nm = "z", ntop = 1, seed = 0, plot = F, alternative="greater"))
   pp2 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.z", annot.col = "symbol",
-                 gr=gr, name = NA, colorbar.nm = "z", ntop = 1, seed = 0, plot = T, alternative="greater")
+                  gr=gr, name = NA, colorbar.nm = "z", ntop = 2, seed = 0, plot = T, alternative="greater")
   expect_equal(names(V(pp2)), c("A", "B"))
 })
 
@@ -19,20 +23,20 @@ test_that("annot vdiffr", {
     c("abijabee3.4", "abijabee3-_4", "oh-not-so-Much")
 
   pp.ann <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z",
-                     gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = F, alternative="greater")
+                     gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = T, alternative="greater")
   # only returns genes in pwy
   expect_equal(sort(V(pp.ann)$name), c("abijabee3-_4", "abijabee3.4", "oh-not-so-Much"))
 })
 
-test_that("non-NA annot does not override feature name", {
+test_that("non-NA annot overrides feature name", {
   feat.tab["a", "symbol"] <- "abijabee3.4"
   pp.ann2 <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z",
-                      gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = FALSE, alternative="greater")
+                      gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = T, alternative="greater")
   expect_equal(names(pp.ann2[[1]]), "a")
 })
 
-test_that("analyte in G & not feat.tab & connected to top.nodes is in plot", {
+test_that("analyte in G & not feat.tab & connected to top.nodes in plot, but nodes already connected", {
   pp.na <- plot_pwy(feat.tab = feat.tab[-1,], G.pwy = G.pwy, stat.colnm = "EMY.z",
                     gr=gr, name = NA, colorbar.nm = "z", ntop = 3, seed = 1, plot = T, alternative="greater")
-  expect_true("a" %in% names(pp.na[[1]]))
+  expect_false("a" %in% names(pp.na[[1]]))
 })

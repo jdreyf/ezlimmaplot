@@ -14,7 +14,7 @@
 #' @param stat.colnm Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.
 #' @param annot.col Column index or name in \code{feat.tab} of annotations to replace \code{rownames(G.pwy)}.
 #' \code{NA}s in \code{annot.col} are ignored, and these nodes retain their rowname as a label.
-#' @param ntop Number of top impactful analytes to plot. Their network neighbors may also be included.
+#' @param ntop Number of top impactful analytes to plot, >=2. Their network neighbors may also be included.
 #' @param name Name of file to plot to. If \code{NULL}, a filename is created using \code{colnames(Gmat.pwy)[1]}.
 #' Set to \code{NA} to plot to screen instead of to file.
 #' @param colorbar.nm Title of color bar.
@@ -42,7 +42,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
             !is.null(rownames(feat.tab)), all(is.na(feat.tab[, stat.colnm]) | is.finite(feat.tab[, stat.colnm])),
             length(intersect(rownames(feat.tab), G.pwy$genes)) > 0, names(G.pwy)==c("name", "description", "genes"),
             stat.colnm %in% colnames(feat.tab), annot.col %in% colnames(feat.tab),
-            igraph::is_simple(gr), is.numeric(ntop), is.logical(repel), is.logical(plot), is.numeric(seed))
+            igraph::is_simple(gr), is.numeric(ntop), ntop>=2, is.logical(repel), is.logical(plot), is.numeric(seed))
 
   pwy.nm <- G.pwy$name
   pwy.genes <- intersect(rownames(feat.tab), G.pwy$genes)
@@ -50,29 +50,37 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
   if (ntop > nrow(feat.pwy)) ntop <- nrow(feat.pwy)
   if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
 
-  # genes in pwy & gr but are NA; could help connect pwy
-  pwy.na.genes <- setdiff(intersect(G.pwy$genes, igraph::V(gr)$name), pwy.genes)
-
-  # expand graph to include all features, even if they are isolated
-  new.v <- setdiff(pwy.genes, igraph::V(gr)$name)
-  gr <- igraph::add_vertices(graph=gr, nv=length(new.v), name=new.v)
-
   # want highest impact
   top.nodes <- switch(alternative,
    greater = rownames(feat.pwy)[order(feat.pwy[, stat.colnm], decreasing = TRUE)][1:ntop],
    two.sided = rownames(feat.pwy)[order(abs(feat.pwy[, stat.colnm]), decreasing = TRUE)][1:ntop],
    less = rownames(feat.pwy)[order(feat.pwy[, stat.colnm], decreasing = FALSE)][1:ntop])
 
-  # look for 1st degree neighbors to plot
-  # pwy.neighbors <- setdiff(neighbor_nms(gr, top.nodes), top.nodes)
-  # get neighbors in pwy of top nodes
-  # pwy.neighbors.ss <- intersect(pwy.neighbors, pwy.genes)
-  # get pwy nodes with large stats OR pwy nodes connected to neighbors with large stats
+  # expand graph to include all features, even if they are isolated
+  missing.v <- setdiff(pwy.genes, igraph::V(gr)$name)
+  gr <- igraph::add_vertices(graph=gr, nv=length(missing.v), name=missing.v)
 
-  # inc NAs connected to top nodes
-  pwy.nodes.ss <- union(top.nodes, intersect(c(pwy.genes, pwy.na.genes), neighbor_nms(gr, top.nodes)))
   # add edges
-  gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% pwy.nodes.ss))
+  gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% top.nodes))
+
+  top.neighbors <- neighbor_nms(gr, top.nodes)
+  pwy.gene.neighbors <- intersect(pwy.genes, top.neighbors)
+  # inc genes in pwy & gr but are NA; could help connect pwy
+  pwy.na.genes <- setdiff(intersect(G.pwy$genes, igraph::V(gr)$name), pwy.genes)
+  pwy.na.gene.neighbors <- intersect(pwy.na.genes, top.neighbors)
+
+  n.comp <- igraph::components(gr.pwy)$no
+  if (n.comp > 1){
+    n.add <- min(floor(sqrt(n.comp)), length(pwy.na.gene.neighbors))
+    # what na nodes reduce n.comp most?
+    new.ncomp <- apply(as.matrix(c(pwy.gene.neighbors, pwy.na.gene.neighbors)), MARGIN=1, FUN=function(xx){
+      igraph::components(igraph::induced_subgraph(gr, vid=union(top.nodes, xx)))$no
+    })
+    names(new.ncomp) <- c(pwy.gene.neighbors, pwy.na.gene.neighbors)
+    # accounts for order of analytes, which accounts for non-NA or NA
+    central.v <- names(new.ncomp)[order(new.ncomp)][1:n.add]
+    gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% c(top.nodes, central.v)))
+  }
 
   gg.pwy <- tidygraph::as_tbl_graph(gr.pwy) %>%
     dplyr::mutate(!!stat.colnm := feat.tab[igraph::V(gr.pwy)$name, stat.colnm])
@@ -104,7 +112,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
       guide <- ggplot2::guide_colourbar(title=colorbar.nm, title.theme=ggplot2::element_text(face="bold", size=16))
 
       # creates common lim using all feat.tab[, stat.colnm], so pwys have consistent colorbar
-      if (min(feat.tab[, stat.colnm])<0 && max(feat.tab[, stat.colnm])>0){
+      if (min(feat.tab[, stat.colnm], na.rm = TRUE)<0 && max(feat.tab[, stat.colnm], na.rm = TRUE)>0){
         # use yellow in middle to distinguish NAs, which are grey
         ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1, guide=guide,
                       limits=c(-max(abs(feat.tab[, stat.colnm])), max(abs(feat.tab[, stat.colnm]))))

@@ -45,7 +45,6 @@ pheno.num <- Y
 pheno.chr <- rep(c("trt1", "trt2", "ctrl"), times=3)
 hm <- ezlimma::hitman(M=object, Y=Y, E=E)
 hm$symbol <- toupper(rownames(hm))
-hm$EMY.z <- stats::qnorm(hm$EMY.p, lower.tail = FALSE)
 
 gmt <- list(pwy1=list(name="pwy1", description="pwy1", genes=c("a", "b", "c")),
             pwy2=list(name="pwy2", description="pwy2", genes=c("b", "c", "d")))

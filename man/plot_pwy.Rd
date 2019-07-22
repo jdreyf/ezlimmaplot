@@ -24,7 +24,7 @@ for consistency across pathway visualizations. 1st column name used as stat desc
 \item{annot.col}{Column index or name in \code{feat.tab} of annotations to replace \code{rownames(G.pwy)}.
 \code{NA}s in \code{annot.col} are ignored, and these nodes retain their rowname as a label.}
 
-\item{ntop}{Number of top impactful analytes to plot. Their network neighbors may also be included.}
+\item{ntop}{Number of top impactful analytes to plot, >=2. Their network neighbors may also be included.}
 
 \item{name}{Name of file to plot to. If \code{NULL}, a filename is created using \code{colnames(Gmat.pwy)[1]}.
 Set to \code{NA} to plot to screen instead of to file.}
