@@ -50,11 +50,14 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
   if (ntop > nrow(feat.pwy)) ntop <- nrow(feat.pwy)
   if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
 
+  # genes in pwy & gr but are NA; could help connect pwy
+  pwy.na.genes <- setdiff(intersect(G.pwy$genes, igraph::V(gr)$name), pwy.genes)
+
   # expand graph to include all features, even if they are isolated
   new.v <- setdiff(pwy.genes, igraph::V(gr)$name)
   gr <- igraph::add_vertices(graph=gr, nv=length(new.v), name=new.v)
 
-  # want highest positive impact
+  # want highest impact
   top.nodes <- switch(alternative,
    greater = rownames(feat.pwy)[order(feat.pwy[, stat.colnm], decreasing = TRUE)][1:ntop],
    two.sided = rownames(feat.pwy)[order(abs(feat.pwy[, stat.colnm]), decreasing = TRUE)][1:ntop],
@@ -65,7 +68,9 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.col=NULL, ntop = 7, 
   # get neighbors in pwy of top nodes
   # pwy.neighbors.ss <- intersect(pwy.neighbors, pwy.genes)
   # get pwy nodes with large stats OR pwy nodes connected to neighbors with large stats
-  pwy.nodes.ss <- union(top.nodes, intersect(pwy.genes, neighbor_nms(gr, top.nodes)))
+
+  # inc NAs connected to top nodes
+  pwy.nodes.ss <- union(top.nodes, intersect(c(pwy.genes, pwy.na.genes), neighbor_nms(gr, top.nodes)))
   # add edges
   gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% pwy.nodes.ss))
 

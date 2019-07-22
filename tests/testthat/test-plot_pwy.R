@@ -31,8 +31,8 @@ test_that("non-NA annot does not override feature name", {
   expect_equal(names(pp.ann2[[1]]), "a")
 })
 
-test_that("analyte in G & but not feat.tab", {
+test_that("analyte in G & not feat.tab & connected to top.nodes is in plot", {
   pp.na <- plot_pwy(feat.tab = feat.tab[-1,], G.pwy = G.pwy, stat.colnm = "EMY.z",
-                    gr=gr, name = NA, colorbar.nm = "z", ntop = 3, seed = 1, plot = FALSE, alternative="greater")
-  expect_false("a" %in% names(pp.na[[1]]))
+                    gr=gr, name = NA, colorbar.nm = "z", ntop = 3, seed = 1, plot = T, alternative="greater")
+  expect_true("a" %in% names(pp.na[[1]]))
 })
