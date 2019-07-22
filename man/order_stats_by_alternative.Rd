@@ -4,10 +4,12 @@
 \alias{order_stats_by_alternative}
 \title{Order values based on alternative hypothesis}
 \usage{
-order_stats_by_alternative(stat.v, alternative)
+order_stats_by_alternative(stat.v, alternative = c("two.sided",
+  "greater", "less"))
 }
 \arguments{
-\item{stat.v}{Numeric vector of statistics to order; preferably a named vector.}
+\item{stat.v}{Numeric vector of statistics to order; preferably with names. May include \code{NA}s, which are
+last in \code{\link{order}}.}
 
 \item{alternative}{Alternative hypothesis; must be one of \code{"two.sided"}, \code{"greater"} or \code{"less"}. 
 \code{"greater"} corresponds to positive association, \code{"less"} to negative association.}
