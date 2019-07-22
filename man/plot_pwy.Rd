@@ -4,7 +4,7 @@
 \alias{plot_pwy}
 \title{Plot network diagram for a pathway}
 \usage{
-plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.col, ntop = 7,
+plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7,
   name = NULL, colorbar.nm = stat.colnm, alternative = c("two.sided",
   "greater", "less"), repel = FALSE, plot = TRUE, seed = 0)
 }
@@ -21,8 +21,8 @@ have some overlap with \code{G.pwy$genes}.}
 Stats should be finite unless they are \code{NA}. Stats for all nodes are used to define color scale,
 for consistency across pathway visualizations.}
 
-\item{annot.col}{Column index or name in \code{feat.tab} of annotations to replace \code{rownames(G.pwy)}.
-\code{NA}s in \code{annot.col} are ignored, and these nodes retain their rowname as a label.}
+\item{annot.colnm}{Column name in \code{feat.tab} of node names to possibly replace \code{rownames(feat.tab)}.
+Set this column to be \code{rownames(feat.tab)} if these are desired node names. Must not be \code{NA}.}
 
 \item{ntop}{Number of top impactful analytes to plot, >=2. Their network neighbors may also be included.}
 
@@ -50,7 +50,7 @@ Plot nodes most impacting a pathway as a network diagram with node color corresp
 The most impactful nodes are inferred by assuming the input here is the same as
 was used to calculate pathway significance. The \code{feat.tab} is assumed to have all nodes to consider
 for plotting. Including nodes with \code{NA} stats allows these to be included in networks as a connector.
-An \code{annot.col} should have preferred labels for all nodes.
+An \code{annot.colnm} should have preferred labels for all nodes.
 }
 \details{
 Unmeasured nodes have stat of \code{NA} and are drawn gray.

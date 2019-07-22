@@ -6,5 +6,7 @@
 #' @inheritParams plot_pwy
 
 neighbor_nms <- function(gr, nodes){
-  return(igraph::V(gr)$name[unlist(igraph::ego(gr, order=1, match(nodes, igraph::V(gr)$name)))])
+  nn <- igraph::V(gr)$name[unlist(igraph::ego(gr, order=1, match(nodes, igraph::V(gr)$name)))]
+  nn <- setdiff(nn, nodes)
+  return(nn)
 }
