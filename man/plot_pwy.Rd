@@ -4,22 +4,22 @@
 \alias{plot_pwy}
 \title{Plot network diagram for a pathway}
 \usage{
-plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.col = NULL, ntop = 7,
+plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.col, ntop = 7,
   name = NULL, colorbar.nm = stat.colnm, alternative = c("two.sided",
   "greater", "less"), repel = FALSE, plot = TRUE, seed = 0)
 }
 \arguments{
 \item{feat.tab}{Matrix-like object for all analytes with rownames as analyte names, which should
-have some overlap with \code{G.pwy$genes}. 1st column with stats.
-Stats should be finite unless they are \code{NA}. Stats for all nodes are used to define color scale,
-for consistency across pathway visualizations. 1st column name used as stat descriptor in plot.}
+have some overlap with \code{G.pwy$genes}.}
 
 \item{G.pwy}{Element of list object \code{G} used in \pkg{ezlimma} or \pkg{{Pame}}. Should have elements
 \code{name}, \code{description}, \code{genes}. Accessible via \code{G[[pathway.name]]}.}
 
 \item{gr}{graph object of class \code{igraph}.}
 
-\item{stat.colnm}{Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.}
+\item{stat.colnm}{Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.
+Stats should be finite unless they are \code{NA}. Stats for all nodes are used to define color scale,
+for consistency across pathway visualizations.}
 
 \item{annot.col}{Column index or name in \code{feat.tab} of annotations to replace \code{rownames(G.pwy)}.
 \code{NA}s in \code{annot.col} are ignored, and these nodes retain their rowname as a label.}
@@ -48,7 +48,9 @@ Invisibly, a \code{\link[tidygraph]{tbl_graph}}, a subclass of
 \description{
 Plot nodes most impacting a pathway as a network diagram with node color corresponding to z-score.
 The most impactful nodes are inferred by assuming the input here is the same as
-was used to calculate pathway significance.
+was used to calculate pathway significance. The \code{feat.tab} is assumed to have all nodes to consider
+for plotting. Including nodes with \code{NA} stats allows these to be included in networks as a connector.
+An \code{annot.col} should have preferred labels for all nodes.
 }
 \details{
 Unmeasured nodes have stat of \code{NA} and are drawn gray.

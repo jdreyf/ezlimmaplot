@@ -18,11 +18,8 @@ test_that("ntop & seed", {
 
 test_that("annot vdiffr", {
   abc <- c("a", "b", "c")
-  V(gr)$name[match(abc, V(gr)$name)] <- rownames(feat.tab)[match(abc, rownames(feat.tab))] <-
-    G.pwy$genes[match(abc, G.pwy$genes)] <-
-    c("abijabee3.4", "abijabee3-_4", "oh-not-so-Much")
-
-  pp.ann <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z",
+  feat.tab[abc, "symbol"] <- c("abijabee3.4", "abijabee3-_4", "oh-not-so-Much")
+  pp.ann <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z", annot.col = "symbol",
                      gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = T, alternative="greater")
   # only returns genes in pwy
   expect_equal(sort(V(pp.ann)$name), c("abijabee3-_4", "abijabee3.4", "oh-not-so-Much"))
@@ -30,13 +27,16 @@ test_that("annot vdiffr", {
 
 test_that("non-NA annot overrides feature name", {
   feat.tab["a", "symbol"] <- "abijabee3.4"
-  pp.ann2 <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z",
+  pp.ann2 <- plot_pwy(feat.tab = feat.tab, G.pwy = G.pwy, stat.colnm = "EMY.z", annot.col = "symbol",
                       gr=gr, name = NA, colorbar.nm = "z", ntop = 7, seed = 1, plot = T, alternative="greater")
-  expect_equal(names(pp.ann2[[1]]), "a")
+  expect_equal(V(pp.ann2)$name[1], feat.tab["a", "symbol"])
 })
 
 test_that("analyte in G & not feat.tab & connected to top.nodes in plot, but nodes already connected", {
-  pp.na <- plot_pwy(feat.tab = feat.tab[-1,], G.pwy = G.pwy, stat.colnm = "EMY.z",
-                    gr=gr, name = NA, colorbar.nm = "z", ntop = 3, seed = 1, plot = T, alternative="greater")
-  expect_false("a" %in% names(pp.na[[1]]))
+  ft <- feat.tab
+  ft["b", "EMY.z"] <- NA
+  pp.na <- plot_pwy(feat.tab = ft, G.pwy = G.pwy, stat.colnm = "EMY.z",
+                    annot.col = "symbol", gr=gr, name = NA, colorbar.nm = "z", ntop = 2, seed = 1,
+                    plot = T, alternative="greater")
+  expect_true("B" %in% V(pp.na)$name)
 })
