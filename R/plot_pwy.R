@@ -56,7 +56,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
   gr <- igraph::add_vertices(graph=gr, nv=length(missing.v), name=missing.v)
   gr.pwy <- igraph::induced_subgraph(gr, vid=which(igraph::V(gr)$name %in% G.pwy$genes))
 
-  top.nodes <- order_stats_by_alternative(stat.v = setNames(feat.tab[G.pwy$genes, stat.colnm], nm=G.pwy$genes),
+  top.nodes <- order_stats_by_alternative(stat.v = stats::setNames(feat.tab[G.pwy$genes, stat.colnm], nm=G.pwy$genes),
                                           alternative=alternative)
 
   gr.pwy.top <- igraph::induced_subgraph(gr.pwy, names(top.nodes)[1:ntop])
@@ -66,14 +66,15 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
     # order nodes w/ lowest eigen centrality to avoid h20, atp, ...
     ec <- igraph::eigen_centrality(gr)$vector
     # NAs are ordered last
-    candidate.nodes <- igraph::V(gr.pwy)$name[order(-feat.tab[V(gr.pwy)$name, stat.colnm], ec[V(gr.pwy)$name])]
+    candidate.nodes <- igraph::V(gr.pwy)$name[order(-feat.tab[igraph::V(gr.pwy)$name, stat.colnm],
+                                                    ec[igraph::V(gr.pwy)$name])]
     n.add <- min(floor(sqrt(n.comp)), length(candidate.nodes))
 
     # want 2nd added node to reduce n.comp more, etc.
     while (n.comp > 1 && n.add > 0){
       # what na nodes reduce n.comp most?
       new.ncomp <- apply(as.matrix(candidate.nodes), MARGIN=1, FUN=function(xx){
-        igraph::components(igraph::induced_subgraph(gr.pwy, vid=union(V(gr.pwy.top)$name, xx)))$no
+        igraph::components(igraph::induced_subgraph(gr.pwy, vid=union(igraph::V(gr.pwy.top)$name, xx)))$no
       })
       names(new.ncomp) <- candidate.nodes
       # only want those that reduce n.comp
@@ -90,8 +91,8 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
   }
 
   gg.pwy <- tidygraph::as_tbl_graph(gr.pwy.top) %>%
-    dplyr::mutate(!!stat.colnm := feat.tab[V(gr.pwy.top)$name, stat.colnm]) %>%
-    dplyr::mutate(!!annot.colnm := feat.tab[V(gr.pwy.top)$name, annot.colnm])
+    dplyr::mutate(!!stat.colnm := feat.tab[igraph::V(gr.pwy.top)$name, stat.colnm]) %>%
+    dplyr::mutate(!!annot.colnm := feat.tab[igraph::V(gr.pwy.top)$name, annot.colnm])
 
   if (plot){
     if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
@@ -105,7 +106,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
         ggraph::theme_graph(base_family = "sans") +
         ggplot2::guides(shape = ggplot2::guide_legend(override.aes = list(size=4))) +
         ggraph::geom_node_point(mapping=ggplot2::aes(color = !!rlang::ensym(stat.colnm)), size=12) +
-        ggraph::geom_node_text(mapping=ggplot2::aes(label = !!rlang::ensym(annot.colnm)), repel = repel)
+        ggraph::geom_node_text(mapping=ggplot2::aes(label = !!rlang::ensym(annot.colnm)), repel = repel, size=6)
 
       # colorbar title
       guide <- ggplot2::guide_colourbar(title=colorbar.nm, title.theme=ggplot2::element_text(face="bold", size=16))
