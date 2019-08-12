@@ -5,8 +5,8 @@
 #'
 #' @inheritParams ezheat
 #' @inheritParams plot_by_grp
-#' @inheritParams ezlimma::lotman
-#' @inheritParams ezlimma::hitman
+#' @inheritParams Hitman::lotman
+#' @inheritParams Hitman::hitman
 #' @return Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted.
 #' @export
 

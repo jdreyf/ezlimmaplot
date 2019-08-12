@@ -13,6 +13,7 @@ Imports:
 	ggraph,
 	graphics,
 	grDevices,
+	Hitman,
 	igraph (>= 1.0.0),
 	knitr,
 	limma (>= 3.34.8),
