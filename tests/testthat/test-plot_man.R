@@ -6,7 +6,7 @@ test_that("plot man vdiffr", {
 })
 
 test_that("plot man non-vdiffr", {
-  pm <- plot_man(E=grp, M=M[1,,drop=FALSE], Y=pheno$covar_num, ylab = "Covar", name=NA)
+  pm <- plot_man(E=grp, M=M[1,,drop=FALSE], Y=pheno$covar_num, ylab = "Covar")
   # test pm$data: To check the location of the point
   expect_equal(pm$data["sample4", "Exprs"], M["gene1", "sample4"])
   # test pm$data
