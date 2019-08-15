@@ -56,6 +56,7 @@ test_that("non-vdiffr", {
   expect_equal(ezvol2$data["gene12","First3.logFC"], res.df["gene12","First3.logFC"])
   #Validating the location of geompoint
   expect_is(ezvol2$layers[[1]], "gg")
+  expect_equal(ggplot2::ggplot_build(ezvol2)$data[[1]]$colour, "green")
   expect_null(ezvol2$layers[[1]]$geom$objname)
   expect_null(ezvol2$layers[[1]]$stat$objname)
   expect_null(ezvol2$labels$label)
