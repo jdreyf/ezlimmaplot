@@ -1,7 +1,7 @@
 #' Plot mediation exposure, mediator, and outcome per mediator
 #'
-#' Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[ezlimma]{lotman}} &
-#' \code{\link[ezlimma]{hitman}}, using \pkg{ggplot2}.
+#' Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[Hitman]{lotman}} &
+#' \code{\link[Hitman]{hitman}}, using \pkg{ggplot2}.
 #'
 #' @inheritParams ezheat
 #' @inheritParams plot_by_grp
