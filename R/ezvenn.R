@@ -10,6 +10,11 @@
 #' @param fdr.cutoff FDR cutoff to threshold features in \code{tab}. FDRs < \code{fdr.cutoff} are significant.
 #' @param logfc.cutoff log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came from
 #' \code{\link[ezlimma]{limma_contrasts}}.
+#' @param include Character vector. If \code{logFC} columns are found, this specifies whether all differentially
+#' expressed genes should be counted, or whether the counts should be restricted to genes changing in a certain direction.
+#' Choices are "both" for all differentially expressed genes, "up" for up-regulated genes only or
+#' "down" for down-regulated genes only. If include=c("up","down") then both the up and down counts will be shown.
+#' If \code{logFC} columns are not found, \code{include = "both"}.
 #' @param circle.names Vector of circle names corresponding to \code{prefix.v}.
 #' @param cex A numerical value giving the amount by which plotting text and symbols should be magnified relative to
 #' the default. See \code{\link[graphics]{par}}.
@@ -24,8 +29,8 @@
 #' \code{logFC} columns are found, otherwise 1 indicates significance.
 #' @export
 
-ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc.cutoff = NULL, circle.names = prefix.v,
-                   main = "", name = NA, cex = c(1, 1, 1), plot = TRUE){
+ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc.cutoff = NULL, include=c("up","down"),
+                   circle.names = prefix.v, main = "", name = NA, cex = c(1, 1, 1), plot = TRUE){
   if (!requireNamespace("limma", quietly = TRUE)){
     stop("Package limma needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -67,7 +72,7 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
     tab.sig <- tab.sig * sign(tab.logfc)
     tab.sig[is.na(tab.sig)] <- 0
 
-    if (plot) limma::vennDiagram(tab.sig, include = c("up", "down"), names = circle.names,
+    if (plot) limma::vennDiagram(tab.sig, include = include, names = circle.names,
                          circle.col = grDevices::rainbow(length(prefix.v)), counts.col = c("red", "blue"),
                          main = main, cex = cex)
   } else {

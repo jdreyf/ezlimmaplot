@@ -21,7 +21,7 @@
 #' @param cut.color Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.
 #' @param cut.lfc Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
-#' @param p05.line Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.
+#' @param p05.line Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @inheritParams ezheat
@@ -34,7 +34,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE,
                       sep='.', na.lab=c('---', ''), plot=TRUE){
-  #can't annot if no lab.col
+  # can't annot if no lab.col
   if (is.null(lab.col)){
     if (ntop.lfc > 0){
       ntop.lfc <- 0
@@ -57,7 +57,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     y.lab <- expression("-"*log[10]~FDR)
   }
 
-  #infer columns
+  # infer columns
   if (!is.null(comparison)){
     lfc.col <- paste0(comparison, sep, 'logFC')
     if (type.sig=="p"){
@@ -74,30 +74,37 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
             length(x.bound)<=1, length(y.bound)<=1, is.logical(plot))
 
   tab <- data.frame(tab, nlg10sig=-log10(tab[,sig.col]))
-  #want symmetric x-axis
+  # want symmetric x-axis
   if(is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
   if(is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
 
-  #construct ggplot object
-  vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::theme_bw() +
-    ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) +
-    ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) + ggplot2::ylab(y.lab)
-  if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
+  ## need to order tab st annotated points are plotted last, so they are seen even if in dense areas
+  ## however, not concerned about cut points, since they are in outer region
+  ## https://stackoverflow.com/questions/15706281/controlling-order-of-points-in-ggplot2-in-r
 
-  #ntop indices to plot with symbol
+  # ann.rnames to plot with symbol
   ind.annot <- NULL
+  if (!is.null(ann.rnames)){
+    ind.ann.rnames <- which(rownames(tab) %in% ann.rnames)
+    tab <- tab[c(setdiff(1:nrow(tab), ind.ann.rnames), ind.ann.rnames),]
+    ind.annot <- union((nrow(tab) - length(ind.ann.rnames) + 1):nrow(tab), ind.annot)
+  }
+
+  # ntop indices to plot with symbol
   if (ntop.sig > 0 | ntop.lfc > 0){
     na.lab.ind <- which(is.na(tab[,lab.col])|tab[,lab.col] %in% na.lab)
     if (ntop.lfc > 0) top.lfc.ind <- order(-abs(tab[,lfc.col]))[1:ntop.lfc] else top.lfc.ind <- NULL
     if (ntop.sig > 0) top.sig.ind <- order(tab[,sig.col])[1:ntop.sig] else top.sig.ind <- NULL
     ind.annot <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
   }
-  #ann.rnames to plot with symbol
-  if (!is.null(ann.rnames)){
-    ind.ann.rnames <- which(rownames(tab) %in% ann.rnames)
-    ind.annot <- union(ind.ann.rnames, ind.annot)
-  }
-  #plot annotated with color
+
+  # construct ggplot object
+  vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::theme_bw() +
+    ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) +
+    ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) + ggplot2::ylab(y.lab)
+  if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
+
+  # plot annotated with color
   if (!is.null(ind.annot)){
     ind.annot.up <- ind.annot[which(tab[ind.annot, lfc.col] >= 0)]
     if (length(ind.annot.up) > 0){
@@ -114,7 +121,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     }
   }
 
-  #cut points
+  # cut points
   if (!is.null(cut.color)){
     ind.cut <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
     ind.cut <- setdiff(ind.cut, ind.annot)
@@ -125,13 +132,13 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     ind.cut <- NULL
   }
 
-  #plot rest
+  # plot rest
   ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
   vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
 
   if (p05.line){
     if (type.sig != "p") warning("p=0.05 line added, but FDR is plotted.")
-    #y is already -log10(sig)
+    # y is already -log10(sig)
     vol <- vol + ggplot2::geom_hline(yintercept = -log10(0.05), linetype = 2, show.legend = TRUE)
   }
 

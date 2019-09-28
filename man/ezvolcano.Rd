@@ -54,7 +54,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
-\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.}
+\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
