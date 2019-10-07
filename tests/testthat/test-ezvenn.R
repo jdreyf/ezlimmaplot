@@ -1,6 +1,6 @@
 context("ezvenn")
 
-test_that("ezvenn", {
+test_that("non vdiffr", {
   #One of p.cutoff or fdr.cutoff must be given
   expect_error(ezvenn(res.df, plot=FALSE))
 
@@ -14,7 +14,9 @@ test_that("ezvenn", {
   ezv <- ezvenn(res.df, fdr.cutoff = 0.01, plot=FALSE)
   expect_equal(sum(abs(ezv)), 2)
   expect_equal(as.numeric(ezv["gene1",]), c(1,0,-1))
+})
 
+test_that("vdiffr", {
   ezv.fn <- function() ret <- ezvenn(res.df, p.cutoff = 0.05, name=NA)
   vdiffr::expect_doppelganger("venn", ezv.fn)
 

@@ -53,8 +53,9 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                    main="Log2 Expression", name="topgenes_heat", sc="ctr", clip=NA,
                    color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, gaps_row = NULL, gaps_col = NULL,
-                   annotation_row = NA, annotation_colors = NA,
+                   annotation_row = NA, annotation_colors = NA, angle_col=c("270", "0", "45", "90", "315"),
                    fontsize_row=10, fontsize_col=10, na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
+  angle_col <- match.arg(angle_col)
   if (!is.matrix(object)) object <- data.matrix(object)
   stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
             length(labrows) %in% c(1, nrow(object)), length(labcols) %in% c(1, ncol(object)),
@@ -131,7 +132,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
     ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main,
                              cluster_rows=FALSE, cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
                              annotation_row=annotation_row, annotation_colors=annotation_colors,
-                             labels_row = labrows, labels_col = labcols,
+                             labels_row = labrows, labels_col = labcols, angle_col=angle_col,
                              fontsize_row=fontsize_row, fontsize_col=fontsize_col,
                              display_numbers = asterisk, filename=fname, width=width, height=height)
     ret <- list(mat=mat, gtable=ph$gtable)

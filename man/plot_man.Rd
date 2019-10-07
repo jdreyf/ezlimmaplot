@@ -13,7 +13,8 @@ plot_man(E, M, Y, name = "top_mediators", main.v = "",
 
 \item{M}{A numeric matrix-like data object with one row per feature and one column per sample of mediators.}
 
-\item{Y}{A numeric vector of \code{length(E)} of outcomes.}
+\item{Y}{A numeric vector of \code{length(E)} of outcomes. Only continuous, normally distributed outcomes
+currently supported.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
@@ -29,9 +30,9 @@ plot_man(E, M, Y, name = "top_mediators", main.v = "",
 \code{\link[ggplot2:scale_manual]{scale_color_manual}}.}
 }
 \value{
-Invisibly, a \code{ggplot} object from the last row of \code{M} that was plotted.
+Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted.
 }
 \description{
-Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[ezlimma]{lotman}} &
-\code{\link[ezlimma]{hitman}}, using \pkg{ggplot2}.
+Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[Hitman]{lotman}} &
+\code{\link[Hitman]{hitman}}, using \pkg{ggplot2}.
 }

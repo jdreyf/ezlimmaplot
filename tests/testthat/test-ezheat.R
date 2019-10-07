@@ -13,6 +13,12 @@ test_that("mat", {
   expect_message(mat1 <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA,
                                 clip=1, only.labrows = TRUE, plot=FALSE, verbose=TRUE)$mat)
   expect_equal(nrow(mat1), sum(!is.na(res.df$Gene.Symbol[1:20])))
+
+  lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
+  ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno2, name=NA, reorder_rows = TRUE, reorder_cols = TRUE, plot=FALSE)
+  ret.mat=ret[[1]] # since ret is a list
+  expect_false(all(colnames(ret.mat) == colnames(M)))
+  expect_false(all(rownames(ret.mat) == rownames(M)))
 })
 
 test_that("sc", {

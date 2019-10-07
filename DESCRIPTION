@@ -1,21 +1,28 @@
 Package: ezlimmaplot
 Title: Bioinformatics plots using limma and ggplot2, some from output of ezlimma
-Version: 0.0.1.9012
+Version: 0.0.1.9016
 Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
              person("Hui", "Pan", role = "aut"),
 			 person("Grace", "Daher", role="ctb"))
 BugReports: https://github.com/jdreyf/ezlimmaplot/issues
 Description: Bioinformatics plots using limma and ggplot2, some from output of ezlimma.
 Imports:
+	dplyr,
 	ezlimma,
 	ggplot2,
+	ggraph,
 	graphics,
 	grDevices,
+	Hitman,
+	igraph (>= 1.0.0),
 	knitr,
 	limma (>= 3.34.8),
+	magrittr,
 	pheatmap,
 	RColorBrewer,
-	stats
+	rlang,
+	stats,
+	tidygraph
 Suggests:
 	covr,
     rmarkdown,

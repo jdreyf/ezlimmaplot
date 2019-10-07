@@ -10,9 +10,10 @@ ezheat(object, pheno.df = NULL, labrows = rownames(object),
   unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
   stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
   reorder_cols = FALSE, gaps_row = NULL, gaps_col = NULL,
-  annotation_row = NA, annotation_colors = NA, fontsize_row = 10,
-  fontsize_col = 10, na.lab = c("---", ""), plot = TRUE,
-  width = NA, height = NA, verbose = FALSE)
+  annotation_row = NA, annotation_colors = NA, angle_col = c("270",
+  "0", "45", "90", "315"), fontsize_row = 10, fontsize_col = 10,
+  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
+  verbose = FALSE)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -65,6 +66,9 @@ rows in the data and in the annotation are matched using corresponding row
 
 \item{annotation_colors}{list for specifying annotation_row and annotation_col track colors manually.
 It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.}
+
+\item{angle_col}{angle of the column labels, right now one can choose only from few 
+predefined options (0, 45, 90, 270 and 315)}
 
 \item{fontsize_row}{Font size for row labels.}
 

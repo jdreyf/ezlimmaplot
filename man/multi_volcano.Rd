@@ -5,10 +5,11 @@
 \title{Multiple Volcano plots}
 \usage{
 multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
-  name = "volcanoes", ann.rnames = NULL, up.ann.color = "black",
-  down.ann.color = "black", same.scale = FALSE, type.sig = c("p",
-  "FDR"), cut.color = NULL, cut.lfc = 1, cut.sig = 0.05,
-  p05.line = FALSE, sep = ".", na.lab = c("---", ""), plot = TRUE)
+  alpha = 0.4, name = "volcanoes", ann.rnames = NULL,
+  up.ann.color = "black", down.ann.color = "black",
+  same.scale = FALSE, type.sig = c("p", "FDR"), cut.color = NULL,
+  cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
+  na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -19,6 +20,8 @@ no points are annotated.}
 \item{ntop.sig}{Number of top significant features to annotate.}
 
 \item{ntop.lfc}{Number of top logFC features to annotate.}
+
+\item{alpha}{Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
@@ -38,7 +41,7 @@ no points are annotated.}
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
-\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig="FDR"}.}
+\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 

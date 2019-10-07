@@ -5,8 +5,9 @@
 \title{Venn diagrams}
 \usage{
 ezvenn(tab, prefix.v = NULL, p.cutoff = NULL, fdr.cutoff = NULL,
-  logfc.cutoff = NULL, circle.names = prefix.v, main = "",
-  name = NA, cex = c(1, 1, 1), plot = TRUE)
+  logfc.cutoff = NULL, include = c("up", "down"),
+  circle.names = prefix.v, main = "", name = NA, cex = c(1, 1, 1),
+  plot = TRUE)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -21,6 +22,12 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 
 \item{logfc.cutoff}{log fold-change cutoff to threshold features in \code{tab}, when \code{tab} came from
 \code{\link[ezlimma]{limma_contrasts}}.}
+
+\item{include}{Character vector. If \code{logFC} columns are found, this specifies whether all differentially
+expressed genes should be counted, or whether the counts should be restricted to genes changing in a certain direction.
+Choices are "both" for all differentially expressed genes, "up" for up-regulated genes only or
+"down" for down-regulated genes only. If include=c("up","down") then both the up and down counts will be shown.
+If \code{logFC} columns are not found, \code{include = "both"}.}
 
 \item{circle.names}{Vector of circle names corresponding to \code{prefix.v}.}
 
