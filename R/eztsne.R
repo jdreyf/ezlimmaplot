@@ -2,13 +2,13 @@
 #'
 #' tSNE plot of first two dimensions using \code{ggplot2}.
 #'
-#' @param seed Random seed.
 #' @inheritParams ezpca
 #' @inheritParams Rtsne::Rtsne
+#' @inheritParams ezlimma::roast_contrasts
 #' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
 #' @details \code{object} must have colnames, and if \code{pheno.df}
 #' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
-#' @return Invisibly, first two dimensionss appended to \code{pheno.df}.
+#' @return Invisibly, first two dimensions appended to \code{pheno.df}.
 #' @export
 
 eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRUE,
