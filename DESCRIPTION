@@ -21,6 +21,7 @@ Imports:
 	pheatmap,
 	RColorBrewer,
 	rlang,
+	Rtsne,
 	stats,
 	tidygraph
 Suggests:
