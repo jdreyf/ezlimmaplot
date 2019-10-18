@@ -1,6 +1,6 @@
 #' tSNE plot of first two dimensions
 #'
-#' tSNE plot of first two dimensions using \code{ggplot2}.
+#' tSNE plot of first two dimensions using \pkg{ggplot2}.
 #'
 #' @inheritParams ezpca
 #' @inheritParams Rtsne::Rtsne

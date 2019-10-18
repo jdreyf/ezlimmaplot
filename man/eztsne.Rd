@@ -59,7 +59,7 @@ appearing in legend. \code{ggplot2} default is size=2.}
 Invisibly, first two dimensions appended to \code{pheno.df}.
 }
 \description{
-tSNE plot of first two dimensions using \code{ggplot2}.
+tSNE plot of first two dimensions using \pkg{ggplot2}.
 }
 \details{
 \code{object} must have colnames, and if \code{pheno.df}

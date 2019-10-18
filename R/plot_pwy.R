@@ -8,7 +8,7 @@
 #'
 #' @param feat.tab Matrix-like object for all analytes with rownames as analyte names, which should
 #' have some overlap with \code{G.pwy$genes}.
-#' @param G.pwy Element of list object \code{G} used in \pkg{ezlimma} or \pkg{{Pame}}. Should have elements
+#' @param G.pwy Element of list object \code{G} used in \pkg{ezlimma}. Should have elements
 #' \code{name}, \code{description}, \code{genes}. Accessible via \code{G[[pathway.name]]}.
 #' @param gr graph object of class \code{igraph}.
 #' @param stat.colnm Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.
@@ -22,6 +22,7 @@
 #' @param colorbar.nm Title of color bar.
 #' @param repel Logcal; use the repel functionality from \pkg{ggrepel} to avoid overlapping text?
 #' @param plot Logical; should plot be generated?
+#' @param seed Numeric seed value for reproducibility.
 #' @inheritParams ezlimma::roast_contrasts
 #' @details Unmeasured nodes have stat of \code{NA} and are drawn gray.
 #'
@@ -115,11 +116,11 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
       if (min(feat.tab[, stat.colnm], na.rm = TRUE)<0 && max(feat.tab[, stat.colnm], na.rm = TRUE)>0){
         # use yellow in middle to distinguish NAs, which are grey
         ggg <- ggg + ggplot2::scale_colour_distiller(type="div", palette = "RdYlBu", direction = -1, guide=guide,
-                      limits=c(-max(abs(feat.tab[, stat.colnm]), na.rm = TRUE),
-                               max(abs(feat.tab[, stat.colnm]), na.rm = TRUE)))
+                                                     limits=c(-max(abs(feat.tab[, stat.colnm]), na.rm = TRUE),
+                                                              max(abs(feat.tab[, stat.colnm]), na.rm = TRUE)))
       } else {
         ggg <- ggg + ggplot2::scale_colour_distiller(type="seq", palette = "Reds", direction = 1, guide=guide,
-                      limits=range(feat.tab[, stat.colnm], na.rm = TRUE))
+                                                     limits=range(feat.tab[, stat.colnm], na.rm = TRUE))
       }
       graphics::plot(ggg)
     })

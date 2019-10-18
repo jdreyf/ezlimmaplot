@@ -12,7 +12,7 @@ plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7,
 \item{feat.tab}{Matrix-like object for all analytes with rownames as analyte names, which should
 have some overlap with \code{G.pwy$genes}.}
 
-\item{G.pwy}{Element of list object \code{G} used in \pkg{ezlimma} or \pkg{{Pame}}. Should have elements
+\item{G.pwy}{Element of list object \code{G} used in \pkg{ezlimma}. Should have elements
 \code{name}, \code{description}, \code{genes}. Accessible via \code{G[[pathway.name]]}.}
 
 \item{gr}{graph object of class \code{igraph}.}
@@ -38,8 +38,7 @@ Set to \code{NA} to plot to screen instead of to file.}
 
 \item{plot}{Logical; should plot be generated?}
 
-\item{seed}{Integer seed to set for reproducility if \code{fun="mroast"}, since \code{mroast} uses random 
-simulations. Ignored if \code{fun="fry"}.}
+\item{seed}{Numeric seed value for reproducibility.}
 }
 \value{
 Invisibly, a \code{\link[tidygraph]{tbl_graph}}, a subclass of
