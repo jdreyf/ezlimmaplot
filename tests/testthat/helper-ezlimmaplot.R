@@ -52,6 +52,6 @@ gmt <- list(pwy1=list(name="pwy1", description="pwy1", genes=c("a", "b", "c")),
 # plot_pwy
 feat.tab <- hm
 G.pwy = gmt[[1]]
-pp <- plot_pwy(feat.tab = feat.tab, G.pwy = gmt[[1]], stat.colnm = "EMY.z", annot.colnm = "symbol", repel=TRUE,
+pp <- plot_pwy(feat.tab = feat.tab, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", annot.colnm = "symbol", repel=TRUE,
                gr=gr, name = NA, colorbar.nm = "chisq", ntop = 7, seed = 0, plot = TRUE, alternative="greater")
 
