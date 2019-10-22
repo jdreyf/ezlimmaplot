@@ -2,12 +2,13 @@
 % Please edit documentation in R/plot_by_grp.R
 \name{plot_by_grp}
 \alias{plot_by_grp}
-\title{Make boxplot or dotplots for a feature per group}
+\title{Make box, dot, violin or bar plots for a feature per group}
 \usage{
-plot_by_grp(object, grp, name = "topgenes", main.v = "",
-  xlab = "Group", ylab = "Log2 Expression", type = "dot",
-  manual.color = NULL, x.angle = 0, add.se = FALSE, dotsize = 1,
-  bins = 30)
+plot_by_grp(object, grp, name = "topgenes", width = 7, height = 7,
+  main.v = "", xlab = "Group", ylab = "Log2 Expression",
+  type = "dot", manual.color = NULL, x.angle = 0, add.se = FALSE,
+  dotsize = 0.7, bins = 30, violin.alpha = 0.3, dot.alpha = 0.3,
+  add.dot = FALSE, bar.width = 0.7, errorbar.width = 0.3)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -17,33 +18,47 @@ length as \code{ncol(object)}. If the vector is named, names should match \code{
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
+\item{width}{Manual option for determining the output file width in inches.}
+
+\item{height}{Manual option for determining the output file height in inches.}
+
 \item{main.v}{Character vector of main titles for plot.}
 
 \item{xlab}{Label for x-axis.}
 
 \item{ylab}{Label for y-axis.}
 
-\item{type}{Type of plot. Either \code{"dot"} or \code{"box"}.}
+\item{type}{Type of plot. Either \code{"dot"}, \code{"box"}, \code{"violin"}, or \code{"bar"}.}
 
 \item{manual.color}{Vector passed to both \code{\link[ggplot2:scale_manual]{scale_fill_manual}} and
 \code{\link[ggplot2:scale_manual]{scale_color_manual}}.}
 
-\item{x.angle}{Angle of x-axis text, passed to \code{theme(axis.text.x = element_text(angle))}.}
+\item{x.angle}{Angle of x-axis text, passed to \code{theme(axis.text.x=element_text(angle))}.}
 
-\item{add.se}{Logical indicating if to add standard error of the mean to dotplot.}
+\item{add.se}{Logical indicating if to add standard error of the mean to dot plot.}
 
-\item{dotsize}{Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize}.}
+\item{dotsize}{Passed to \code{\link[ggplot2]{geom_dotplot}} \code{dotsize} for dot plot.}
 
-\item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth}.}
+\item{bins}{Used to calculate binwidth, which is passed to \code{\link[ggplot2]{geom_dotplot}} \code{binwidth} for dot plot.}
+
+\item{violin.alpha}{Colour transparency in [0,1] for violin in violin plot.}
+
+\item{dot.alpha}{olour transparency in [0,1] for dots in violin plot.}
+
+\item{add.dot}{Logical indicating if to add individual data points as dots to bar plot.}
+
+\item{bar.width}{Width of the bars in bar plot.}
+
+\item{errorbar.width}{Width of the errorbars in bar plot.}
 }
 \value{
 Invisibly, a \code{ggplot} object from the last row of \code{object} that was plotted.
 }
 \description{
-Make boxplot or dotplots for a feature per group using \pkg{ggplot2}.
+Make box, dot, violin or bar plotsfor a feature per group using \pkg{ggplot2}.
 }
 \details{
-Based on \code{type}, \code{"_dotplots"} or \code{"_boxplots"} is appended to \code{name}.
+Based on \code{type}, \code{"_dotplots"}, \code{"_boxplots"}, \code{"_violinplots"}, or \code{"_barplots"}is appended to \code{name}.
 
 If \code{object} is a data frame, it is coerced to a \code{matrix} using \code{data.matrix}.
 }
