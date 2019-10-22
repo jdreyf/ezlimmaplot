@@ -14,8 +14,8 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
 
   if(!is.na(name)) {
     name <- paste0(name, "_barplots.pdf")
-    pdf(name, width, height)
-    on.exit(dev.off())
+    grDevices::pdf(name, width, height)
+    on.exit(grDevices::dev.off())
   }
 
   if(is.null(prefix.v)){
@@ -49,7 +49,7 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
         # msg: Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
         ggp <- ggp + geom_text(aes(label = NGenes), hjust = 1.1) + ylim(1.05*dat2p$neglog10p[1], 0)
       }
-      plot(ggp)
+      graphics::plot(ggp)
     }
   }
 }
