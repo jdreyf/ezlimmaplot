@@ -26,9 +26,9 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   dat <- data.frame(pheno.df, tsne1)
 
   dots <- list(...)
-  if(is.null(names(dots))){
+  if (is.null(names(dots))){
     n <- 0
-  }else{
+  } else {
     chars <- vector("list", 2*length(dots))
     for(i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
@@ -65,7 +65,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
   graphics::plot(qp)
-  if (!is.na(name)){ dev.off() }
+  if (!is.na(name)){ grDevices::dev.off() }
 
   return(invisible(dat))
 

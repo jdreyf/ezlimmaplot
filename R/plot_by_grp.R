@@ -44,7 +44,7 @@ plot_by_grp <- function(object, grp, name="topgenes", width=7, height=7, main.v=
 
   for (i in 1:nrow(object)) {
     object2p <- data.frame(Exprs=object[i, ], Group=grp)
-    object2p <- object2p[complete.cases(object2p), ]
+    object2p <- object2p[stats::complete.cases(object2p), ]
 
     if (type !="bar") {
       ggp <- ggplot2::ggplot(data=object2p, mapping=ggplot2::aes(x=Group, y=Exprs))
@@ -62,7 +62,7 @@ plot_by_grp <- function(object, grp, name="topgenes", width=7, height=7, main.v=
       }
 
     } else {
-      object2p.avg <- plyr::ddply(object2p, "Group", plyr::summarise, N=length(Exprs), Mean=mean(Exprs), SE=sd(Exprs)/sqrt(N))
+      object2p.avg <- plyr::ddply(object2p, "Group", plyr::summarise, N=length(Exprs), Mean=mean(Exprs), SE=stats::sd(Exprs)/sqrt(N))
       ggp <- ggplot2::ggplot(data=object2p.avg, mapping=ggplot2::aes(x=Group, y=Mean))
       ggp <- ggp + ggplot2::geom_col(mapping=ggplot2::aes(fill=Group), position=ggplot2::position_dodge(), width=bar.width, color="black")
       ggp <- ggp + ggplot2::geom_errorbar(mapping=ggplot2::aes(ymin=Mean, ymax=Mean+SE), position=ggplot2::position_dodge(), width=errorbar.width)
