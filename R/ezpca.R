@@ -51,8 +51,11 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
     n <- max(nchar(unlist(chars)), na.rm = TRUE)
   }
 
-  width <- 7 + n/10
-  if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf"), width = width, height = 7) }
+  width <- 7 + n/12
+  if (!is.na(name)){
+    grDevices::pdf(paste0(name, ".pdf"), width = width, height = 7)
+    on.exit(grDevices::dev.off())
+  }
 
   # need to set alpha/all.size in geom_point, else it appears in legend
   qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", ...)) + ggplot2::theme_bw()
@@ -75,6 +78,5 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
   if (plot) graphics::plot(qp)
-  if (!is.na(name)){ grDevices::dev.off() }
   return(invisible(dat))
 }

@@ -29,7 +29,10 @@ multi_venn <- function(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL, logf
 
   if (!is.null(names(prefix.lst)) && main.v == "") main.v <- names(prefix.lst)
 
-  if (!is.na(name)) grDevices::pdf(paste0(name, "_venn.pdf"))
+  if (!is.na(name)) {
+    grDevices::pdf(paste0(name, "_venn.pdf"))
+    on.exit(grDevices::dev.off())
+  }
   tab.lst <- list()
   for (ind in 1:length(prefix.lst)){
     tab.lst[[ind]] <- ezvenn(tab=tab, prefix.v=prefix.lst[[ind]], p.cutoff = p.cutoff, fdr.cutoff = fdr.cutoff,
@@ -44,7 +47,6 @@ multi_venn <- function(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL, logf
       }
     }#end else
   }#end for
-  if (!is.na(name)) grDevices::dev.off()
   tab.sig <- tab.sig[order(rowSums(abs(tab.sig)), decreasing = TRUE), ]
   return(invisible(tab.sig))
 }

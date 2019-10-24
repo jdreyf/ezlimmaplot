@@ -41,7 +41,10 @@ signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALS
 
   # set name=NA to turn off pdf
   if (plot){
-    if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf")) }
+    if (!is.na(name)){
+      grDevices::pdf(paste0(name, ".pdf"))
+      on.exit(grDevices::dev.off())
+      }
     graphics::par(mfrow=c(2,2))
     for (ind.tmp in 1:length(p.cols)){
       prefix <- prefix.v[ind.tmp]
@@ -66,7 +69,6 @@ signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALS
         graphics::hist(tab[,fdr.col], xlab="FDR", main=prefix)
       }
     }
-    if (!is.na(name)){ grDevices::dev.off() }
   }
   return(invisible(tab.ss))
 }

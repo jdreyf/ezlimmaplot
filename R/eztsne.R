@@ -12,9 +12,9 @@
 #' @export
 
 eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRUE,
-                  perplexity=min(30, round(ncol(object)/5)), theta=0.5, seed = 123, initial_dims=50, max_iter=1000,
-                  alpha=1, all.size=NULL, facet=NULL, title = NULL, subtitle = NULL, rm.leg.title=FALSE, labels=FALSE,
-                  manual.color = NULL, manual.shape = NULL, ...){
+                  perplexity=min(30, round(ncol(object)/5)), theta=0.5, seed=123, initial_dims=50, max_iter=1000,
+                  alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL, rm.leg.title=FALSE, labels=FALSE,
+                  manual.color=NULL, manual.shape=NULL, ...){
 
   stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
 
@@ -38,7 +38,10 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   }
 
   width <- 7 + n / 12
-  if (!is.na(name)){ pdf(paste0(name, ".pdf"), width = width, height = 7) }
+  if (!is.na(name)){
+    pdf(paste0(name, ".pdf"), width=width, height=7)
+    on.exit(grDevices::dev.off())
+  }
 
   #need to set alpha/all.size in geom_point, else it appears in legend
   qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x='tSNE1', y='tSNE2', ...)) + ggplot2::theme_bw()
@@ -53,19 +56,18 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
 
   if (rm.leg.title){ qp <- qp + ggplot2::theme(legend.title=ggplot2::element_blank()) }
 
-  if (!is.null(title)) { qp <- qp + ggplot2::ggtitle(label = title, subtitle = subtitle) }
+  if (!is.null(title)) { qp <- qp + ggplot2::ggtitle(label=title, subtitle=subtitle) }
 
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno.df)
-    qp <- qp + ggplot2::geom_text(data = dat2, mapping=ggplot2::aes_string(label='row_names'), size=2, vjust=-.7)
+    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(label='row_names'), size=2, vjust=-.7)
   }
 
-  if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
-  if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
+  if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values=manual.color)
+  if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values=manual.shape)
 
   graphics::plot(qp)
-  if (!is.na(name)){ grDevices::dev.off() }
 
   return(invisible(dat))
 
