@@ -21,7 +21,10 @@ plot_man <- function(E, M, Y, name="top_mediators", main.v="", xlab = "Log2 abun
     stopifnot(names(E)==colnames(M), colnames(M)==names(Y))
   }
 
-  if (!is.na(name)){ grDevices::pdf(paste0(name, ".pdf")) }
+  if (!is.na(name)){
+    grDevices::pdf(paste0(name, ".pdf"))
+    on.exit(grDevices::dev.off())
+  }
   for (ind in 1:nrow(M)){
     M2p <- data.frame(Exposure = E, Exprs = M[ind, ], Outcome=Y)
     ggp <- ggplot2::ggplot(data = M2p, mapping = ggplot2::aes(x = Exprs, y = Outcome, color=Exposure)) +
@@ -31,6 +34,5 @@ plot_man <- function(E, M, Y, name="top_mediators", main.v="", xlab = "Log2 abun
       ggplot2::scale_color_manual(values = manual.color) }
     graphics::plot(ggp)
   }
-  if (!is.na(name)){ grDevices::dev.off() }
   return(invisible(ggp))
 }

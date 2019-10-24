@@ -60,6 +60,7 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
   if (!is.na(name) & plot){
     name <- paste0(name, "_venn.pdf")
     grDevices::pdf(name)
+    on.exit(grDevices::dev.off())
   }
 
   logfc.col <- paste0(prefix.v, ".logFC")
@@ -81,8 +82,6 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
                          circle.col = grDevices::rainbow(length(prefix.v)), counts.col = "blue",
                          main = main, cex = cex)
   }
-
-  if (!is.na(name) & plot) grDevices::dev.off()
 
   colnames(tab.sig) <- gsub("\\.(logFC|p|FDR)$", ".sig", colnames(tab.sig))
   tab.sig <- tab.sig[order(rowSums(abs(tab.sig)), decreasing = TRUE), ]

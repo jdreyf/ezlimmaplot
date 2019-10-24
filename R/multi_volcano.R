@@ -33,7 +33,10 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, alpha=0.4, 
     x.bound <- y.bound <- NULL
   }
 
-  if (!is.na(name)) grDevices::pdf(paste0(name, ".pdf"))
+  if (!is.na(name)) {
+    grDevices::pdf(paste0(name, ".pdf"))
+    on.exit(grDevices::dev.off())
+  }
   ret.lst <- list()
   for (contr in contr.names){
     ret.lst[[contr]] <- ezvolcano(tab=tab, lab.col=lab.col, ntop.sig=ntop.sig, ntop.lfc=ntop.lfc, alpha=alpha, comparison=contr,
@@ -41,6 +44,5 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, alpha=0.4, 
                                   x.bound=x.bound, y.bound=y.bound, type.sig=type.sig, cut.color=cut.color,
                                   cut.lfc=cut.lfc, cut.sig=cut.sig, p05.line=p05.line, sep=sep, na.lab=na.lab, plot=plot)
   }
-  if (!is.na(name)) grDevices::dev.off()
   return(invisible(ret.lst))
 }

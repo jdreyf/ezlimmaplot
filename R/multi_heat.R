@@ -27,7 +27,10 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
   object <- object[rows.int,, drop=FALSE]
   labrows <- labrows[rows.int]
 
-  if (!is.na(name)) grDevices::pdf(paste0(name, ".pdf"))
+  if (!is.na(name)) {
+    grDevices::pdf(paste0(name, ".pdf"))
+    on.exit(grDevices::dev.off())
+  }
   ret.lst <- list()
   for (contr in contr.names){
     main.tmp <- paste(main, contr)
@@ -42,6 +45,5 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
                                reorder_cols=reorder_cols, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
                                na.lab=na.lab, plot=plot, width=width, height=height, verbose=verbose, name=NA)
   }
-  if (!is.na(name)) grDevices::dev.off()
   return(invisible(ret.lst))
 }
