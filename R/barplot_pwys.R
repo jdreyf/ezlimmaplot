@@ -38,16 +38,16 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
       dat2p$NGenes <- paste0("(", dat2p$NGenes, ")")
       dat2p$neglog10p <- - log10(dat2p$p)
 
-      ggp <- ggplot(dat2p, aes(Pathway, neglog10p)) + theme_bw() +  coord_flip()
-      ggp <- ggp + labs(x = "", y = expression("-"*log[10]~p*"-"*value), title = paste0(prefix, ", ", d, "-regulated"))
+      ggp <- ggplot2::ggplot(dat2p, ggplot2::aes(Pathway, neglog10p)) + ggplot2::theme_bw() + ggplot2::coord_flip()
+      ggp <- ggp + ggplot2::labs(x = "", y = expression("-"*log[10]~p*"-"*value), title = paste0(prefix, ", ", d, "-regulated"))
 
       if (d == "Up") {
-        ggp <- ggp +geom_bar(stat = "identity", width = 0.7, fill = "red")
-        ggp <- ggp + geom_text(aes(label = NGenes), hjust = -0.1) + ylim(0, 1.05*dat2p$neglog10p[1])
+        ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "red")
+        ggp <- ggp + ggplot2::geom_text(ggplot2::aes(label = NGenes), hjust = -0.1) + ggplot2::ylim(0, 1.05*dat2p$neglog10p[1])
       } else {
-        ggp <- ggp +geom_bar(stat = "identity", width = 0.7, fill = "blue") + scale_y_reverse()
+        ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "blue") + ggplot2::scale_y_reverse()
         # msg: Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
-        ggp <- ggp + geom_text(aes(label = NGenes), hjust = 1.1) + ylim(1.05*dat2p$neglog10p[1], 0)
+        ggp <- ggp + ggplot2::geom_text(aes(label = NGenes), hjust = 1.1) + ggplot2::ylim(1.05*dat2p$neglog10p[1], 0)
       }
       graphics::plot(ggp)
     }

@@ -39,7 +39,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
 
   width <- 7 + n / 12
   if (!is.na(name)){
-    pdf(paste0(name, ".pdf"), width=width, height=7)
+    grDevices::pdf(paste0(name, ".pdf"), width=width, height=7)
     on.exit(grDevices::dev.off())
   }
 
