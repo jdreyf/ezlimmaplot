@@ -70,5 +70,4 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   graphics::plot(qp)
 
   return(invisible(dat))
-
 }
