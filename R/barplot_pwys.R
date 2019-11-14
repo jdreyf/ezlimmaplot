@@ -12,17 +12,19 @@
 #'
 
 barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, ntop = 20, direction = c("Up", "Down"), pwys_nm_size = 100){
+  if (is.null(prefix.v)){
+    p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
+    p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
+    prefix.v <- gsub(pattern = "(\\.|^)p$", replacement = "", x=p.colnms)
+    stopifnot(sapply(tab[, grep("Direction$", colnames(tab))], FUN=function(vv) all(direction %in% vv )))
+  } else {
+    stopifnot(sapply(tab[, paste0(prefix.v, ".Direction")], FUN=function(vv) all(direction %in% vv )))
+  }
 
   if (!is.na(name)){
     name <- paste0(name, "_barplots.pdf")
     grDevices::pdf(name, width, height)
     on.exit(grDevices::dev.off())
-  }
-
-  if (is.null(prefix.v)){
-    p.cols <- grep("\\.p$", colnames(tab), value = TRUE)
-    p.cols <- p.cols[-grep("Mixed", p.cols)]
-    prefix.v <- gsub("\\.p", "", p.cols)
   }
 
   for (prefix in prefix.v){
@@ -39,7 +41,7 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
       dat2p$NGenes <- paste0("(", dat2p$NGenes, ")")
       dat2p$neglog10p <- - log10(dat2p$p)
 
-      ggp <- ggplot2::ggplot(dat2p, ggplot2::aes(Pathway, neglog10p)) + ggplot2::theme_bw() + ggplot2::coord_flip()
+      ggp <- ggplot2::ggplot(dat2p, mapping=ggplot2::aes(Pathway, neglog10p)) + ggplot2::theme_bw() + ggplot2::coord_flip()
       ggp <- ggp + ggplot2::labs(x = "", y = expression("-"*log[10]~p*"-"*value), title = paste0(prefix, ", ", d, "-regulated"))
 
       if (d == "Up") {
@@ -48,7 +50,7 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
       } else {
         ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "blue") + ggplot2::scale_y_reverse()
         # msg: Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
-        ggp <- ggp + ggplot2::geom_text(aes(label = NGenes), hjust = 1.1) + ggplot2::ylim(1.05*dat2p$neglog10p[1], 0)
+        ggp <- ggp + ggplot2::geom_text(ggplot2::aes(label = NGenes), hjust = 1.1) + ggplot2::ylim(1.05*dat2p$neglog10p[1], 0)
       }
       graphics::plot(ggp)
     } #end for d
