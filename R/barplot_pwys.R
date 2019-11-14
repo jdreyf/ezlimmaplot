@@ -6,7 +6,7 @@
 #' @param pwys_nm_size The maximum number of characters for pathway names. Longer names will be truncated.
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
-#' @return NULL
+#' @return Invisibly, the last ggplot object.
 #' @export
 #'
 
@@ -50,6 +50,7 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
         ggp <- ggp + ggplot2::geom_text(aes(label = NGenes), hjust = 1.1) + ggplot2::ylim(1.05*dat2p$neglog10p[1], 0)
       }
       graphics::plot(ggp)
-    }
+    } #end for d
   }
+  invisible(ggp)
 }
