@@ -1,6 +1,7 @@
 Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
 
 library(covr)
+library(ezlimma)
 library(igraph)
 library(testthat)
 library(vdiffr)
@@ -46,12 +47,16 @@ pheno.chr <- rep(c("trt1", "trt2", "ctrl"), times=3)
 hm <- Hitman::hitman(M=object, Y=Y, E=E)
 hm$symbol <- toupper(rownames(hm))
 
+# plot_pwy
 gmt <- list(pwy1=list(name="pwy1", description="pwy1", genes=c("a", "b", "c")),
             pwy2=list(name="pwy2", description="pwy2", genes=c("b", "c", "d")))
-
-# plot_pwy
 feat.tab <- hm
 G.pwy = gmt[[1]]
 pp <- plot_pwy(feat.tab = feat.tab, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", annot.colnm = "symbol", repel=TRUE,
                gr=gr, name = NA, colorbar.nm = "chisq", ntop = 7, seed = 0, plot = FALSE, alternative="greater")
 
+# barplot pwy
+G <- list(pwy1=list(name="pwy1", description="pwy1", genes=paste0("gene", 1:3)),
+            pwy2=list(name="pwy2", description="pwy2", genes=paste0("gene", 2:4)))
+
+rc <- roast_contrasts(object=M, G=G, feat.tab=res, grp=grp, contrast.v = contr.v, fun="fry")

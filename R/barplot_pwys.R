@@ -1,6 +1,7 @@
 #' Make barplots for the p-Values of Pathway Analysis
 #'
 #' Make barplots for the p-Values of pathway analysis using \pkg{ggplot2}.
+#'
 #' @param ntop Number of top pathways.
 #' @param direction Direction of change.
 #' @param pwys_nm_size The maximum number of characters for pathway names. Longer names will be truncated.
@@ -12,19 +13,19 @@
 
 barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, ntop = 20, direction = c("Up", "Down"), pwys_nm_size = 100){
 
-  if(!is.na(name)) {
+  if (!is.na(name)){
     name <- paste0(name, "_barplots.pdf")
     grDevices::pdf(name, width, height)
     on.exit(grDevices::dev.off())
   }
 
-  if(is.null(prefix.v)){
+  if (is.null(prefix.v)){
     p.cols <- grep("\\.p$", colnames(tab), value = TRUE)
     p.cols <- p.cols[-grep("Mixed", p.cols)]
     prefix.v <- gsub("\\.p", "", p.cols)
   }
 
-  for(prefix in prefix.v) {
+  for (prefix in prefix.v){
     tab.sub <- tab[, c("NGenes", paste(prefix, c("Direction", "p"), sep = "."))]
     colnames(tab.sub) <- gsub(paste0(prefix, "."), "", colnames(tab.sub))
     tab.sub <- tab.sub[order(tab.sub$p), ]
