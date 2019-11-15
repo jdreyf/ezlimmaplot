@@ -1,7 +1,7 @@
 context("ez tsne")
 
 test_that("ez tsne vdiffr", {
-   ez.tsne <- function() eztsne(M, pheno, shape="grp", name=NA, manual.shape = 1:2)	
+   ez.tsne <- function() eztsne(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
    eztsnel <- function() eztsne(M, pheno, color="grp", name=NA, labels=TRUE, manual.color=c("red", "blue"))
    eztsnes <- function() eztsne(M, pheno, color="grp", name=NA, all.size = 3, rm.leg.title=TRUE)
    eztsne2 <- function() eztsne(M, pheno2, color="grp", name=NA, facet = ". ~ tissue")
@@ -13,7 +13,7 @@ test_that("ez tsne vdiffr", {
    eztsne.stit <- function() eztsne(M, pheno, shape="grp", name=NA, title="main", subtitle="submain")
    eztsne.stit2 <- function() eztsne(M, pheno, shape="grp", name=NA, title=NA, subtitle="submain")
    eztsne.stit3 <- function() eztsne(M, pheno, shape="grp", name=NA, title="", subtitle="submain")
-  
+
   vdiffr::expect_doppelganger(title="tsne", fig=ez.tsne)
   vdiffr::expect_doppelganger(title="tsne-labels", fig=eztsnel)
   vdiffr::expect_doppelganger(title="tsne-size", fig=eztsnes)
