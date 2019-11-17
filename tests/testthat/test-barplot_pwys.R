@@ -20,5 +20,6 @@ test_that("barplot object non-vdiffr", {
 
   bar_plot_blue <- barplot_pwys(tab=rc, prefix.v = "Last3vsFirst3", direction = "Down")
   expect_equal(bar_plot_blue$layers[[1]]$aes_params$fill ,"blue")
+  expect_equal(bar_plot_blue$layers[[2]]$aes_params$hjust , 1.1)
 })
 
