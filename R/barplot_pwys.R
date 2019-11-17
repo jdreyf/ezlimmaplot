@@ -48,9 +48,9 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
         ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "red")
         ggp <- ggp + ggplot2::geom_text(ggplot2::aes(label = NGenes), hjust = -0.1) + ggplot2::ylim(0, 1.05*dat2p$neglog10p[1])
       } else {
-        ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "blue") + ggplot2::scale_y_reverse()
-        # msg: Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.
-        ggp <- ggp + ggplot2::geom_text(ggplot2::aes(label = NGenes), hjust = 1.1) + ggplot2::ylim(1.05*dat2p$neglog10p[1], 0)
+        ggp <- ggp + ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "blue") +
+          ggplot2::scale_y_reverse(limits=c(1.05*dat2p$neglog10p[1], 0)) +
+          ggplot2::geom_text(ggplot2::aes(label = NGenes), hjust = 1.1)
       }
       graphics::plot(ggp)
     } #end for d
