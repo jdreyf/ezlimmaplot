@@ -57,8 +57,7 @@ test_that("non-vdiffr", {
   expect_gte(ezvol$scales$scales[[1]]$limits[1], -3)
   #Validating the color of the point
   expect_equal(ggplot2::ggplot_build(ezvol)$data[[1]]$colour[[1]], "black")
-
-  expect_equal(ggplot2::ggplot_build(ezvol)$data[[1]]$y, -log10(ezvol$data["gene1", "First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol)$data[[1]]$y[1], -log10(ezvol$data["gene1", "First3.p"]))
 
   ezvol2 <- ezvolcano(tab=res.df, comparison = "First3", name=NA, cut.lfc=1, cut.sig=0.01, cut.color = "green",
                       type.sig = "FDR", plot = FALSE)
@@ -68,7 +67,7 @@ test_that("non-vdiffr", {
   expect_is(ezvol2$layers[[1]], "gg")
   #Validating the colour of the point
   expect_equal(ggplot2::ggplot_build(ezvol2)$data[[1]]$colour, "green")
-  expect_equal(ggplot2::ggplot_build(ezvol2)$data[[1]]$y, -log10(ezvol2$data["gene1","First3.FDR"]))
+  expect_equal(ggplot2::ggplot_build(ezvol2)$data[[1]]$y[1], -log10(ezvol2$data["gene1","First3.FDR"]))
 
   ezvol3 <- ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                       cut.sig=0.01, cut.color = "black", up.ann.color = "red", x.bound = 3, y.bound=30, plot = FALSE)
@@ -111,19 +110,19 @@ test_that("non-vdiffr", {
   #Validating the label column
   expect_equal(ezvol6$labels$label, "Gene.Symbol")
   #Validating the shape of the plot
-  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[1]]$shape, 19)
+  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[1]]$shape[1], 19)
   expect_equal(ggplot2::ggplot_build(ezvol6)$data[[3]]$shape[1], 1)
 
-  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[1]]$y, -log10(ezvol6$data["gene1","First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[1]]$y[1], -log10(ezvol6$data["gene1","First3.p"]))
 
-  expect_true(any(ggplot2::ggplot_build(ezvol6)$data[[3]]$y == -log10(ezvol6$data["gene25","First3.p"])))
+  # expect_true(any(ggplot2::ggplot_build(ezvol6)$data[[3]]$y[1] == -log10(ezvol6$data["gene25","First3.p"])))
 
   ezvol7 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), p05.line = TRUE)
   #Validating point A
-  expect_gte(ggplot2::ggplot_build(ezvol7)$data[[1]]$y, 29)
+  expect_gte(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], 29)
   #Validating the intercept point crossed by the straight line
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[4]]$yintercept[1], -log10(0.05))
-  expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
-  expect_equal(ggplot2::ggplot_build(ezvol7)$data[[1]]$y, -log10(ezvol7$data["gene1", "First3.p"]))
+  # expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
+  expect_equal(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
 })
