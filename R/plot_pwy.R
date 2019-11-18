@@ -26,8 +26,9 @@
 #' @inheritParams ezlimma::roast_contrasts
 #' @details Unmeasured nodes have stat of \code{NA} and are drawn gray.
 #'
-#' @return Invisibly, a \code{\link[tidygraph]{tbl_graph}}, a subclass of
-#' \pkg{igraph} so every \pkg{igraph} method will work as expected.
+#' @return Invisibly, a list with \code{\link[tidygraph]{tbl_graph}}, a subclass of
+#' \pkg{igraph} so every \pkg{igraph} method will work as expected. If \code{plot=TRUE}, there
+#' is a second element of the list, which is a \code{ggplot} object.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom rlang !!
@@ -126,7 +127,8 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
                                                      limits=range(feat.tab[, stat.colnm], na.rm = TRUE))
     }
     graphics::plot(ggg)
-
+    return(invisible(list(gg.pwy=gg.pwy, ggplot=ggg)))
+  } else {
+    return(invisible(list(gg.pwy=gg.pwy)))
   }
-  return(invisible(gg.pwy))
 }

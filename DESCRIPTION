@@ -1,6 +1,6 @@
 Package: ezlimmaplot
 Title: Bioinformatics plots using limma and ggplot2, some from output of ezlimma
-Version: 0.0.1.9019
+Version: 0.0.1.9020
 Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
              person("Hui", "Pan", role = "aut"),
 			 person("Grace", "Daher", role="ctb"))
@@ -11,6 +11,7 @@ Imports:
 	ezlimma,
 	ggplot2,
 	ggraph,
+	ggrepel,
 	graphics,
 	grDevices,
 	Hitman,
