@@ -44,13 +44,32 @@ test_that("analyte in G & not feat.tab & connected to top.nodes in plot, but nod
 })
 
 test_that("ggplot properties ", {
+  stat.colnm = "EMY.chisq"
+
   pp2 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", annot.col = "symbol",
-                  gr=gr, name = "plot-pwy", colorbar.nm = "chisq", ntop = 2, seed = 0, plot = TRUE,
+                  gr=gr, name = "pp2", colorbar.nm = "chisq", ntop = 2, seed = 0, plot = TRUE,
                   alternative="greater")
-  unlink("plot-pwy.pdf", force=TRUE)
+  unlink("pp2.pdf", force=TRUE)
 
   expect_equal(pp2$ggplot$layers[[2]]$aes_params$size, 12)
   expect_equal(pp2$ggplot$layers[[3]]$aes_params$size, 6)
   expect_equal(pp2$ggplot$data$EMY.chisq[1], feat.tab["a","EMY.chisq"])
-  expect_equal(pp2$ggplot$scales$scales[[1]]$limits[2], max(abs(feat.tab[, "EMY.chisq"]), na.rm = TRUE))
+  expect_equal(pp2$ggplot$scales$scales[[1]]$limits[2], max(abs(feat.tab[, stat.colnm]), na.rm = TRUE))
+
+  pp3 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", annot.col = "symbol",
+                  gr=gr, name = "pp3", colorbar.nm = "chisq", ntop = 2, seed = 0, plot = TRUE, alternative="greater")
+  unlink("pp3.pdf", force=TRUE)
+
+  expect_equal(pp3$ggplot$layers[[2]]$aes_params$size, 12)
+  expect_equal(pp3$ggplot$layers[[3]]$aes_params$size, 6)
+  expect_equal(pp3$ggplot$data$EMY.chisq[1], feat.tab["a","EMY.chisq"])
+  expect_equal(pp3$ggplot$scales$scales[[1]]$limits[2], range(feat.tab[, stat.colnm], na.rm = TRUE)[2])
+  expect_equal(pp3$ggplot$scales$scales[[1]]$limits[1], range(feat.tab[, stat.colnm], na.rm = TRUE)[1])
+
+  pp4 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EM.z", annot.col = "symbol",
+                  gr=gr, name = "pp4", colorbar.nm = "EM", ntop = 7, seed = 0, plot = TRUE, alternative="greater")
+  unlink("pp4.pdf", force=TRUE)
+  stat.colnm = "EM.z"
+  expect_equal(pp4$ggplot$scales$scales[[1]]$limits[2], max(abs(feat.tab[, stat.colnm]), na.rm = TRUE))
+  expect_equal(pp4$ggplot$scales$scales[[1]]$limits[1], -max(abs(feat.tab[, stat.colnm]), na.rm = TRUE))
 })
