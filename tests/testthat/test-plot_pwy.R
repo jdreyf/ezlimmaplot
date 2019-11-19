@@ -42,3 +42,15 @@ test_that("analyte in G & not feat.tab & connected to top.nodes in plot, but nod
                     plot = FALSE, alternative="greater")$gg.pwy
   expect_true(is.na(V(pp.na)$EMY.chisq[V(pp.na)$name == "b"]))
 })
+
+test_that("ggplot properties ", {
+  pp2 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", annot.col = "symbol",
+                  gr=gr, name = "plot-pwy", colorbar.nm = "chisq", ntop = 2, seed = 0, plot = TRUE,
+                  alternative="greater")
+  unlink("plot-pwy.pdf", force=TRUE)
+
+  expect_equal(pp2$ggplot$layers[[2]]$aes_params$size, 12)
+  expect_equal(pp2$ggplot$layers[[3]]$aes_params$size, 6)
+  expect_equal(pp2$ggplot$data$EMY.chisq[1], feat.tab["a","EMY.chisq"])
+  expect_equal(pp2$ggplot$scales$scales[[1]]$limits[2], max(abs(feat.tab[, "EMY.chisq"]), na.rm = TRUE))
+})

@@ -100,7 +100,7 @@ plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, nam
     if (is.null(name)) name <- paste0(ezlimma::clean_filenames(pwy.nm), "_ntop", ntop)
     if (!is.na(name)) {
       grDevices::pdf(paste0(name, ".pdf"))
-      on.exit(grDevices::dev.off())
+      on.exit(expr = grDevices::dev.off())
     }
 
     set.seed(seed)
