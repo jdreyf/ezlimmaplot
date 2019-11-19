@@ -67,8 +67,8 @@ test_that("ggplot properties ", {
   expect_equal(pp3$ggplot$scales$scales[[1]]$limits[1], range(feat.tab[, stat.colnm], na.rm = TRUE)[1])
 
   pp4 <- plot_pwy(feat.tab = hm, G.pwy = gmt[[1]], stat.colnm = "EM.z", annot.col = "symbol",
-                  gr=gr, name = "pp4", colorbar.nm = "EM", ntop = 7, seed = 0, plot = TRUE, alternative="greater")
-  unlink("pp4.pdf", force=TRUE)
+                  gr=gr, name = NULL, colorbar.nm = "EM", ntop = 7, seed = 0, plot = TRUE, alternative="greater")
+  unlink("pwy1.pdf", force=TRUE)
   stat.colnm = "EM.z"
   expect_equal(pp4$ggplot$scales$scales[[1]]$limits[2], max(abs(feat.tab[, stat.colnm]), na.rm = TRUE))
   expect_equal(pp4$ggplot$scales$scales[[1]]$limits[1], -max(abs(feat.tab[, stat.colnm]), na.rm = TRUE))
