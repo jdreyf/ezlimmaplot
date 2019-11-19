@@ -27,6 +27,9 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 
 \item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
 }
+\value{
+Invisibly, the last ggplot object.
+}
 \description{
 Make barplots for the p-Values of pathway analysis using \pkg{ggplot2}.
 }

@@ -11,7 +11,7 @@
 #' @param comparison Name of contrast to plot. If given, it's assumed that \code{lfc.col=paste0(comparison, '.logFC')}
 #' and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and these are over-ridden.
 #' @param alpha Transparency for non-annotated points, passed to \code{\link[ggplot2]{geom_point}}.
-#' @param ann.rnames Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.
+#' @param ann.rnames Character vector of additional rownames of \code{tab} to annotate; elements must be in \code{rownames(tab)}.
 #' @param up.ann.color Color for annotated points that are upregulated (\code{logFC>0}).
 #' @param down.ann.color Color for annotated points that are downregulated (\code{logFC<0}).
 #' @param shape Shape of non-annotated dots. Set to 1 for empty dots.
@@ -48,7 +48,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
       ann.rnames <- NULL
       warning("ann.rnames is not null, but lab.col is null.")
     }
-  }
+  }# end if lab.col null
 
   type.sig <- match.arg(type.sig)
   if (type.sig=="p"){
@@ -87,7 +87,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   if (!is.null(ann.rnames)){
     ind.ann.rnames <- which(rownames(tab) %in% ann.rnames)
     tab <- tab[c(setdiff(1:nrow(tab), ind.ann.rnames), ind.ann.rnames),]
-    ind.annot <- union((nrow(tab) - length(ind.ann.rnames) + 1):nrow(tab), ind.annot)
+    ind.annot <- (nrow(tab) - length(ind.ann.rnames) + 1):nrow(tab)
   }
 
   # ntop indices to plot with symbol
@@ -95,7 +95,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     na.lab.ind <- which(is.na(tab[,lab.col])|tab[,lab.col] %in% na.lab)
     if (ntop.lfc > 0) top.lfc.ind <- order(-abs(tab[,lfc.col]))[1:ntop.lfc] else top.lfc.ind <- NULL
     if (ntop.sig > 0) top.sig.ind <- order(tab[,sig.col])[1:ntop.sig] else top.sig.ind <- NULL
-    ind.annot <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
+    ind.ntop <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
+    ind.annot <- union(ind.annot, ind.ntop)
   }
 
   # construct ggplot object
@@ -109,14 +110,14 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     ind.annot.up <- ind.annot[which(tab[ind.annot, lfc.col] >= 0)]
     if (length(ind.annot.up) > 0){
       vol <- vol + ggplot2::geom_point(data=tab[ind.annot.up,], size=2, color = up.ann.color) +
-        ggplot2::geom_text(data=tab[ind.annot.up,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
+        ggrepel::geom_text_repel(data=tab[ind.annot.up,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
                            size=3, vjust=2, color = up.ann.color)
     }
 
     ind.annot.down <- ind.annot[which(tab[ind.annot, lfc.col] < 0)]
     if (length(ind.annot.down) > 0){
       vol <- vol + ggplot2::geom_point(data=tab[ind.annot.down,], size=2, color = down.ann.color) +
-        ggplot2::geom_text(data=tab[ind.annot.down,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
+        ggrepel::geom_text_repel(data=tab[ind.annot.down,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
                            size=3, vjust=2, color = down.ann.color)
     }
   }

@@ -14,7 +14,7 @@
 eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRUE,
                   perplexity=min(30, round(ncol(object)/5)), theta=0.5, seed=123, initial_dims=50, max_iter=1000,
                   alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL, rm.leg.title=FALSE, labels=FALSE,
-                  manual.color=NULL, manual.shape=NULL, ...){
+                  manual.color=NULL, manual.shape=NULL, plot=TRUE, ...){
 
   stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
 
@@ -39,7 +39,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
 
   width <- 7 + n / 12
   if (!is.na(name)){
-    pdf(paste0(name, ".pdf"), width=width, height=7)
+    grDevices::pdf(paste0(name, ".pdf"), width=width, height=7)
     on.exit(grDevices::dev.off())
   }
 
@@ -67,8 +67,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values=manual.color)
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values=manual.shape)
 
-  graphics::plot(qp)
+  if (plot) graphics::plot(qp)
 
   return(invisible(dat))
-
 }

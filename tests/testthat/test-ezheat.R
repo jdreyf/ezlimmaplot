@@ -67,7 +67,7 @@ test_that("vdiffr", {
   vdiffr::expect_doppelganger(title="heat5", fig=ezh5)
 })
 
-test_that("vdiff low res", {
+test_that("vdiffr low res", {
   # low res heat w/ clusters & w/o rowlabs
   cl.df <- data.frame(cl=LETTERS[as.numeric(sub("gene", "", rownames(M))) %% 5 + 1])
   rownames(cl.df) <- rownames(M)

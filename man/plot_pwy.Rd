@@ -41,8 +41,9 @@ Set to \code{NA} to plot to screen instead of to file.}
 \item{seed}{Numeric seed value for reproducibility.}
 }
 \value{
-Invisibly, a \code{\link[tidygraph]{tbl_graph}}, a subclass of
-\pkg{igraph} so every \pkg{igraph} method will work as expected.
+Invisibly, a list with \code{\link[tidygraph]{tbl_graph}}, a subclass of
+\pkg{igraph} so every \pkg{igraph} method will work as expected. If \code{plot=TRUE}, there
+is a second element of the list, which is a \code{ggplot} object.
 }
 \description{
 Plot nodes most impacting a pathway as a network diagram with node color corresponding to z-score.

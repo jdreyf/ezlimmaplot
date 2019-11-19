@@ -34,7 +34,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
-\item{ann.rnames}{Additional rownames of \code{tab} to annotate; must be in \code{rownames(tab)}.}
+\item{ann.rnames}{Character vector of additional rownames of \code{tab} to annotate; elements must be in \code{rownames(tab)}.}
 
 \item{up.ann.color}{Color for annotated points that are upregulated (\code{logFC>0}).}
 
