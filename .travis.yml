@@ -3,6 +3,7 @@
 language: r
 sudo: false
 warnings_are_errors: false
+cache: packages
 bioc_packages: limma
 r_github_packages: 
   - jdreyf/ezlimma
