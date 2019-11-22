@@ -1,5 +1,15 @@
 context("ez tsne")
 
+test_that("ez tsne non-vdiffr", {
+  eztsne.non.vdiffr <- eztsne(M, pheno, shape="grp", name=NA, manual.shape = 1:2, labels = TRUE, plot=FALSE)$data
+  expect_lte(eztsne.non.vdiffr["sample1", "tSNE1"], 229)
+  expect_equal(eztsne.non.vdiffr["sample1", "grp"], "First3")
+
+  pheno.df2 <- data.frame(pheno, "covar.num"=pheno$covar_num + 1, check.names = FALSE)
+  eztsne.df <- eztsne(object=M, pheno.df=pheno.df2, color="covar.num", name=NA, plot=FALSE)$data
+  expect_equal(eztsne.df$covar_num, pheno.df2[rownames(eztsne.df), "covar_num"])
+})
+
 test_that("ez tsne vdiffr", {
    ez.tsne <- function() eztsne(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
    eztsnel <- function() eztsne(M, pheno, color="grp", name=NA, labels=TRUE, manual.color=c("red", "blue"))
@@ -28,21 +38,6 @@ test_that("ez tsne vdiffr", {
   vdiffr::expect_doppelganger(title="tsne.stit3", fig=eztsne.stit3)
 })
 
-test_that("ez tsne non-vdiffr", {
-  eztsne.non.vdiffr <- eztsne(M, pheno, shape="grp", name=NA, manual.shape = 1:2, labels = TRUE, plot=FALSE)
-  expect_lte(eztsne.non.vdiffr["sample1", "tSNE1"], 229)
-  expect_equal(eztsne.non.vdiffr["sample1", "grp"], "First3")
-
-  pheno.df2 <- data.frame(pheno, "covar.num"=pheno$covar_num + 1, check.names = FALSE)
-  eztsne.df <- eztsne(object=M, pheno.df=pheno.df2, color="covar.num", name=NA, plot=FALSE)
-  expect_equal(eztsne.df$covar_num, pheno.df2[rownames(eztsne.df), "covar_num"])
-})
-
 #test_that("ez tsne without pheno", {
 #  expect_silent(eztsne(M, pheno ,labels = TRUE))
 #})
-
-
-
-
-

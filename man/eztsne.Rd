@@ -58,7 +58,8 @@ appearing in legend. \code{ggplot2} default is size=2.}
 \item{...}{Passed to \code{\link[ggplot2:aes_]{aes_string}}.}
 }
 \value{
-Invisibly, first two dimensions appended to \code{pheno.df}.
+Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+appended to \code{pheno.df}.
 }
 \description{
 tSNE plot of first two dimensions using \pkg{ggplot2}.
