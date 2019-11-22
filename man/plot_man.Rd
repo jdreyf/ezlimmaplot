@@ -36,3 +36,6 @@ Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted
 Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[Hitman]{lotman}} &
 \code{\link[Hitman]{hitman}}, using \pkg{ggplot2}.
 }
+\details{
+If \code{manual.color} is given, its length should be \code{length(unique(E))}.
+}

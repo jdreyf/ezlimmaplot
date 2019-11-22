@@ -2,6 +2,7 @@ Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
 
 library(covr)
 library(ezlimma)
+library(ggplot2)
 library(igraph)
 library(testthat)
 library(vdiffr)
