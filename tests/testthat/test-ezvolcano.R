@@ -78,6 +78,9 @@ test_that("non-vdiffr", {
 
   # expect_true(any(ggplot2::ggplot_build(ezvol6)$data[[3]]$y[1] == -log10(ezvol6$data["gene25","First3.p"])))
 
+  expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
+                           lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), plot=FALSE))
+
   ezvol7 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), p05.line = TRUE)
   #Validating point A
@@ -86,6 +89,8 @@ test_that("non-vdiffr", {
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[4]]$yintercept[1], -log10(0.05))
   # expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
+  expect_equal(ezvol7$layers[[4]]$aes_params$linetype, 2)
+  expect_equal(ezvol7$layers[[4]]$data$yintercept,  -log10(0.05))
 })
 
 test_that("vdiffr", {
