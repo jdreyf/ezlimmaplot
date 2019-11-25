@@ -21,7 +21,8 @@
 #' @param cut.color Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.
 #' @param cut.lfc Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
-#' @param p05.line Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.
+#' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
+#' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @inheritParams ezheat
@@ -32,7 +33,7 @@
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
-                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE,
+                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, lines.sig=NA,
                       sep='.', na.lab=c('---', ''), plot=TRUE){
   # can't annot if no lab.col
   if (is.null(lab.col)){
@@ -71,7 +72,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   stopifnot((ntop.sig==0 & ntop.lfc==0) | lab.col %in% colnames(tab), ntop.sig==as.integer(ntop.sig),
             ntop.lfc==as.integer(ntop.lfc), is.null(ann.rnames)|ann.rnames %in% rownames(tab),
             lfc.col %in% colnames(tab), sig.col %in% colnames(tab), any(tab[,lfc.col]<0), any(tab[,lfc.col]>=0),
-            length(x.bound)<=1, length(y.bound)<=1, is.logical(plot))
+            length(x.bound)<=1, length(y.bound)<=1, all(is.na(lines.sig)) || (is.numeric(lines.sig) && length(lines.sig)<=5),
+            is.logical(plot))
 
   tab <- data.frame(tab, nlg10sig=-log10(tab[,sig.col]))
   # want symmetric x-axis
@@ -137,10 +139,17 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
   ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
   vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
 
-  if (p05.line){
-    if (type.sig != "p") warning("p=0.05 line added, but FDR is plotted.")
+  if (all(!is.na(lines.sig))){
     # y is already -log10(sig)
-    vol <- vol + ggplot2::geom_hline(yintercept = -log10(0.05), linetype = 2, show.legend = TRUE)
+    # linetype values that we want = 2-6
+    # 0 = blank, 1 = solid, 2 = dashed, 3 = dotted, 4 = dotdash, 5 = longdash, 6 = twodash
+    lty.v <- c("dashed", "dotted", "dotdash", "longdash", "twodash")
+    lty.leg <- lty.v[order(as.character(lines.sig))]
+    names(lty.leg) <- sort(as.character(lines.sig))
+    vol <- vol + ggplot2::geom_hline(data=data.frame(lines.sig),
+                  mapping = ggplot2::aes(yintercept = -log10(lines.sig), linetype=as.character(lines.sig)),
+                  show.legend = TRUE) + ggplot2::scale_linetype_manual(values=lty.leg) +
+                  ggplot2::guides(linetype=guide_legend(title=type.sig))
   }
 
   if (plot){

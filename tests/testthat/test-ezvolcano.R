@@ -82,15 +82,24 @@ test_that("non-vdiffr", {
                            lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), plot=FALSE))
 
   ezvol7 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
-                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), p05.line = TRUE)
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05)
   #Validating point A
   expect_gte(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], 29)
   #Validating the intercept point crossed by the straight line
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[4]]$yintercept[1], -log10(0.05))
   # expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
-  expect_equal(ezvol7$layers[[4]]$aes_params$linetype, 2)
-  expect_equal(ezvol7$layers[[4]]$data$yintercept,  -log10(0.05))
+  # expect_equal(ezvol7$layers[[4]]$aes_params$linetype, 2)
+  # also test color of A, which should be green, but isn't
+
+  ezvol8 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05)
+
+  ezvol9 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = c(0.05, 0.001))
+
+  expect_error(ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 10**(-1*1:6)))
 })
 
 test_that("vdiffr", {
@@ -123,12 +132,7 @@ test_that("vdiffr", {
                                  cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), shape = 1)
   vdiffr::expect_doppelganger(title="vol6", fig=ezvol6)
 
-  expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
-                           lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), plot=FALSE))
-
   ezvol7 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
-                                 cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), p05.line = TRUE)
+                                 cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"))
   vdiffr::expect_doppelganger(title="vol7", fig=ezvol7)
-
-  expect_warning(ezvolcano(tab=res.df, comparison = "First3", name=NA, type.sig="FDR", p05.line = TRUE, plot=FALSE))
 })

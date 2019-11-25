@@ -10,7 +10,7 @@ ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
   ann.rnames = NULL, up.ann.color = "black",
   down.ann.color = "black", shape = 16, x.bound = NULL,
   y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
-  cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
+  cut.lfc = 1, cut.sig = 0.05, lines.sig = NA, sep = ".",
   na.lab = c("---", ""), plot = TRUE)
 }
 \arguments{
@@ -54,7 +54,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
-\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.}
+\item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
+\code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 

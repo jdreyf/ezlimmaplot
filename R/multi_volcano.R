@@ -12,7 +12,7 @@
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, alpha=0.4, name="volcanoes", ann.rnames=NULL,
                           up.ann.color="black", down.ann.color="black", same.scale=FALSE, type.sig=c("p", "FDR"),
-                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, p05.line=FALSE, sep=".", na.lab=c("---", ""),
+                          cut.color=NULL, cut.lfc=1, cut.sig=0.05, lines.sig=NA, sep=".", na.lab=c("---", ""),
                           plot=TRUE){
   type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0("\\", sep, "logFC$"), colnames(tab))
@@ -42,7 +42,7 @@ multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, alpha=0.4, 
     ret.lst[[contr]] <- ezvolcano(tab=tab, lab.col=lab.col, ntop.sig=ntop.sig, ntop.lfc=ntop.lfc, alpha=alpha, comparison=contr,
                                   name=NA, ann.rnames=ann.rnames, up.ann.color=up.ann.color, down.ann.color=down.ann.color,
                                   x.bound=x.bound, y.bound=y.bound, type.sig=type.sig, cut.color=cut.color,
-                                  cut.lfc=cut.lfc, cut.sig=cut.sig, p05.line=p05.line, sep=sep, na.lab=na.lab, plot=plot)
+                                  cut.lfc=cut.lfc, cut.sig=cut.sig, lines.sig=lines.sig, sep=sep, na.lab=na.lab, plot=plot)
   }
   return(invisible(ret.lst))
 }
