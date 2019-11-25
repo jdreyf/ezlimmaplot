@@ -28,7 +28,7 @@
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
-#' @return Invisibly, a ggplot object.
+#' @return Invisibly, a \code{ggplot} object.
 #' @export
 
 ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,

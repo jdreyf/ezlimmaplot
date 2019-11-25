@@ -64,7 +64,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{plot}{Logical; should plot be generated?}
 }
 \value{
-Invisibly, a ggplot object.
+Invisibly, a \code{ggplot} object.
 }
 \description{
 Volcano plot in ggplot2 using output from \code{ezlimma} package.
