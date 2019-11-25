@@ -93,9 +93,6 @@ test_that("non-vdiffr", {
   # also test color of A, which should be green, but isn't
 
   ezvol8 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
-                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05)
-
-  ezvol9 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = c(0.05, 0.001))
 
   expect_error(ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
