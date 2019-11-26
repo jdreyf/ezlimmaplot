@@ -71,4 +71,5 @@ Volcano plot in ggplot2 using output from \code{ezlimma} package.
 }
 \details{
 If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
+For annotated points, \code{up.ann.color} & \code{down.ann.color} dominate \code{cut.color}.
 }

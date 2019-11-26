@@ -90,10 +90,22 @@ test_that("non-vdiffr", {
   # expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[1]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
   # expect_equal(ezvol7$layers[[4]]$aes_params$linetype, 2)
+  expect_equal(ggplot_build(ezvol7)$data[[4]]$linetype, "dashed")
   # also test color of A, which should be green, but isn't
 
   ezvol8 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = c(0.05, 0.001))
+  expect_equal(ggplot_build(ezvol8)$data[[4]]$linetype[1], "dashed")
+  expect_equal(ggplot_build(ezvol8)$data[[4]]$linetype[2], "dotted")
+  expect_equal(ggplot2::ggplot_build(ezvol8)$data[[4]]$yintercept[1], -log10(0.05))
+  expect_equal(ggplot2::ggplot_build(ezvol8)$data[[4]]$yintercept[2], -log10(0.001))
+
+  ezvol9 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05,
+                      lab.col = "Gene.Symbol", up.ann.color = "blue")
+  ev9.ann.mat <- ggplot2::ggplot_build(ezvol9)$data[[2]]
+  expect_equal(ev9.ann.mat[ev9.ann.mat$label == "A", "colour"], "blue")
+  expect_equal(ev9.ann.mat[ev9.ann.mat$label == "B", "colour"], "blue")
 
   expect_error(ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 10**(-1*1:6)))
@@ -133,3 +145,4 @@ test_that("vdiffr", {
                                  cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"))
   vdiffr::expect_doppelganger(title="vol7", fig=ezvol7)
 })
+

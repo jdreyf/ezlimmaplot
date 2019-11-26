@@ -28,6 +28,7 @@
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
+#' For annotated points, \code{up.ann.color} & \code{down.ann.color} dominate \code{cut.color}.
 #' @return Invisibly, a \code{ggplot} object.
 #' @export
 
@@ -75,7 +76,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
             length(x.bound)<=1, length(y.bound)<=1, all(is.na(lines.sig)) || (is.numeric(lines.sig) && length(lines.sig)<=5),
             is.logical(plot))
 
-  tab <- data.frame(tab, nlg10sig=-log10(tab[,sig.col]))
+  tab <- data.frame(tab, nlg10sig = -log10(tab[,sig.col]))
   # want symmetric x-axis
   if(is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
   if(is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
@@ -94,7 +95,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
 
   # ntop indices to plot with symbol
   if (ntop.sig > 0 | ntop.lfc > 0){
-    na.lab.ind <- which(is.na(tab[,lab.col])|tab[,lab.col] %in% na.lab)
+    na.lab.ind <- which(is.na(tab[,lab.col]) | tab[,lab.col] %in% na.lab)
     if (ntop.lfc > 0) top.lfc.ind <- order(-abs(tab[,lfc.col]))[1:ntop.lfc] else top.lfc.ind <- NULL
     if (ntop.sig > 0) top.sig.ind <- order(tab[,sig.col])[1:ntop.sig] else top.sig.ind <- NULL
     ind.ntop <- setdiff(union(top.sig.ind, top.lfc.ind), na.lab.ind)
@@ -149,7 +150,7 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
     vol <- vol + ggplot2::geom_hline(data=data.frame(lines.sig),
                   mapping = ggplot2::aes(yintercept = -log10(lines.sig), linetype=as.character(lines.sig)),
                   show.legend = TRUE) + ggplot2::scale_linetype_manual(values=lty.leg) +
-                  ggplot2::guides(linetype=guide_legend(title=type.sig))
+                  ggplot2::guides(linetype=ggplot2::guide_legend(title=type.sig))
   }
 
   if (plot){
