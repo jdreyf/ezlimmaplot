@@ -4,10 +4,9 @@
 \alias{ezvolcano}
 \title{Volcano plot in ggplot2}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
-  lab.col = "Gene.Symbol", ntop.sig = 0, ntop.lfc = 0,
-  comparison = NULL, alpha = 0.4, name = "volcano",
-  ann.rnames = NULL, up.ann.color = "black",
+ezvolcano(tab, lfc.col = NA, sig.col = NA, lab.col = "Gene.Symbol",
+  ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
+  name = "volcano", ann.rnames = NULL, up.ann.color = "black",
   down.ann.color = "black", shape = 16, x.bound = NULL,
   y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
   cut.lfc = 1, cut.sig = 0.05, lines.sig = NA, sep = ".",
@@ -67,9 +66,13 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 Invisibly, a \code{ggplot} object.
 }
 \description{
-Volcano plot in ggplot2 using output from \code{ezlimma} package.
+Volcano plot in ggplot2 using output from \code{ezlimma} package. The logFC and significance columns are supplied
+by the user, or inferred from the supplied \code{comparison}.
 }
 \details{
 If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
 For annotated points, \code{up.ann.color} & \code{down.ann.color} dominate \code{cut.color}.
+}
+\seealso{
+multi_volcano
 }

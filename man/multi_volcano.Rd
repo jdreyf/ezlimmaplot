@@ -59,3 +59,6 @@ Multiple Volcano plots from a table output from \code{ezlimma}.
 \details{
 Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.
 }
+\seealso{
+ezvolcano
+}

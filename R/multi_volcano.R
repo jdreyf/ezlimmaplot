@@ -8,6 +8,7 @@
 #' @inheritParams ezvolcano
 #' @details Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.
 #' @return Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
+#' @seealso ezvolcano
 #' @export
 
 multi_volcano <- function(tab, lab.col=NULL, ntop.sig=0, ntop.lfc=0, alpha=0.4, name="volcanoes", ann.rnames=NULL,

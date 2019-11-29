@@ -1,6 +1,7 @@
 #' Volcano plot in ggplot2
 #'
-#' Volcano plot in ggplot2 using output from \code{ezlimma} package.
+#' Volcano plot in ggplot2 using output from \code{ezlimma} package. The logFC and significance columns are supplied
+#' by the user, or inferred from the supplied \code{comparison}.
 #'
 #' @param lfc.col Column name or index of tab with logFC. Some features should be > 0 and others < 0.
 #' @param sig.col Column name or index of tab with p-values or FDRs.
@@ -30,9 +31,10 @@
 #' @details If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
 #' For annotated points, \code{up.ann.color} & \code{down.ann.color} dominate \code{cut.color}.
 #' @return Invisibly, a \code{ggplot} object.
+#' @seealso multi_volcano
 #' @export
 
-ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
+ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, lines.sig=NA,
                       sep='.', na.lab=c('---', ''), plot=TRUE){
@@ -78,8 +80,8 @@ ezvolcano <- function(tab, lfc.col=NULL, sig.col=NULL, lab.col='Gene.Symbol', nt
 
   tab <- data.frame(tab, nlg10sig = -log10(tab[,sig.col]))
   # want symmetric x-axis
-  if(is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
-  if(is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
+  if (is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
+  if (is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
 
   ## need to order tab st annotated points are plotted last, so they are seen even if in dense areas
   ## however, not concerned about cut points, since they are in outer region
