@@ -6,16 +6,13 @@ test_that("non-vdiffr", {
                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), plot = FALSE)
   #Validating the location of the specific point
   expect_equal(ezvol$data["gene25","First3.avg"], res.df["gene25","First3.avg"])
-  #Validating geom and stat arguments for the layers
-  expect_null(ezvol$layers[[1]]$geom$objname)
-  expect_null(ezvol$layers[[1]]$stat$objname)
   #Validating the label
   expect_equal(ezvol$labels$label, "Gene.Symbol")
   #Validating the value of the outlier
-  expect_equal(ezvol$data["gene1","nlg10sig"], max(ezvol$data$nlg10sig))
+  expect_equal(ezvol$data["gene1","nlg10sig"], -log10(res.df["gene1","First3.p"]))
   #Validating the limits of the scale of the ggplot
-  expect_lte(ezvol$scales$scales[[1]]$limits[2], 3)
-  expect_gte(ezvol$scales$scales[[1]]$limits[1], -3)
+  expect_equal(ezvol$scales$scales[[1]]$limits[2], max(res.df$First3.avg))
+  expect_equal(ezvol$scales$scales[[1]]$limits[1], -max(res.df$First3.avg))
   #Validating the color of the point
   expect_equal(ggplot2::ggplot_build(ezvol)$data[[1]]$colour[[1]], "black")
   expect_equal(ggplot2::ggplot_build(ezvol)$data[[1]]$y[1], -log10(ezvol$data["gene1", "First3.p"]))
@@ -44,14 +41,10 @@ test_that("non-vdiffr", {
   expect_equal(ezvol4$data["gene25","First3.avg"], res.df["gene25","First3.avg"])
   #Validating point D
   #Validating geom and stat arguments for the layers
-  expect_true(any(ggplot2::ggplot_build(ezvol4)$data[[1]]$y == -log10(ezvol4$data["gene59", "First3.p"])))
-  expect_null(ezvol4$layers[[1]]$geom$objname)
-  expect_null(ezvol4$layers[[1]]$stat$objname)
+  expect_equal(ggplot2::ggplot_build(ezvol4)$data[[1]]$y,  -log10(res.df["gene59", "First3.p"]))
+
   #Validating the label
   expect_equal(ezvol4$labels$label, "Gene.Symbol")
-  #Validating the limits of the scale of the ggplot
-  expect_lte(ezvol4$scales$scales[[1]]$limits[2], 3)
-  expect_gte(ezvol4$scales$scales[[1]]$limits[1], -3)
   #Validating the colour of the point
   expect_equal(ggplot2::ggplot_build(ezvol4)$data[[1]]$colour, "black")
 
@@ -109,6 +102,13 @@ test_that("non-vdiffr", {
 
   expect_error(ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 10**(-1*1:6)))
+
+  ezvol10 <- ezvolcano(tab=res.df, comparison = "First3", plot=FALSE, alpha=1)
+  expect_equal(min(ggplot2::ggplot_build(ezvol10)$data[[1]]$alpha), 1)
+  expect_equal(max(ggplot2::ggplot_build(ezvol10)$data[[1]]$alpha), 1)
+
+  ezvol11 <- ezvolcano(tab=res.df, comparison = "First3", plot=FALSE, type.sig="FDR")
+  expect_equal(ezvol11$labels$y, expression("-" * log[10] ~ FDR))
 })
 
 test_that("vdiffr", {

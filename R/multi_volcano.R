@@ -1,6 +1,7 @@
-#' Multiple Volcano plots
+#' Multiple volcano plots
 #'
-#' Multiple Volcano plots from a table output from \code{ezlimma}.
+#' Multiple volcano plots, where one or more comparisons are inferred from columns of \code{tab}
+#' e.g. \code{AvsB.logFC}, and each comparison is plotted with \code{ezvolcano}.
 #'
 #' @param same.scale Logical, should axes' scales be the same for the different plots?
 #' @inheritParams ezheat

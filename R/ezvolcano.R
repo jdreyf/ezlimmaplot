@@ -1,7 +1,9 @@
-#' Volcano plot in ggplot2
+#' Volcano plot
 #'
-#' Volcano plot in ggplot2 using output from \code{ezlimma} package. The logFC and significance columns are supplied
-#' by the user, or inferred from the supplied \code{comparison}.
+#' Volcano plot in ggplot2 using output from \code{ezlimma} package, e.g. \code{limma_contrasts}.
+#' The logFC and significance columns are supplied by the user, or inferred from the supplied \code{comparison},
+#' e.g. if \code{comparison="AvsB"}, \code{ezvolcano} expects column names \code{AvsB.logFC} and,
+#' depending on \code{type.sig}, \code{AvsB.p} or \code{AvsB.FDR}.
 #'
 #' @param lfc.col Column name or index of tab with logFC. Some features should be > 0 and others < 0.
 #' @param sig.col Column name or index of tab with p-values or FDRs.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ezvolcano.R
 \name{ezvolcano}
 \alias{ezvolcano}
-\title{Volcano plot in ggplot2}
+\title{Volcano plot}
 \usage{
 ezvolcano(tab, lfc.col = NA, sig.col = NA, lab.col = "Gene.Symbol",
   ntop.sig = 0, ntop.lfc = 0, comparison = NULL, alpha = 0.4,
@@ -66,8 +66,10 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 Invisibly, a \code{ggplot} object.
 }
 \description{
-Volcano plot in ggplot2 using output from \code{ezlimma} package. The logFC and significance columns are supplied
-by the user, or inferred from the supplied \code{comparison}.
+Volcano plot in ggplot2 using output from \code{ezlimma} package, e.g. \code{limma_contrasts}.
+The logFC and significance columns are supplied by the user, or inferred from the supplied \code{comparison},
+e.g. if \code{comparison="AvsB"}, \code{ezvolcano} expects column names \code{AvsB.logFC} and,
+depending on \code{type.sig}, \code{AvsB.p} or \code{AvsB.FDR}.
 }
 \details{
 If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.

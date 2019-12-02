@@ -2,7 +2,7 @@
 % Please edit documentation in R/multi_volcano.R
 \name{multi_volcano}
 \alias{multi_volcano}
-\title{Multiple Volcano plots}
+\title{Multiple volcano plots}
 \usage{
 multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
   alpha = 0.4, name = "volcanoes", ann.rnames = NULL,
@@ -54,7 +54,8 @@ no points are annotated.}
 Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 }
 \description{
-Multiple Volcano plots from a table output from \code{ezlimma}.
+Multiple volcano plots, where one or more comparisons are inferred from columns of \code{tab}
+e.g. \code{AvsB.logFC}, and each comparison is plotted with \code{ezvolcano}.
 }
 \details{
 Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.

@@ -1,4 +1,4 @@
-context("ez tsne")
+context("eztsne")
 
 test_that("ez tsne non-vdiffr", {
   eztsne.non.vdiffr <- eztsne(M, pheno, shape="grp", manual.shape = 1:2, labels = TRUE, plot=FALSE)$data
@@ -67,7 +67,7 @@ test_that("ez tsne non vdiffr plot object", {
 #  expect_silent(eztsne(M, pheno ,labels = TRUE))
 #})
 
-test_that("ez tsne vdiffr", {
+test_that("eztsne vdiffr", {
    ez.tsne <- function() eztsne(M, pheno, shape="grp", manual.shape = 1:2)
    eztsnel <- function() eztsne(M, pheno, color="grp", labels=TRUE, manual.color=c("red", "blue"))
    eztsnes <- function() eztsne(M, pheno, color="grp", all.size = 3, rm.leg.title=TRUE)
