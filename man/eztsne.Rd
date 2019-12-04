@@ -49,9 +49,11 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
 \item{plot}{Logical; should plot be generated?}
 
