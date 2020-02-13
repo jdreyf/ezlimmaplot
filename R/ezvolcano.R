@@ -80,7 +80,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
             length(x.bound)<=1, length(y.bound)<=1, all(is.na(lines.sig)) || (is.numeric(lines.sig) && length(lines.sig)<=5),
             is.logical(plot))
 
-  tab <- data.frame(tab, nlg10sig = -log10(tab[,sig.col]))
+  tab <- data.frame(tab, nlg10sig = -log10(tab[,sig.col]), check.names = FALSE)
   # want symmetric x-axis
   if (is.null(x.bound)) x.bound <- max(abs(tab[,lfc.col]))
   if (is.null(y.bound)) y.bound <- max(tab[,'nlg10sig'])
@@ -93,7 +93,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   ind.annot <- NULL
   if (!is.null(ann.rnames)){
     ind.ann.rnames <- which(rownames(tab) %in% ann.rnames)
-    tab <- tab[c(setdiff(1:nrow(tab), ind.ann.rnames), ind.ann.rnames),]
+    tab <- tab[c(setdiff(1:nrow(tab), ind.ann.rnames), ind.ann.rnames),, drop=FALSE]
     ind.annot <- (nrow(tab) - length(ind.ann.rnames) + 1):nrow(tab)
   }
 
