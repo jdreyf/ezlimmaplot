@@ -4,10 +4,22 @@
 \alias{ezpca}
 \title{PCA plot of top two components}
 \usage{
-ezpca(object, pheno.df = NULL, name = "pca", alpha = 1,
-  all.size = NULL, facet = NULL, title = NULL, subtitle = NULL,
-  rm.leg.title = FALSE, labels = FALSE, manual.color = NULL,
-  manual.shape = NULL, plot = TRUE, ...)
+ezpca(
+  object,
+  pheno.df = NULL,
+  name = "pca",
+  alpha = 1,
+  all.size = NULL,
+  facet = NULL,
+  title = NULL,
+  subtitle = NULL,
+  rm.leg.title = FALSE,
+  labels = FALSE,
+  manual.color = NULL,
+  manual.shape = NULL,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}

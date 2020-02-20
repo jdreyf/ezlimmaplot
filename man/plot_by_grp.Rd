@@ -4,11 +4,27 @@
 \alias{plot_by_grp}
 \title{Make box, dot, violin or bar plots for a feature per group}
 \usage{
-plot_by_grp(object, grp, name = "topgenes", width = 7, height = 7,
-  main.v = "", xlab = "Group", ylab = "Log2 Expression",
-  type = "dot", manual.color = NULL, x.angle = 0, add.se = FALSE,
-  dotsize = 0.7, bins = 30, violin.alpha = 0.3, dot.alpha = 0.3,
-  add.dot = FALSE, bar.width = 0.7, errorbar.width = 0.3)
+plot_by_grp(
+  object,
+  grp,
+  name = "topgenes",
+  width = 7,
+  height = 7,
+  main.v = "",
+  xlab = "Group",
+  ylab = "Log2 Expression",
+  type = "dot",
+  manual.color = NULL,
+  x.angle = 0,
+  add.se = FALSE,
+  dotsize = 0.7,
+  bins = 30,
+  violin.alpha = 0.3,
+  dot.alpha = 0.3,
+  add.dot = FALSE,
+  bar.width = 0.7,
+  errorbar.width = 0.3
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}

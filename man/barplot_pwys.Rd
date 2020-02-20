@@ -4,9 +4,16 @@
 \alias{barplot_pwys}
 \title{Make barplots for the p-Values of Pathway Analysis}
 \usage{
-barplot_pwys(tab, prefix.v = NULL, name = NA, width = 10,
-  height = 4, ntop = 20, direction = c("Up", "Down"),
-  pwys_nm_size = 100)
+barplot_pwys(
+  tab,
+  prefix.v = NULL,
+  name = NA,
+  width = 10,
+  height = 4,
+  ntop = 20,
+  direction = c("Up", "Down"),
+  pwys_nm_size = 100
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}

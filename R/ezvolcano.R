@@ -110,7 +110,16 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig')) + ggplot2::theme_bw() +
     ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) +
     ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound)) + ggplot2::ylab(y.lab)
-  if (!is.null(comparison)) vol <- vol + ggplot2::ggtitle(comparison)
+
+  if (!is.null(comparison)){
+    first.grp <- unlist(strsplit(x=gsub("_", "", comparison), split = "vs|VS|Vs|In|IN|in|OF|Of|of"))[1]
+
+    vol <- vol + ggplot2::ggtitle(comparison) +
+      ggplot2::geom_text(mapping=ggplot2::aes(x=2*x.bound/3, y = -Inf, label = paste0("Up in ", first.grp)), color="darkgrey",
+                         vjust = -0.5, show.legend=FALSE) +
+      ggplot2::geom_text(mapping=ggplot2::aes(x=-2*x.bound/3, y = -Inf, label = paste0("Down in ", first.grp)), color="darkgrey",
+                         vjust = -0.5, show.legend=FALSE)
+  }
 
   # plot annotated with color
   if (!is.null(ind.annot)){

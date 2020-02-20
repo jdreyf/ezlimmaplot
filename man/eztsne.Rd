@@ -4,12 +4,29 @@
 \alias{eztsne}
 \title{tSNE plot of first two dimensions}
 \usage{
-eztsne(object, pheno.df, name = "tsne", check_duplicates = FALSE,
-  pca = TRUE, perplexity = min(30, round(ncol(object)/5)),
-  theta = 0.5, seed = 123, initial_dims = 50, max_iter = 1000,
-  alpha = 1, all.size = NULL, facet = NULL, title = NULL,
-  subtitle = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL, plot = TRUE, ...)
+eztsne(
+  object,
+  pheno.df,
+  name = "tsne",
+  check_duplicates = FALSE,
+  pca = TRUE,
+  perplexity = min(30, round(ncol(object)/5)),
+  theta = 0.5,
+  seed = 123,
+  initial_dims = 50,
+  max_iter = 1000,
+  alpha = 1,
+  all.size = NULL,
+  facet = NULL,
+  title = NULL,
+  subtitle = NULL,
+  rm.leg.title = FALSE,
+  labels = FALSE,
+  manual.color = NULL,
+  manual.shape = NULL,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}

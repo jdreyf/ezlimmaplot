@@ -4,8 +4,15 @@
 \alias{signif_hist}
 \title{Plot histograms of significance (p-value & FDR) columns}
 \usage{
-signif_hist(tab, p.suffix = "p", fdr.suffix = "FDR", sep = ".",
-  pi0 = FALSE, name = "signif_hist", plot = TRUE)
+signif_hist(
+  tab,
+  p.suffix = "p",
+  fdr.suffix = "FDR",
+  sep = ".",
+  pi0 = FALSE,
+  name = "signif_hist",
+  plot = TRUE
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
