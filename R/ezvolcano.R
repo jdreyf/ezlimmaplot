@@ -121,7 +121,22 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
                          vjust = -0.5, show.legend=FALSE)
   }
 
-  # plot annotated with color
+  # cut points
+  if (!is.null(cut.color)){
+    ind.cut <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
+    ind.cut <- setdiff(ind.cut, ind.annot)
+    if (length(ind.cut) > 0){
+      vol <- vol + ggplot2::geom_point(data=tab[ind.cut,], alpha=alpha, size=2, color = cut.color, shape=shape)
+    }
+  } else {
+    ind.cut <- NULL
+  }
+
+  # plot rest
+  ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
+  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
+
+  # plot annotated with color (do last, so labels on top of points)
   if (!is.null(ind.annot)){
     ind.annot.up <- ind.annot[which(tab[ind.annot, lfc.col] >= 0)]
     if (length(ind.annot.up) > 0){
@@ -137,21 +152,6 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
                            size=3, vjust=2, color = down.ann.color)
     }
   }
-
-  # cut points
-  if (!is.null(cut.color)){
-    ind.cut <- which(abs(tab[,lfc.col]) > cut.lfc & tab[,sig.col] <= cut.sig)
-    ind.cut <- setdiff(ind.cut, ind.annot)
-    if (length(ind.cut) > 0){
-      vol <- vol + ggplot2::geom_point(data=tab[ind.cut,], alpha=alpha, size=2, color = cut.color, shape=shape)
-    }
-  } else {
-    ind.cut <- NULL
-  }
-
-  # plot rest
-  ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
-  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
 
   if (all(!is.na(lines.sig))){
     # y is already -log10(sig)

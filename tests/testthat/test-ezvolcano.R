@@ -14,8 +14,8 @@ test_that("non-vdiffr", {
   expect_equal(ezvol$scales$scales[[1]]$limits[2], max(res.df$First3.avg))
   expect_equal(ezvol$scales$scales[[1]]$limits[1], -max(res.df$First3.avg))
   #Validating the color of the point
-  expect_equal(ggplot2::ggplot_build(ezvol)$data[[3]]$colour[[1]], "black")
-  expect_equal(ggplot2::ggplot_build(ezvol)$data[[3]]$y[1], -log10(ezvol$data["gene1", "First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol)$data[[4]]$colour[[1]], "black")
+  expect_equal(ggplot2::ggplot_build(ezvol)$data[[4]]$y[1], -log10(ezvol$data["gene1", "First3.p"]))
 
   ezvol2 <- ezvolcano(tab=res.df, comparison = "First3", name=NA, cut.lfc=1, cut.sig=0.01, cut.color = "green",
                       type.sig = "FDR", plot = FALSE)
@@ -31,9 +31,9 @@ test_that("non-vdiffr", {
                       cut.sig=0.01, cut.color = "black", up.ann.color = "red", x.bound = 3, y.bound=30, plot = FALSE)
   #Validating the location of the specific point
   expect_equal(ezvol3$data["gene25","First3.avg"], res.df["gene25","First3.avg"])
-  expect_equal(ggplot2::ggplot_build(ezvol3)$data[[3]]$y, -log10(ezvol3$data["gene1","First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol3)$data[[4]]$y, -log10(ezvol3$data["gene1","First3.p"]))
   #Validating the colour of the point
-  expect_equal(ggplot2::ggplot_build(ezvol3)$data[[3]]$colour, "red")
+  expect_equal(ggplot2::ggplot_build(ezvol3)$data[[4]]$colour, "red")
 
   ezvol4 <- ezvolcano(tab=res.df[-1,], comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                       cut.sig=0.01, cut.color = "blue", up.ann.color = "red", x.bound = 3, y.bound=30, plot = FALSE)
@@ -41,12 +41,12 @@ test_that("non-vdiffr", {
   expect_equal(ezvol4$data["gene25","First3.avg"], res.df["gene25","First3.avg"])
   #Validating point D
   #Validating geom and stat arguments for the layers
-  expect_equal(ggplot2::ggplot_build(ezvol4)$data[[3]]$y,  -log10(res.df["gene59", "First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol4)$data[[4]]$y,  -log10(res.df["gene59", "First3.p"]))
 
   #Validating the label
   expect_equal(ezvol4$labels$title, "First3")
   #Validating the colour of the point
-  expect_equal(ggplot2::ggplot_build(ezvol4)$data[[3]]$colour, "black")
+  expect_equal(ggplot2::ggplot_build(ezvol4)$data[[4]]$colour, "black")
 
   expect_warning(ezvol5 <- ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, plot = FALSE,
                                      cut.lfc=1, lab.col=NULL, cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25")))
@@ -64,10 +64,10 @@ test_that("non-vdiffr", {
   #Validating the label column
   expect_equal(ezvol6$labels$title, "First3")
   #Validating the shape of the plot
-  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[3]]$shape[1], 19)
-  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[5]]$shape[1], 1)
+  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[4]]$shape[1], 19)
+  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[3]]$shape[1], 1)
 
-  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[3]]$y[1], -log10(ezvol6$data["gene1","First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol6)$data[[5]]$y[1], -log10(ezvol6$data["gene1","First3.p"]))
 
   # expect_true(any(ggplot2::ggplot_build(ezvol6)$data[[3]]$y[1] == -log10(ezvol6$data["gene25","First3.p"])))
 
@@ -77,11 +77,11 @@ test_that("non-vdiffr", {
   ezvol7 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05)
   #Validating point A
-  expect_gte(ggplot2::ggplot_build(ezvol7)$data[[3]]$y[1], 29)
+  expect_gte(ggplot2::ggplot_build(ezvol7)$data[[4]]$y[1], 29)
   #Validating the intercept point crossed by the straight line
   expect_equal(ggplot2::ggplot_build(ezvol7)$data[[6]]$yintercept[1], -log10(0.05))
   # expect_true(any(ggplot2::ggplot_build(ezvol7)$data[[3]]$y == -log10(ezvol7$data["gene25", "First3.p"])))
-  expect_equal(ggplot2::ggplot_build(ezvol7)$data[[3]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
+  expect_equal(ggplot2::ggplot_build(ezvol7)$data[[4]]$y[1], -log10(ezvol7$data["gene1", "First3.p"]))
   # expect_equal(ezvol7$layers[[4]]$aes_params$linetype, 2)
   expect_equal(ggplot_build(ezvol7)$data[[6]]$linetype, "dashed")
   # also test color of A, which should be green, but isn't
@@ -96,7 +96,7 @@ test_that("non-vdiffr", {
   ezvol9 <- ezvolcano(tab=res.df, comparison = "First3", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, name=NA, plot=FALSE,
                       cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"), lines.sig = 0.05,
                       lab.col = "Gene.Symbol", up.ann.color = "blue")
-  ev9.ann.mat <- ggplot2::ggplot_build(ezvol9)$data[[4]]
+  ev9.ann.mat <- ggplot2::ggplot_build(ezvol9)$data[[5]]
   expect_equal(ev9.ann.mat[ev9.ann.mat$label == "A", "colour"], "blue")
   expect_equal(ev9.ann.mat[ev9.ann.mat$label == "B", "colour"], "blue")
 
