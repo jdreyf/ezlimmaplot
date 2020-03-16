@@ -2,16 +2,33 @@
 % Please edit documentation in R/ezvolcano.R
 \name{ezvolcano}
 \alias{ezvolcano}
-\title{Volcano plot in ggplot2}
+\title{Volcano plot}
 \usage{
-ezvolcano(tab, lfc.col = NULL, sig.col = NULL,
-  lab.col = "Gene.Symbol", ntop.sig = 0, ntop.lfc = 0,
-  comparison = NULL, alpha = 0.4, name = "volcano",
-  ann.rnames = NULL, up.ann.color = "black",
-  down.ann.color = "black", shape = 16, x.bound = NULL,
-  y.bound = NULL, type.sig = c("p", "FDR"), cut.color = NULL,
-  cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
-  na.lab = c("---", ""), plot = TRUE)
+ezvolcano(
+  tab,
+  lfc.col = NA,
+  sig.col = NA,
+  lab.col = "Gene.Symbol",
+  ntop.sig = 0,
+  ntop.lfc = 0,
+  comparison = NULL,
+  alpha = 0.4,
+  name = "volcano",
+  ann.rnames = NULL,
+  up.ann.color = "black",
+  down.ann.color = "black",
+  shape = 16,
+  x.bound = NULL,
+  y.bound = NULL,
+  type.sig = c("p", "FDR"),
+  cut.color = NULL,
+  cut.lfc = 1,
+  cut.sig = 0.05,
+  lines.sig = NA,
+  sep = ".",
+  na.lab = c("---", ""),
+  plot = TRUE
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -54,7 +71,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
-\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.}
+\item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
+\code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
@@ -63,11 +81,18 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{plot}{Logical; should plot be generated?}
 }
 \value{
-Invisibly, a ggplot object.
+Invisibly, a \code{ggplot} object.
 }
 \description{
-Volcano plot in ggplot2 using output from \code{ezlimma} package.
+Volcano plot in ggplot2 using output from \code{ezlimma} package, e.g. \code{limma_contrasts}.
+The logFC and significance columns are supplied by the user, or inferred from the supplied \code{comparison},
+e.g. if \code{comparison="AvsB"}, \code{ezvolcano} expects column names \code{AvsB.logFC} and,
+depending on \code{type.sig}, \code{AvsB.p} or \code{AvsB.FDR}.
 }
 \details{
 If \code{ntop.sig>0} or \code{ntop.lfc>0}, then \code{lab.col} must be in \code{colnames(tab)}.
+For annotated points, \code{up.ann.color} & \code{down.ann.color} dominate \code{cut.color}.
+}
+\seealso{
+multi_volcano
 }

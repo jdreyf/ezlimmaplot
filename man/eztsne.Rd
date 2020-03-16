@@ -4,12 +4,29 @@
 \alias{eztsne}
 \title{tSNE plot of first two dimensions}
 \usage{
-eztsne(object, pheno.df, name = "tsne", check_duplicates = FALSE,
-  pca = TRUE, perplexity = min(30, round(ncol(object)/5)),
-  theta = 0.5, seed = 123, initial_dims = 50, max_iter = 1000,
-  alpha = 1, all.size = NULL, facet = NULL, title = NULL,
-  subtitle = NULL, rm.leg.title = FALSE, labels = FALSE,
-  manual.color = NULL, manual.shape = NULL, plot = TRUE, ...)
+eztsne(
+  object,
+  pheno.df,
+  name = "tsne",
+  check_duplicates = FALSE,
+  pca = TRUE,
+  perplexity = min(30, round(ncol(object)/5)),
+  theta = 0.5,
+  seed = 123,
+  initial_dims = 50,
+  max_iter = 1000,
+  alpha = 1,
+  all.size = NULL,
+  facet = NULL,
+  title = NULL,
+  subtitle = NULL,
+  rm.leg.title = FALSE,
+  labels = FALSE,
+  manual.color = NULL,
+  manual.shape = NULL,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -49,16 +66,19 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
 \item{plot}{Logical; should plot be generated?}
 
 \item{...}{Passed to \code{\link[ggplot2:aes_]{aes_string}}.}
 }
 \value{
-Invisibly, first two dimensions appended to \code{pheno.df}.
+Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+appended to \code{pheno.df}.
 }
 \description{
 tSNE plot of first two dimensions using \pkg{ggplot2}.

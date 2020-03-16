@@ -4,11 +4,21 @@
 \alias{multi_covar_pca}
 \title{PCA plots of top two components colored by each covariate}
 \usage{
-multi_covar_pca(object, pheno.df, name = "covar_pca", grp.var = "grp",
-  covars = setdiff(colnames(pheno.df), grp.var), alpha = 1,
-  all.size = NULL, facet = NULL, rm.leg.title = FALSE,
-  labels = FALSE, manual.color = NULL, manual.shape = NULL,
-  plot = TRUE)
+multi_covar_pca(
+  object,
+  pheno.df,
+  name = "covar_pca",
+  grp.var = "grp",
+  covars = setdiff(colnames(pheno.df), grp.var),
+  alpha = 1,
+  all.size = NULL,
+  facet = NULL,
+  rm.leg.title = FALSE,
+  labels = FALSE,
+  manual.color = NULL,
+  manual.shape = NULL,
+  plot = TRUE
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
@@ -32,9 +42,11 @@ appearing in legend. \code{ggplot2} default is size=2.}
 
 \item{labels}{Logical, should sample labels be added next to points?}
 
-\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.}
+\item{manual.color}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
-\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.}
+\item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
+discrete color scale. Vector length should be equal to number of levels in mapped variable.}
 
 \item{plot}{Logical; should plot be generated?}
 }

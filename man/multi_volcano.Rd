@@ -2,14 +2,28 @@
 % Please edit documentation in R/multi_volcano.R
 \name{multi_volcano}
 \alias{multi_volcano}
-\title{Multiple Volcano plots}
+\title{Multiple volcano plots}
 \usage{
-multi_volcano(tab, lab.col = NULL, ntop.sig = 0, ntop.lfc = 0,
-  alpha = 0.4, name = "volcanoes", ann.rnames = NULL,
-  up.ann.color = "black", down.ann.color = "black",
-  same.scale = FALSE, type.sig = c("p", "FDR"), cut.color = NULL,
-  cut.lfc = 1, cut.sig = 0.05, p05.line = FALSE, sep = ".",
-  na.lab = c("---", ""), plot = TRUE)
+multi_volcano(
+  tab,
+  lab.col = NULL,
+  ntop.sig = 0,
+  ntop.lfc = 0,
+  alpha = 0.4,
+  name = "volcanoes",
+  ann.rnames = NULL,
+  up.ann.color = "black",
+  down.ann.color = "black",
+  same.scale = FALSE,
+  type.sig = c("p", "FDR"),
+  cut.color = NULL,
+  cut.lfc = 1,
+  cut.sig = 0.05,
+  lines.sig = ifelse(type.sig[1] == "p", yes = 0.05, no = NA),
+  sep = ".",
+  na.lab = c("---", ""),
+  plot = TRUE
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}
@@ -41,7 +55,8 @@ no points are annotated.}
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
 
-\item{p05.line}{Logical, should a dashed line at p=0.05 be added? If \code{TRUE}, \code{type.sig} should be \code{"p"}.}
+\item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
+\code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
@@ -53,8 +68,12 @@ no points are annotated.}
 Invisibly, a list of ggplot objects from \code{\link{ezvolcano}}.
 }
 \description{
-Multiple Volcano plots from a table output from \code{ezlimma}.
+Multiple volcano plots, where one or more comparisons are inferred from columns of \code{tab}
+e.g. \code{AvsB.logFC}, and each comparison is plotted with \code{ezvolcano}.
 }
 \details{
 Uses \code{colnames(tab)} that have suffix \code{logFC} to infer comparisons.
+}
+\seealso{
+ezvolcano
 }

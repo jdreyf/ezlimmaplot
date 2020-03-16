@@ -4,9 +4,17 @@
 \alias{multi_venn}
 \title{Multiple Venn diagrams}
 \usage{
-multi_venn(tab, prefix.lst, p.cutoff = NULL, fdr.cutoff = NULL,
-  logfc.cutoff = NULL, circle.names.lst = prefix.lst, main.v = "",
-  name = "multi", cex = c(1, 1, 1))
+multi_venn(
+  tab,
+  prefix.lst,
+  p.cutoff = NULL,
+  fdr.cutoff = NULL,
+  logfc.cutoff = NULL,
+  circle.names.lst = prefix.lst,
+  main.v = "",
+  name = "multi",
+  cex = c(1, 1, 1)
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}

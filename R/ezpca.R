@@ -11,13 +11,16 @@
 #' \code{subtitle} but no \code{title}, set \code{title = ""}.
 #' @param rm.leg.title Logical indicating if legend title should be removed.
 #' @param labels Logical, should sample labels be added next to points?
-#' @param manual.color Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}}.
-#' @param manual.shape Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}}.
+#' @param manual.color Vector passed to \code{\link[ggplot2:scale_manual]{scale_colour_manual}} for creating a
+#' discrete color scale. Vector length should be equal to number of levels in mapped variable.
+#' @param manual.shape Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
+#' discrete color scale. Vector length should be equal to number of levels in mapped variable.
 #' @inheritParams ezheat
 #' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
 #' @details PCA is calculated with \code{\link[stats]{prcomp}}. \code{object} must have colnames, and if \code{pheno.df}
 #' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
-#' @return Invisibly, first two principal components appended to \code{pheno.df}.
+#' @return Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+#' appended to \code{pheno.df}.
 #' @export
 
 ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
@@ -32,11 +35,12 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
     stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
     dat <- data.frame(pca$x[rownames(pheno.df), 1:2], pheno.df, check.names = FALSE)
     dat$row_names <- rownames(pheno.df)
-  } else{
+  } else {
     dat <- data.frame(pca$x[colnames(object), 1:2], check.names = FALSE)
     dat$row_names <- colnames(object)
   }
 
+  # to determine width of PDF, accounting for label annotations
   dots <- list(...)
   if (is.null(names(dots))){
     n <- 0
@@ -45,8 +49,8 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
     for (i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
       # want length of longest element, but dots[[i]] can be an expression not in colnames(dat)
-      # then don"t parse & ignore length
-      chars[[2*i-1]] <- ifelse(dots[[i]] %in% colnames(dat), as.character(dat[, dots[[i]] ]), "")
+      # then don't parse & ignore length
+      chars[[2*i-1]] <- ifelse(dots[[i]] %in% colnames(dat), yes=as.character(dat[, dots[[i]] ]), no="")
     }
     n <- max(nchar(unlist(chars)), na.rm = TRUE)
   }
@@ -78,5 +82,5 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
 
   if (plot) graphics::plot(qp)
-  return(invisible(dat))
+  return(invisible(qp))
 }

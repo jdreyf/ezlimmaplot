@@ -4,9 +4,20 @@
 \alias{plot_pwy}
 \title{Plot network diagram for a pathway}
 \usage{
-plot_pwy(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7,
-  name = NULL, colorbar.nm = stat.colnm, alternative = c("two.sided",
-  "greater", "less"), repel = FALSE, plot = TRUE, seed = 0)
+plot_pwy(
+  feat.tab,
+  G.pwy,
+  gr,
+  stat.colnm,
+  annot.colnm,
+  ntop = 7,
+  name = NULL,
+  colorbar.nm = stat.colnm,
+  alternative = c("two.sided", "greater", "less"),
+  repel = FALSE,
+  plot = TRUE,
+  seed = 0
+)
 }
 \arguments{
 \item{feat.tab}{Matrix-like object for all analytes with rownames as analyte names, which should

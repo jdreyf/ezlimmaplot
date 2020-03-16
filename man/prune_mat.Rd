@@ -4,9 +4,15 @@
 \alias{prune_mat}
 \title{Prune matrix}
 \usage{
-prune_mat(object, labrows = rownames(object), only.labrows = FALSE,
-  unique.rows = FALSE, ntop = NULL, na.lab = c("---", ""),
-  verbose = TRUE)
+prune_mat(
+  object,
+  labrows = rownames(object),
+  only.labrows = FALSE,
+  unique.rows = FALSE,
+  ntop = NULL,
+  na.lab = c("---", ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}

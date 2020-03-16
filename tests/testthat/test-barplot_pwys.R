@@ -1,4 +1,4 @@
-context("barplot of significance per pathway")
+context("barplot pwys")
 
 test_that("direction properly specified", {
   expect_error(barplot_pwys(rc))

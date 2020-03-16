@@ -4,9 +4,17 @@
 \alias{plot_man}
 \title{Plot mediation exposure, mediator, and outcome per mediator}
 \usage{
-plot_man(E, M, Y, name = "top_mediators", main.v = "",
-  xlab = "Log2 abundance", ylab = "Outcome", check.names = TRUE,
-  manual.color = NULL)
+plot_man(
+  E,
+  M,
+  Y,
+  name = "top_mediators",
+  main.v = "",
+  xlab = "Log2 abundance",
+  ylab = "Outcome",
+  check.names = TRUE,
+  manual.color = NULL
+)
 }
 \arguments{
 \item{E}{A numeric vector of exposures.}
@@ -35,4 +43,7 @@ Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted
 \description{
 Plot mediation exposure, mediator, and outcome per mediator in \code{M}, as used in \code{\link[Hitman]{lotman}} &
 \code{\link[Hitman]{hitman}}, using \pkg{ggplot2}.
+}
+\details{
+If \code{manual.color} is given, its length should be \code{length(unique(E))}.
 }

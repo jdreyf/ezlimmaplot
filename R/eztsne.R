@@ -8,7 +8,8 @@
 #' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
 #' @details \code{object} must have colnames, and if \code{pheno.df}
 #' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
-#' @return Invisibly, first two dimensions appended to \code{pheno.df}.
+#' @return Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+#' appended to \code{pheno.df}.
 #' @export
 
 eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRUE,
@@ -69,5 +70,5 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
 
   if (plot) graphics::plot(qp)
 
-  return(invisible(dat))
+  return(invisible(qp))
 }

@@ -4,14 +4,32 @@
 \alias{multi_heat}
 \title{Plot one heatmap per comparison}
 \usage{
-multi_heat(tab, object, pheno.df = NULL, labrows = rownames(object),
-  labcols = colnames(object), main = "Log2 Expression",
-  name = "heats", sc = "ctr", clip = NA, color.v = NULL,
-  unique.rows = FALSE, only.labrows = FALSE, ntop = 50,
-  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
-  reorder_cols = FALSE, fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
-  verbose = FALSE)
+multi_heat(
+  tab,
+  object,
+  pheno.df = NULL,
+  labrows = rownames(object),
+  labcols = colnames(object),
+  main = "Log2 Expression",
+  name = "heats",
+  sc = "ctr",
+  clip = NA,
+  color.v = NULL,
+  unique.rows = FALSE,
+  only.labrows = FALSE,
+  ntop = 50,
+  stat.tab = NULL,
+  cutoff = 0.05,
+  reorder_rows = FALSE,
+  reorder_cols = FALSE,
+  fontsize_row = 10,
+  fontsize_col = 10,
+  na.lab = c("---", ""),
+  plot = TRUE,
+  width = NA,
+  height = NA,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{tab}{Table of output from \code{ezlimma}.}

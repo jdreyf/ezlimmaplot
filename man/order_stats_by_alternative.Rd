@@ -4,8 +4,10 @@
 \alias{order_stats_by_alternative}
 \title{Order values based on alternative hypothesis}
 \usage{
-order_stats_by_alternative(stat.v, alternative = c("two.sided",
-  "greater", "less"))
+order_stats_by_alternative(
+  stat.v,
+  alternative = c("two.sided", "greater", "less")
+)
 }
 \arguments{
 \item{stat.v}{Numeric vector of statistics to order; preferably with names. May include \code{NA}s, which are

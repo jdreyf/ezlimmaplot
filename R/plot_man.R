@@ -7,13 +7,16 @@
 #' @inheritParams plot_by_grp
 #' @inheritParams Hitman::lotman
 #' @inheritParams Hitman::hitman
+#' @details If \code{manual.color} is given, its length should be \code{length(unique(E))}.
 #' @return Invisibly, a \pkg{ggplot2} object from the last row of \code{M} that was plotted.
 #' @export
 
 plot_man <- function(E, M, Y, name="top_mediators", main.v="", xlab = "Log2 abundance",  ylab="Outcome",
                      check.names=TRUE, manual.color = NULL){
   stopifnot(limma::isNumeric(M), is.numeric(Y), !is.na(E), !is.na(Y), is.null(dim(E)), is.null(dim(Y)),
-            stats::var(Y) > 0, nrow(M) >= 1, length(E)==ncol(M), length(Y)==ncol(M))
+            stats::var(Y) > 0, nrow(M) >= 1, length(E)==ncol(M), length(Y)==ncol(M),
+            is.null(manual.color) || length(unique(E))==length(manual.color))
+
   if (is.data.frame(M)){ M <- data.matrix(M) }
   if (all(main.v == "") & !is.null(rownames(M))){ main.v <- rownames(M) }
   stopifnot(length(main.v)==nrow(M))

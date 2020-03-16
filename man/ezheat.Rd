@@ -4,16 +4,36 @@
 \alias{ezheat}
 \title{Plot heatmap}
 \usage{
-ezheat(object, pheno.df = NULL, labrows = rownames(object),
-  labcols = colnames(object), main = "Log2 Expression",
-  name = "topgenes_heat", sc = "ctr", clip = NA, color.v = NULL,
-  unique.rows = FALSE, only.labrows = FALSE, ntop = NULL,
-  stat.tab = NULL, cutoff = 0.05, reorder_rows = FALSE,
-  reorder_cols = FALSE, gaps_row = NULL, gaps_col = NULL,
-  annotation_row = NA, annotation_colors = NA, angle_col = c("270",
-  "0", "45", "90", "315"), fontsize_row = 10, fontsize_col = 10,
-  na.lab = c("---", ""), plot = TRUE, width = NA, height = NA,
-  verbose = FALSE)
+ezheat(
+  object,
+  pheno.df = NULL,
+  labrows = rownames(object),
+  labcols = colnames(object),
+  main = "Log2 Expression",
+  name = "topgenes_heat",
+  sc = "ctr",
+  clip = NA,
+  color.v = NULL,
+  unique.rows = FALSE,
+  only.labrows = FALSE,
+  ntop = NULL,
+  stat.tab = NULL,
+  cutoff = 0.05,
+  reorder_rows = FALSE,
+  reorder_cols = FALSE,
+  gaps_row = NULL,
+  gaps_col = NULL,
+  annotation_row = NA,
+  annotation_colors = NA,
+  angle_col = c("270", "0", "45", "90", "315"),
+  fontsize_row = 10,
+  fontsize_col = 10,
+  na.lab = c("---", ""),
+  plot = TRUE,
+  width = NA,
+  height = NA,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}

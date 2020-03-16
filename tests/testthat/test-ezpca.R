@@ -1,5 +1,20 @@
 context("ezpca")
 
+test_that("ezpca non-vdiffr", {
+  #verified that this looks like multi.pca
+  ezp <- ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2, labels = TRUE, plot=FALSE)$data
+  expect_lte(ezp["sample1", "PC1"], -2)
+  expect_equal(ezp["sample1", "grp"], "First3")
+
+  pheno.df2 <- data.frame(pheno, "covar num"=pheno$covar_num + 1, check.names = FALSE)
+  ezp.df <- ezpca(object=M, pheno.df=pheno.df2, color="`covar num`", name=NA, plot=FALSE)$data
+  expect_equal(ezp.df$covar_num, pheno.df2[rownames(ezp.df), "covar_num"])
+})
+
+test_that("ezpca without pheno", {
+  expect_silent(ezp <- ezpca(M, labels = TRUE))
+})
+
 test_that("ezpca vdiffr", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
@@ -33,19 +48,4 @@ test_that("ezpca vdiffr", {
   vdiffr::expect_doppelganger(title="pca.stit3", fig=ezp.stit3)
 
   vdiffr::expect_doppelganger(title="pca.df", fig=ezp.df)
-})
-
-test_that("ezpca non-vdiffr", {
-  #verified that this looks like multi.pca
-  ezp <- ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2, labels = TRUE, plot=FALSE)
-  expect_lte(ezp["sample1", "PC1"], -2)
-  expect_equal(ezp["sample1", "grp"], "First3")
-
-  pheno.df2 <- data.frame(pheno, "covar num"=pheno$covar_num + 1, check.names = FALSE)
-  ezp.df <- ezpca(object=M, pheno.df=pheno.df2, color="`covar num`", name=NA, plot=FALSE)
-  expect_equal(ezp.df$covar_num, pheno.df2[rownames(ezp.df), "covar_num"])
-})
-
-test_that("ezpca without pheno", {
-  expect_silent(ezp <- ezpca(M, labels = TRUE))
 })
