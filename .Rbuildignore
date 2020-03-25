@@ -3,3 +3,4 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 Thumbs.db
+^CODE_OF_CONDUCT\.md$
