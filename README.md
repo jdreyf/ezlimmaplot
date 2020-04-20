@@ -16,9 +16,9 @@ library(BiocManager)
 BiocManager::install("limma")
 
 library(remotes)
-remotes::install_github(repo="jdreyf/ezlimma", build_opts = c("--no-resave-data", "--no-manual"))
-remotes::install_github(repo="jdreyf/Hitman", build_opts = c("--no-resave-data", "--no-manual"))
-remotes::install_github(repo="jdreyf/ezlimmaplot", build_opts = c("--no-resave-data", "--no-manual"))
+remotes::install_github(repo="jdreyf/ezlimma", build_opts = c("--no-resave-data", "--no-manual"), build_vignettes = TRUE)
+remotes::install_github(repo="jdreyf/Hitman", build_opts = c("--no-resave-data", "--no-manual"), build_vignettes = TRUE)
+remotes::install_github(repo="jdreyf/ezlimmaplot", build_opts = c("--no-resave-data", "--no-manual"), build_vignettes = TRUE)
 ```
 
 ## Usage
@@ -30,3 +30,6 @@ library(ezlimmaplot)
 browseVignettes(package="ezlimmaplot")
 ```
 and click on HTML.
+
+## Code of Conduct
+This project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
