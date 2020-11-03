@@ -61,4 +61,4 @@ pp <- plot_pwy(feat.tab = feat.tab, G.pwy = gmt[[1]], stat.colnm = "EMY.chisq", 
 G <- list(pwy1=list(name="pwy1", description="pwy1", genes=paste0("gene", 1:3)),
           pwy2=list(name="pwy2", description="pwy2", genes=paste0("gene", 2:4)))
 
-rc <- roast_contrasts(object=M, G=G, feat.tab=res, grp=grp, contrast.v = contr.v, fun="fry")
+rc <- ezlimma::roast_contrasts(object=M, G=G, feat.tab=res, grp=grp, contrast.v = contr.v, fun="fry")
