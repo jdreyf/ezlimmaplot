@@ -16,9 +16,9 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
     p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
     prefix.v <- gsub(pattern = "(\\.|^)p$", replacement = "", x=p.colnms)
-    stopifnot(sapply(tab[, grep("Direction$", colnames(tab))], FUN=function(vv) all(direction %in% vv )))
+    stopifnot(sapply(tab[, grep("Direction$", colnames(tab)), drop=FALSE], FUN=function(vv) all(direction %in% vv )))
   } else {
-    stopifnot(sapply(tab[, paste0(prefix.v, ".Direction")], FUN=function(vv) all(direction %in% vv )))
+    stopifnot(sapply(tab[, paste0(prefix.v, ".Direction"), drop=FALSE], FUN=function(vv) all(direction %in% vv )))
   }
 
   if (!is.na(name)){
@@ -28,13 +28,13 @@ barplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
   }
 
   for (prefix in prefix.v){
-    tab.sub <- tab[, c("NGenes", paste(prefix, c("Direction", "p"), sep = "."))]
+    tab.sub <- tab[, c("NGenes", paste(prefix, c("Direction", "p"), sep = ".")), drop=FALSE]
     colnames(tab.sub) <- gsub(paste0(prefix, "."), "", colnames(tab.sub))
     tab.sub <- tab.sub[order(tab.sub$p), ]
 
     for(d in direction) {
-      dat2p <- tab.sub[tab.sub$Direction == d, ]
-      dat2p <- dat2p[1:min(ntop, nrow(dat2p)), ]
+      dat2p <- tab.sub[tab.sub$Direction == d,, drop=FALSE]
+      dat2p <- dat2p[1:min(ntop, nrow(dat2p)),, drop=FALSE]
       dat2p$Pathway <- substr(rownames(dat2p), 1, pwys_nm_size)
       dat2p$Pathway <- gsub("_", " ", dat2p$Pathway)
       dat2p$Pathway <- factor(dat2p$Pathway, levels = rev(dat2p$Pathway))
