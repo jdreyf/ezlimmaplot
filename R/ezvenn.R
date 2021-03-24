@@ -48,12 +48,12 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
   if (!is.null(fdr.cutoff)){
     fdr.col <- paste0(prefix.v, ".FDR")
     stopifnot(fdr.col %in% colnames(tab))
-    tab.sig <- tab[, fdr.col]
+    tab.sig <- tab[, fdr.col, drop=FALSE]
     tab.sig <- (tab.sig < fdr.cutoff)
   } else {
     p.col <- paste0(prefix.v, ".p")
     stopifnot(p.col %in% colnames(tab))
-    tab.sig <- tab[, p.col]
+    tab.sig <- tab[, p.col, drop=FALSE]
     tab.sig <- (tab.sig < p.cutoff)
   }
 
@@ -65,7 +65,7 @@ ezvenn <- function(tab, prefix.v=NULL, p.cutoff = NULL, fdr.cutoff = NULL, logfc
 
   logfc.col <- paste0(prefix.v, ".logFC")
   if (all(logfc.col %in% colnames(tab))){
-    tab.logfc <- tab[,logfc.col]
+    tab.logfc <- tab[, logfc.col, drop=FALSE]
     if(!is.null(logfc.cutoff)){
       tab.sig <- tab.sig * (abs(tab.logfc) > logfc.cutoff)
     }
