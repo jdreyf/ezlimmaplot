@@ -142,14 +142,14 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
     if (length(ind.annot.up) > 0){
       vol <- vol + ggplot2::geom_point(data=tab[ind.annot.up,], size=2, color = up.ann.color) +
         ggrepel::geom_text_repel(data=tab[ind.annot.up,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
-                           size=3, vjust=2, color = up.ann.color)
+                           size=3, color = up.ann.color)
     }
 
     ind.annot.down <- ind.annot[which(tab[ind.annot, lfc.col] < 0)]
     if (length(ind.annot.down) > 0){
       vol <- vol + ggplot2::geom_point(data=tab[ind.annot.down,], size=2, color = down.ann.color) +
         ggrepel::geom_text_repel(data=tab[ind.annot.down,], mapping=ggplot2::aes_string(x=lfc.col, y='nlg10sig', label=lab.col),
-                           size=3, vjust=2, color = down.ann.color)
+                           size=3, color = down.ann.color)
     }
   }
 
