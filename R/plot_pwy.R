@@ -6,11 +6,11 @@
 #' for plotting. Including nodes with \code{NA} stats allows these to be included in networks as a connector.
 #' An \code{annot.colnm} should have preferred labels for all nodes.
 #'
-#' @param feat.tab Matrix-like object for all analytes with rownames as analyte names, which should
+#' @param feat.tab Matrix-like object for all analytes with row names as analyte names, which should
 #' have some overlap with \code{G.pwy$genes}.
 #' @param G.pwy Element of list object \code{G} used in \pkg{ezlimma}. Should have elements
 #' \code{name}, \code{description}, \code{genes}. Accessible via \code{G[[pathway.name]]}.
-#' @param gr graph object of class \code{igraph}.
+#' @param gr graph object of class \code{igraph}, possibly a result of \code{\link{edgelist2graph}}.
 #' @param stat.colnm Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.
 #' Stats should be finite unless they are \code{NA}. Stats for all nodes are used to define color scale,
 #' for consistency across pathway visualizations.
