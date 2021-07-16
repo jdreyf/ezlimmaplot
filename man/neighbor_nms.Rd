@@ -7,7 +7,7 @@
 neighbor_nms(gr, nodes)
 }
 \arguments{
-\item{gr}{graph object of class \code{igraph}, possibly a result of \link{edgelist2graph}.}
+\item{gr}{graph object of class \code{igraph}, possibly a result of \code{\link{edgelist2graph}}.}
 
 \item{nodes}{Node names in the graph}
 }

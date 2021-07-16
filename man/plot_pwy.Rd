@@ -20,13 +20,13 @@ plot_pwy(
 )
 }
 \arguments{
-\item{feat.tab}{Matrix-like object for all analytes with rownames as analyte names, which should
+\item{feat.tab}{Matrix-like object for all analytes with row names as analyte names, which should
 have some overlap with \code{G.pwy$genes}.}
 
 \item{G.pwy}{Element of list object \code{G} used in \pkg{ezlimma}. Should have elements
 \code{name}, \code{description}, \code{genes}. Accessible via \code{G[[pathway.name]]}.}
 
-\item{gr}{graph object of class \code{igraph}, possibly a result of \link{edgelist2graph}.}
+\item{gr}{graph object of class \code{igraph}, possibly a result of \code{\link{edgelist2graph}}.}
 
 \item{stat.colnm}{Column name in \code{feat.tab} indicating scores to select top analytes for this pathway and plot.
 Stats should be finite unless they are \code{NA}. Stats for all nodes are used to define color scale,
