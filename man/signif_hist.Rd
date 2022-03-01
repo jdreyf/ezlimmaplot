@@ -11,7 +11,8 @@ signif_hist(
   sep = ".",
   pi0 = FALSE,
   name = "signif_hist",
-  plot = TRUE
+  plot = TRUE,
+  nrow = 2
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ If not found, it is assumed to be \code{NA}.}
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 
 \item{plot}{Logical; should plot be generated?}
+
+\item{nrow}{Number of rows of figures to plot per page}
 }
 \value{
 Invisibly, a subset of \code{tab} with only columns that contain significances.

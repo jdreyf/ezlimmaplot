@@ -8,6 +8,7 @@
 #' If not found, it is assumed to be \code{NA}.
 #' @param pi0 Logical indicating if proportion of null hypotheses should be calculated per p-value histogram. If
 #' \code{TRUE}, \code{\link[limma]{propTrueNull}} with \code{method="convest"} is used.
+#' @param nrow Number of rows of figures to plot per page
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @details Some p-value columns must be identifiable using \code{p.suffix}. If \code{!is.na(fdr.suffix)}, FDR
@@ -17,7 +18,7 @@
 
 # assume each comparison has a p-value & q-value column unless fdr.suffix=NA
 # could allow for no prefix, ie colnames(tab)=c("p", "FDR")
-signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALSE, name="signif_hist", plot=TRUE){
+signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALSE, name="signif_hist", plot=TRUE, nrow=2){
   stopifnot(nrow(tab) > 0, ncol(tab) > 0, !is.null(colnames(tab)))
   prefix.v <- extract_prefix(colnames(tab), suffix=p.suffix, sep=sep)
   if (any(duplicated(prefix.v))) stop("p-value column names are duplicated.")
@@ -44,14 +45,14 @@ signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALS
     if (!is.na(name)){
       grDevices::pdf(paste0(name, ".pdf"))
       on.exit(grDevices::dev.off())
-      }
-    graphics::par(mfrow=c(2,2))
+    }
+    graphics::par(mfrow=c(nrow, 2))
     for (ind.tmp in 1:length(p.cols)){
       prefix <- prefix.v[ind.tmp]
       p.col <- p.cols[ind.tmp]
       stopifnot(length(p.col)==1)
       subtitle <- NULL
-      if(pi0) {
+      if(pi0){
         if (!requireNamespace("limma", quietly = TRUE)){
           stop("Package 'limma' needed to estimate pi0. Please install it.", call. = FALSE)
         }
