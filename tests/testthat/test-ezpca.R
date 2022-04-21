@@ -15,6 +15,22 @@ test_that("ezpca without pheno", {
   expect_silent(ezp <- ezpca(M, labels = TRUE))
 })
 
+test_that("ezpca w/ ellipses", {
+  M2 <- matrix(rnorm(100*12, sd=0.3), nrow=100, ncol=12)
+  dimnames(M2) <- list(paste0("gene", 1:nrow(M2)), paste0("sample", 1:ncol(M2)))
+  grp2 <- rep(c("First3", "Last3"), each=ncol(M2)/2)
+  tissue2 <- rep(c("muscle", "liver"), times=ncol(M2)/2)
+  covar_num2 <- rnorm(n = ncol(M2))
+  pheno2 <- data.frame(row.names = colnames(M2), sample=colnames(M2), grp2, tissue2, covar_num2, stringsAsFactors = FALSE)
+  M2[1, 1:(ncol(M2)/2)] <- M2[1, 1:(ncol(M2)/2)] + 2
+
+  expect_silent(ezp <- ezpca(M2, pheno2, shape="grp2", name=NA, color="grp2", manual.shape = 1:2, labels = TRUE,
+                             ellipses = TRUE, plot=FALSE))
+})
+
+
+
+
 test_that("ezpca vdiffr", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)

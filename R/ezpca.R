@@ -15,6 +15,7 @@
 #' discrete color scale. Vector length should be equal to number of levels in mapped variable.
 #' @param manual.shape Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
 #' discrete color scale. Vector length should be equal to number of levels in mapped variable.
+#' @param ellipses Logical; should probability ellipses be drawn?
 #' @inheritParams ezheat
 #' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
 #' @details PCA is calculated with \code{\link[stats]{prcomp}}. \code{object} must have colnames, and if \code{pheno.df}
@@ -24,7 +25,8 @@
 #' @export
 
 ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, facet=NULL, title=NULL, subtitle=NULL,
-                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, plot=TRUE, ...){
+                  rm.leg.title=FALSE, labels=FALSE, manual.color = NULL, manual.shape = NULL, ellipses=FALSE,
+                  plot=TRUE, ...){
   stopifnot(limma::isNumeric(object), nrow(object[rowSums(is.na(object))==0,]) > 0, ncol(object) > 0,
             !is.null(colnames(object)), is.logical(plot))
 
@@ -78,8 +80,9 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
                                   size=2, vjust=-.7)
   }
 
-  if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
-  if(!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
+  if (!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
+  if (!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
+  if (ellipses) qp <- qp + stat_ellipse()
 
   if (plot) graphics::plot(qp)
   return(invisible(qp))

@@ -17,6 +17,7 @@ ezpca(
   labels = FALSE,
   manual.color = NULL,
   manual.shape = NULL,
+  ellipses = FALSE,
   plot = TRUE,
   ...
 )
@@ -49,6 +50,8 @@ discrete color scale. Vector length should be equal to number of levels in mappe
 
 \item{manual.shape}{Vector passed to \code{\link[ggplot2:scale_manual]{scale_shape_manual}} for creating a
 discrete color scale. Vector length should be equal to number of levels in mapped variable.}
+
+\item{ellipses}{Logical; should probability ellipses be drawn?}
 
 \item{plot}{Logical; should plot be generated?}
 
