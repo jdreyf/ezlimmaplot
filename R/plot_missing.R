@@ -30,9 +30,9 @@ plot_missing <- function(object, name=NA, alpha=0.5, link=c("logit", "probit")){
 
   ggp <- ggplot2::ggplot() + ggplot2::geom_point(mapping = ggplot2::aes(mu, na.prop), data = gg.df1, alpha=alpha)+
     ggplot2::geom_point(mapping = ggplot2::aes(xx, y.exp), data=gg.df2, color="red", alpha=alpha/5)+
-    ggplot2::labs(x="Average abundance of observed psite values", y="Proportion of samples psite is missing",
+    ggplot2::labs(x="Average abundance of observed analyte values", y="Proportion of samples analyte is missing",
          title = paste("Abundance-dependent missingness", pv.ttle),
-         subtitle = "Logistic fit in red")
+         subtitle = paste(link, "fit in red"))
 
   if (!is.na(name)){
     grDevices::pdf(paste0(name, ".pdf"))
