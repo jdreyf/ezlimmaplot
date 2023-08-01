@@ -343,10 +343,10 @@
 <circle cx='335.41' cy='511.66' r='2.49' style='stroke-width: 0.71; stroke: none; fill: #000000; fill-opacity: 0.40;' />
 <circle cx='451.81' cy='409.47' r='2.49' style='stroke-width: 0.71; fill: #000000;' />
 <circle cx='617.11' cy='67.29' r='2.49' style='stroke-width: 0.71; fill: #000000;' />
-<text x='459.49' y='405.86' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>A</text>
-<text x='609.29' y='76.90' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>B</text>
+<text x='459.63' y='405.89' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>A</text>
+<text x='624.89' y='63.58' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>B</text>
 <circle cx='60.56' cy='46.27' r='2.49' style='stroke-width: 0.71; fill: #000000;' />
-<text x='52.51' y='55.92' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='6.17px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text x='52.52' y='55.91' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='6.17px' lengthAdjust='spacingAndGlyphs'>C</text>
 <line x1='32.37' y1='344.18' x2='652.71' y2='344.18' style='stroke-width: 1.07; stroke-dasharray: 5.69,5.69; stroke-linecap: butt;' />
 <rect x='32.37' y='22.78' width='620.35' height='516.78' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

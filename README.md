@@ -1,7 +1,10 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/jdreyf/ezlimmaplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jdreyf/ezlimmaplot/actions/workflows/R-CMD-check.yaml)
+[![Coverage Status](https://img.shields.io/codecov/c/github/jdreyf/ezlimmaplot/master.svg)](https://codecov.io/github/jdreyf/ezlimmaplot?branch=master)
+<!-- badges: end -->
+
 # ezlimmaplot
 R package for plotting bioinformatics results, especially those from the `ezlimma` package.
-
-[![Coverage Status](https://img.shields.io/codecov/c/github/jdreyf/ezlimmaplot/master.svg)](https://codecov.io/github/jdreyf/ezlimmaplot?branch=master)
 
 ## Install
 On Windows, you should have [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
