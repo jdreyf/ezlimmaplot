@@ -22,6 +22,7 @@ Imports:
 	RColorBrewer,
 	rlang,
 	Rtsne,
+	statmod,
 	stats,
 	tidygraph
 Suggests:
