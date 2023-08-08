@@ -8,8 +8,8 @@ dotplot_pwys(
   tab,
   prefix.v = NULL,
   name = NA,
-  width = 10,
-  height = 4,
+  width = 8,
+  height = 8,
   ntop = 20,
   pwys_nm_size = 100
 )
@@ -32,8 +32,9 @@ These will be the columns that are used in the Venn diagram. If \code{NULL} thes
 \item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
 }
 \value{
-Invisibly, the ggplot object.
+Invisibly, the ggplot object
 }
 \description{
-Make dot plots for the significance and direction of pathway analysis.
+Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
+with p-value below 5%.
 }

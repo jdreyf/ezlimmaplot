@@ -1,23 +1,26 @@
 #' Make dot plots for the significance and direction of pathway analysis
 #'
-#' Make dot plots for the significance and direction of pathway analysis.
+#' Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
+#' with p-value below 5%.
 #'
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @inheritParams barplot_pwys
-#' @return Invisibly, the ggplot object.
+#' @return Invisibly, the ggplot object
+#' @export
+
 
 # 3 columns per contrast: up, down, mixed
 # color is prop; size is -log10 of p or q
 # https://github.com/YuLab-SMU/enrichplot/blob/0a01deaa5901b8af37d78c561e5f8200b4748b59/R/dotplot.R
-dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, ntop = 20, pwys_nm_size = 100){
+dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 8, height = 8, ntop = 20, pwys_nm_size = 100){
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
     p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
     prefix.v <- gsub(pattern = "(\\.|^)p$", replacement = "", x=p.colnms)
-    stopifnot(sapply(tab[, grep("Direction$", colnames(tab)), drop=FALSE], FUN=function(vv) all(direction %in% vv )))
+    stopifnot(sapply(tab[, grep("Direction$", colnames(tab)), drop=FALSE], FUN=function(vv) all(vv %in% c("Up", "Down"))))
   } else {
-    stopifnot(sapply(tab[, paste0(prefix.v, ".Direction"), drop=FALSE], FUN=function(vv) all(direction %in% vv )))
+    stopifnot(sapply(tab[, paste0(prefix.v, ".Direction"), drop=FALSE], FUN=function(vv) all(vv %in% c("Up", "Down") )))
   }
 
   if (!is.na(name)){
@@ -32,7 +35,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
   rownames(tab) <- pwy.nms <- substr(rownames(tab), 1, pwys_nm_size)
 
   dir.v <- c("Up", "Down", "Mixed")
-  # col.labs <- paste(rep(prefix.v, each=3), dir.v, sep=".")
+  col.labs <- paste(rep(prefix.v, each=3), dir.v, sep=".")
   ds <- data.frame()
 
   for (prefix in prefix.v){
@@ -58,10 +61,11 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, width = 10, height = 4, 
 
   # i probably need to modify the font for long pwy nms
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
-  ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison), y=factor(Pwy), size = -log10(p), color=PropP05)) +
-    ggplot2::geom_point() + ggplot2::xlab("Comparison") + ggplot2::ylab(NULL) +
-    ggplot2::labs(caption = "PropP05 = proportion of genes with P < 0.05 in the corresponding direction or for Mixed in either direction") +
-    ggplot2::theme_bw()
+  # angle axis labels: https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
+  ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE), y=factor(Pwy), size = -log10(p), color=PropP05)) +
+    ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) +
+    ggplot2::labs(caption = "PropP05 = proportion of genes in pwy in given direction with P < 0.05 or for *Mixed* in either direction") +
+    ggplot2::theme_bw() + ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45))
   graphics::plot(ggp)
   invisible(ggp)
 }

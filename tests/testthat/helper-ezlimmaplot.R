@@ -63,6 +63,7 @@ G <- list(pwy1=list(name="pwy1", description="pwy1", genes=paste0("gene", 1:3)),
 
 G2 <- G
 G2$pwy3 <- list(name="pwy3", description="pwy3", genes=paste0("gene", 5:9))
+G2$mother_of_all_pathways <- list(name="mother_of_all_pathways", description="mother_of_all_pathways", genes=rownames(res)[1:3])
 
 rc <- ezlimma::roast_contrasts(object=M, G=G, feat.tab=res, grp=grp, contrast.v = contr.v, fun="fry")
 rc2 <- ezlimma::roast_contrasts(object=M, G=G2, feat.tab=res, grp=grp, contrast.v = contr.v, fun="fry")
