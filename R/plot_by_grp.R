@@ -46,23 +46,24 @@ plot_by_grp <- function(object, grp, name="topgenes", width=7, height=7, main.v=
     object2p <- data.frame(Exprs=object[i, ], Group=grp)
     object2p <- object2p[stats::complete.cases(object2p), ]
 
-    if (type !="bar") {
+    if (type != "bar") {
       ggp <- ggplot2::ggplot(data=object2p, mapping=ggplot2::aes(x=Group, y=Exprs))
 
       if (type=="dot") {
         binwidth <- (max(object2p$Exprs) - min(object2p$Exprs))/bins
         ggp <- ggp + ggplot2::geom_dotplot(mapping=ggplot2::aes(fill=Group), binaxis="y", stackdir="center",
                                            binwidth=binwidth, dotsize=dotsize)
-        if(add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data=ggplot2::mean_se, geom="crossbar", width=0.3) }
+        if (add.se) { ggp <- ggp + ggplot2::stat_summary(fun.data=ggplot2::mean_se, geom="crossbar", width=0.3) }
       } else if (type=="box") {
         ggp <- ggp + ggplot2::geom_boxplot(mapping=ggplot2::aes(fill=Group))
       } else {
         ggp <- ggp + ggplot2::geom_violin(mapping=ggplot2::aes(fill=Group), trim=FALSE, alpha=violin.alpha)
         ggp <- ggp + ggplot2::geom_jitter(mapping=ggplot2::aes(fill=Group), shape=21, position=ggplot2::position_jitter(0.2), alpha=dot.alpha)
       }
-
     } else {
-      object2p.avg <- plyr::ddply(object2p, "Group", plyr::summarise, N=length(Exprs), Mean=mean(Exprs), SE=stats::sd(Exprs)/sqrt(N))
+      # object2p.avg <- plyr::ddply(object2p, "Group", plyr::summarise, N=length(Exprs), Mean=mean(Exprs), SE=stats::sd(Exprs)/sqrt(N))
+      object2p.avg <- object2p |> dplyr::group_by(Group) |>
+        dplyr::summarize(N = dplyr::n(), Mean = mean(Exprs), SE=stats::sd(Exprs)/sqrt(N))
       ggp <- ggplot2::ggplot(data=object2p.avg, mapping=ggplot2::aes(x=Group, y=Mean))
       ggp <- ggp + ggplot2::geom_col(mapping=ggplot2::aes(fill=Group), position=ggplot2::position_dodge(), width=bar.width, color="black")
       ggp <- ggp + ggplot2::geom_errorbar(mapping=ggplot2::aes(ymin=Mean, ymax=Mean+SE), position=ggplot2::position_dodge(), width=errorbar.width)

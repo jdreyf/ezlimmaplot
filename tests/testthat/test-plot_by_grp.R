@@ -50,7 +50,7 @@ test_that("pbg: non-visual tests",{
   expect_equal(pbg3$data["sample4", "Exprs"], M["gene1", "sample4"])
 
   pbg4 <- plot_by_grp(object=M["gene1",], grp=pheno$grp, name="tmp", ylab="Log2 abundance", main="gene 1", type="bar", add.dot=TRUE)
-  expect_equal(pbg4$data[pbg4$data$Group=="First3", "Mean"], mean(M["gene1", pheno$grp=="First3"]))
-  expect_equal(pbg4$data[pbg4$data$Group=="First3", "SE"], sd(M["gene1", pheno$grp=="First3"])/sqrt(sum( pheno$grp=="First3")))
+  expect_equal(pbg4$data[pbg4$data$Group=="First3",] |> dplyr::pull(Mean), mean(M["gene1", pheno$grp=="First3"]))
+  expect_equal(pbg4$data[pbg4$data$Group=="First3",] |> dplyr::pull(SE), sd(M["gene1", pheno$grp=="First3"])/sqrt(sum( pheno$grp=="First3")))
 })
 
