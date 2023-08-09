@@ -8,31 +8,36 @@ dotplot_pwys(
   tab,
   prefix.v = NULL,
   name = NA,
-  width = 8,
-  height = 8,
+  type.sig = c("p", "FDR"),
+  cut.sig = 0.05,
   ntop = 20,
-  pwys_nm_size = 100
+  pwys_nm_size = 100,
+  width = 8,
+  height = 8
 )
 }
 \arguments{
-\item{tab}{Table of output from \code{ezlimma}.}
+\item{tab}{Table of output from \code{ezlimma::roast_*}.}
 
 \item{prefix.v}{A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
-These will be the columns that are used in the Venn diagram. If \code{NULL} these are inferred from
-\code{colnames(tab)} that end with \code{.p}.}
+These will be the comparisons shown in the plot. If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{.p}.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
+
+\item{type.sig}{Either "p" or "FDR"; type of significance to show.}
+
+\item{cut.sig}{Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.}
+
+\item{ntop}{Integer number of top pathways to show.}
+
+\item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
 
 \item{width}{Manual option for determining the output file width in inches.}
 
 \item{height}{Manual option for determining the output file height in inches.}
-
-\item{ntop}{Scalar number of rows to include.}
-
-\item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
 }
 \value{
-Invisibly, the ggplot object
+Invisibly, the ggplot object.
 }
 \description{
 Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
