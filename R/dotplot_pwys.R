@@ -69,6 +69,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # filter out non-significant comparison x pathway rows
   # could do this in for loop separately for Mixed and not Mixed, but here I only need to do it once
   ds <- ds |> dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
+  if (nrow(ds) == 0) stop("No pathways had ", type.sig, " < ", cut.sig, ".")
 
   # i probably need to modify the font for long pwy nms
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
