@@ -36,9 +36,6 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
     on.exit(grDevices::dev.off())
   }
 
-  npwys <- min(ntop, nrow(tab))
-  # add prop for mixed
-  tab <- tab |> dplyr::slice(1:npwys)
   rownames(tab) <- pwy.nms <- substr(rownames(tab), 1, pwys_nm_size)
 
   dir.v <- c("Up", "Down", "Mixed")
@@ -68,7 +65,9 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
 
   # filter out non-significant comparison x pathway rows
   # could do this in for loop separately for Mixed and not Mixed, but here I only need to do it once
-  ds <- ds |> dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
+  # then subset to 1st ntop rows: this does not cause error or warning even if ntop > nrow(ds)
+  ds <- ds |> dplyr::filter(!!rlang::sym(type.sig) < cut.sig) |>
+    dplyr::slice(1:ntop)
   if (nrow(ds) == 0) stop("No pathways had ", type.sig, " < ", cut.sig, ".")
 
   # i probably need to modify the font for long pwy nms
