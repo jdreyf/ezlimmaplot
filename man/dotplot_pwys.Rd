@@ -22,7 +22,7 @@ dotplot_pwys(
 \item{prefix.v}{A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
 These will be the comparisons shown in the plot. If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{.p}.}
 
-\item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
+\item{name}{Name of file to create. Set to `NA` to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.}
 
 \item{type.sig}{Either "p" or "FDR"; type of significance to show.}
 
@@ -41,5 +41,5 @@ Invisibly, the ggplot object.
 }
 \description{
 Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
-with p-value below 5%.
+with p-value below 0.05.
 }

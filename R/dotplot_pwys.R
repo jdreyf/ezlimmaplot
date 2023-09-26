@@ -1,7 +1,7 @@
 #' Make dot plots for the significance and direction of pathway analysis
 #'
 #' Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
-#' with p-value below 5%.
+#' with p-value below 0.05.
 #'
 #' @param tab Table of output from \code{ezlimma::roast_*}.
 #' @param prefix.v A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
@@ -9,6 +9,7 @@
 #' @param type.sig Either "p" or "FDR"; type of significance to show.
 #' @param cut.sig Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.
 #' @param ntop Integer number of top pathways to show.
+#' @param name Name of file to create. Set to `NA` to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @inheritParams barplot_pwys
