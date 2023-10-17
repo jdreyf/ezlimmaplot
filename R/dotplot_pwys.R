@@ -9,7 +9,10 @@
 #' @param type.sig Either "p" or "FDR"; type of significance to show.
 #' @param cut.sig Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.
 #' @param ntop Integer number of top pathways to show.
-#' @param name Name of file to create. Set to `NA` to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
+#' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
+#' @param mixed Character string. Should mixed statistics be included, should they be the  only statistics included, or should they be excluded?
+#' @param caption Logical; should the caption explaining the color bar title be included?
+#' @param colorbar.title Character title of color bar.
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @inheritParams barplot_pwys
@@ -21,8 +24,10 @@
 # color is prop; size is -log10 of p or q
 # https://github.com/YuLab-SMU/enrichplot/blob/0a01deaa5901b8af37d78c561e5f8200b4748b59/R/dotplot.R
 # prefix.v=NULL; name = NA; type.sig="p"; cut.sig=0.05; ntop = 20; pwys_nm_size = 100; width = 8; height = 8
-dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8){
+dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8,
+                         mixed = c("include", "exclude", "only"), caption=TRUE, colorbar.title = "Prop P<5%"){
   type.sig <- match.arg(type.sig)
+  mixed <- match.arg(mixed)
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
     p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
@@ -40,8 +45,8 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
 
   rownames(tab) <- substr(rownames(tab), 1, pwys_nm_size)
 
-  dir.v <- c("Up", "Down", "Mixed")
-  col.labs <- paste(rep(prefix.v, each=3), dir.v, sep=".")
+  dir.v <- switch(mixed, include = c("Up", "Down", "Mixed"), exclude = c("Up", "Down"), only = "Mixed")
+  col.labs <- paste(rep(prefix.v, each=length(dir.v)), dir.v, sep=".")
   ds <- data.frame()
 
   for (prefix in prefix.v){
@@ -76,11 +81,16 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # i probably need to modify the font and/or use str_wrap() for long pwy nms
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
   # angle axis labels: https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
+  # order legends: https://stackoverflow.com/questions/11393123/controlling-ggplot2-legend-display-order, but `color=guide_legend(order=1)` treats it as factor :-/
   ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE), y=factor(Pwy),
                                                          size = -log10(!!rlang::sym(type.sig)), color=`Prop P<5%`)) +
-    ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) +
-    ggplot2::labs(caption = "Prop P<5% = proportion of genes in pwy with P < 0.05 in given direction or for *Mixed* in either direction") +
-    ggplot2::theme_bw() + ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45))
+    ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) + ggplot2::labs(color = colorbar.title) +
+    ggplot2::theme_bw() + ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) +
+    ggplot2::guides(size = ggplot2::guide_legend(order = 2))
+  if (caption){
+    capt <- paste(colorbar.title, "= proportion of genes in pwy with P < 0.05 in given direction or for *Mixed* in either direction")
+    ggp <- ggp + ggplot2::labs(caption = capt)
+  }
   graphics::plot(ggp)
   invisible(ggp)
 }

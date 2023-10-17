@@ -82,7 +82,7 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
 
   if (!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
   if (!is.null(manual.shape)) qp <- qp + ggplot2::scale_shape_manual(values = manual.shape)
-  if (ellipses) qp <- qp + stat_ellipse()
+  if (ellipses) qp <- qp + ggplot2::stat_ellipse()
 
   if (plot) graphics::plot(qp)
   return(invisible(qp))
