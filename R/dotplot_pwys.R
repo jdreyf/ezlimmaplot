@@ -28,6 +28,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
                          mixed = c("include", "exclude", "only"), caption=TRUE, colorbar.title = "Prop P<5%"){
   type.sig <- match.arg(type.sig)
   mixed <- match.arg(mixed)
+  tab <- as.data.frame(tab)
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
     p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
@@ -82,7 +83,8 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
   # angle axis labels: https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
   # order legends: https://stackoverflow.com/questions/11393123/controlling-ggplot2-legend-display-order, but `color=guide_legend(order=1)` treats it as factor :-/
-  ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE), y=factor(Pwy),
+  ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE),
+                                                         y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
                                                          size = -log10(!!rlang::sym(type.sig)), color=`Prop P<5%`)) +
     ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) + ggplot2::labs(color = colorbar.title) +
     ggplot2::theme_bw() + ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) +
@@ -92,5 +94,5 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
     ggp <- ggp + ggplot2::labs(caption = capt)
   }
   graphics::plot(ggp)
-  invisible(ggp)
+  return(invisible(ggp))
 }
