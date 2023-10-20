@@ -29,7 +29,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   mixed <- match.arg(mixed)
   stopifnot(mixed == "exclude" | any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
   tab <- as.data.frame(tab)
-  rownames(tab) <- substr(rownames(tab), 1, pwys_nm_size)
+  rownames(tab) <- gsub("_", " ", substr(rownames(tab), 1, pwys_nm_size))
   # extract prefix
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
@@ -60,13 +60,15 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # i probably need to modify the font and/or use str_wrap() for long pwy nms
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
   # angle axis labels: https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
-  # order legends: https://stackoverflow.com/questions/11393123/controlling-ggplot2-legend-display-order, but `color=guide_legend(order=1)` treats it as factor :-/
+  # order legends: https://stackoverflow.com/questions/11393123/controlling-ggplot2-legend-display-order, but `color=guide_legend(order=1)` treats it as factor
   ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE),
                                                          y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
                                                          size = -log10(!!rlang::sym(type.sig)), color=Prop_p05)) +
     ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) + ggplot2::labs(color = colorbar.title) +
-    ggplot2::theme_bw() + ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) +
-    ggplot2::guides(size = ggplot2::guide_legend(order = 2))
+    ggplot2::scale_size(range = c(4, 10)) +
+    ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) + ggplot2::scale_y_discrete(labels = scales::label_wrap(width = pwys_nm_size/2)) +
+    ggplot2::guides(size = ggplot2::guide_legend(order = 2)) + ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black"), axis.text.y = ggplot2::element_text(color = "black", size = 12))
   if (caption){
     capt <- paste(colorbar.title, "= proportion of genes in pwy with P < 0.05 in given direction or for *Mixed* in either direction")
     ggp <- ggp + ggplot2::labs(caption = capt)

@@ -18,7 +18,7 @@
 bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8, caption=TRUE){
   type.sig <- match.arg(type.sig)
   tab <- as.data.frame(tab)
-  rownames(tab) <- substr(rownames(tab), 1, pwys_nm_size)
+  rownames(tab) <- gsub("_", " ", substr(rownames(tab), 1, pwys_nm_size))
   stopifnot(any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
   # extract prefix
   if (is.null(prefix.v)){
@@ -50,7 +50,11 @@ bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"
     ggp <- ggplot2::ggplot(data = ds.tmp, mapping=ggplot2::aes(x=100*Prop_p05, y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
                                                            size = Count, color = -log10(!!rlang::sym(type.sig)))) +
       ggplot2::geom_point() + ggplot2::xlab("DE percent") + ggplot2::ylab(NULL) + ggplot2::ggtitle(cmpr) +
-      ggplot2::theme_bw() + ggplot2::guides(color = ggplot2::guide_colorbar(order = 1))
+      ggplot2::scale_size(range = c(9, 14)) + ggplot2::scale_x_continuous(expand = ggplot2::expansion(add = 3)) +
+      ggplot2::scale_y_discrete(labels = scales::label_wrap(width = pwys_nm_size/2)) +
+      ggplot2::guides(color = ggplot2::guide_colorbar(order = 1)) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.text.y = ggplot2::element_text(color = "black", size = 12))
     if (caption){
       capt <- paste("DE percent = percent of genes in pwy with P < 0.05 in given direction or for *Mixed* in either direction")
       ggp <- ggp + ggplot2::labs(caption = capt)
