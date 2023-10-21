@@ -19,6 +19,7 @@ bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"
   type.sig <- match.arg(type.sig)
   tab <- as.data.frame(tab)
   rownames(tab) <- gsub("_", " ", substr(rownames(tab), 1, pwys_nm_size))
+  pwy.max.nchar <- max(nchar(rownames(tab)))
   stopifnot(any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
   # extract prefix
   if (is.null(prefix.v)){
@@ -47,11 +48,13 @@ bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"
       dplyr::arrange(p) |>
       dplyr::slice(1:ntop) |>
       dplyr::arrange(-Prop_p05)
+    pwy.max.nchar.tmp <- ds.tmp |> dplyr::pull(Pwy) |> nchar() |> max()
+
     ggp <- ggplot2::ggplot(data = ds.tmp, mapping=ggplot2::aes(x=100*Prop_p05, y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
                                                            size = Count, color = -log10(!!rlang::sym(type.sig)))) +
       ggplot2::geom_point() + ggplot2::xlab("DE percent") + ggplot2::ylab(NULL) + ggplot2::ggtitle(cmpr) +
       ggplot2::scale_size(range = c(9, 14)) + ggplot2::scale_x_continuous(expand = ggplot2::expansion(add = 3)) +
-      ggplot2::scale_y_discrete(labels = scales::label_wrap(width = pwys_nm_size/2)) +
+      ggplot2::scale_y_discrete(labels = scales::label_wrap(width = ceiling(pwy.max.nchar.tmp/2) + 10)) +
       ggplot2::guides(color = ggplot2::guide_colorbar(order = 1)) +
       ggplot2::theme_bw() +
       ggplot2::theme(axis.text.y = ggplot2::element_text(color = "black", size = 12))

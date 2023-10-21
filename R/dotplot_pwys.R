@@ -56,17 +56,22 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
     dplyr::filter(!!rlang::sym(type.sig) < cut.sig) |>
     dplyr::filter(Pwy %in% (ds |> dplyr::slice(1:ntop) |> dplyr::pull(Pwy)))
   if (nrow(ds) == 0) stop("No pathways had ", type.sig, " < ", cut.sig, ".")
+  pwy.max.nchar <- ds |> dplyr::pull(Pwy) |> nchar() |> max()
 
   # i probably need to modify the font and/or use str_wrap() for long pwy nms
   # enrichplot::dotplot uses theme_dose(font.size) w/ default font size 12
   # angle axis labels: https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
   # order legends: https://stackoverflow.com/questions/11393123/controlling-ggplot2-legend-display-order, but `color=guide_legend(order=1)` treats it as factor
+  # add padding to label_wrap(width) to prevent splitting onto 3 lines, but not sure how to calculate it efficiently
+  # enrichplot has own str_wrap: https://github.com/YuLab-SMU/yulab.utils/blob/946215d1aad07bb3bd0f8712d634a73e0a71fb34/R/str-utils.R, but
+  # it looks like it could split onto >2 lines
   ggp <- ggplot2::ggplot(data = ds, mapping=ggplot2::aes(x=factor(Comparison, levels = col.labs, ordered = TRUE),
                                                          y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
                                                          size = -log10(!!rlang::sym(type.sig)), color=Prop_p05)) +
     ggplot2::geom_point() + ggplot2::xlab(NULL) + ggplot2::ylab(NULL) + ggplot2::labs(color = colorbar.title) +
     ggplot2::scale_size(range = c(4, 10)) +
-    ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) + ggplot2::scale_y_discrete(labels = scales::label_wrap(width = pwys_nm_size/2)) +
+    ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) +
+    ggplot2::scale_y_discrete(labels = scales::label_wrap(width = ceiling(pwy.max.nchar/2) + 10)) +
     ggplot2::guides(size = ggplot2::guide_legend(order = 2)) + ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black"), axis.text.y = ggplot2::element_text(color = "black", size = 12))
   if (caption){
