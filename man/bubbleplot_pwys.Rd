@@ -14,7 +14,8 @@ bubbleplot_pwys(
   pwys_nm_size = 100,
   width = 8,
   height = 8,
-  caption = TRUE
+  caption = TRUE,
+  mixed = c("include", "exclude", "only")
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ These will be the comparisons shown in the plot. If \code{NULL} these are inferr
 \item{height}{Manual option for determining the output file height in inches.}
 
 \item{caption}{Logical; should the caption explaining the x-axis be included?}
+
+\item{mixed}{Character string. Should mixed statistics be included, should they be the only statistics included, or should they be excluded?}
 }
 \value{
 Invisibly, a list of ggplot objects.

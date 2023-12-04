@@ -22,7 +22,7 @@
 # 3 columns per contrast: up, down, mixed
 # color is prop; size is -log10 of p or q
 # https://github.com/YuLab-SMU/enrichplot/blob/0a01deaa5901b8af37d78c561e5f8200b4748b59/R/dotplot.R
-# prefix.v=NULL; name = NA; type.sig="p"; cut.sig=0.05; ntop = 20; pwys_nm_size = 100; width = 8; height = 8; mixed="include"; caption=TRUE
+# prefix.v=NULL; name = NA; type.sig="p"; cut.sig=0.05; ntop = 20; pwys_nm_size = 100; width = 8; height = 8; mixed="include"; caption=TRUE; colorbar.title = "Prop P<5%"
 dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8,
                          mixed = c("include", "exclude", "only"), caption=TRUE, colorbar.title = "Prop P<5%"){
   type.sig <- match.arg(type.sig)
@@ -33,7 +33,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # extract prefix
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
-    p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
+    p.colnms <- p.colnms[!grepl("Mixed", p.colnms)]
     prefix.v <- gsub(pattern = "(\\.|^)p$", replacement = "", x=p.colnms)
   }
   stopifnot(sapply(tab[, paste0(prefix.v, ".Direction"), drop=FALSE], FUN=function(vv) all(vv %in% c("Up", "Down") )))

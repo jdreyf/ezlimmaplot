@@ -15,16 +15,19 @@
 
 # color = p; size = counts; x = DE percent
 # one plot per comparison x direction
-bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8, caption=TRUE){
+bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8,
+                            caption=TRUE, mixed = c("include", "exclude", "only")){
   type.sig <- match.arg(type.sig)
+  mixed <- match.arg(mixed)
+
   tab <- as.data.frame(tab)
   rownames(tab) <- gsub("_", " ", substr(rownames(tab), 1, pwys_nm_size))
   pwy.max.nchar <- max(nchar(rownames(tab)))
-  stopifnot(any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
+  stopifnot(mixed == "exclude" | any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
   # extract prefix
   if (is.null(prefix.v)){
     p.colnms <- ezlimma:::grep_cols(tab=tab, p.cols="p")
-    p.colnms <- p.colnms[-grep("Mixed", p.colnms)]
+    p.colnms <- p.colnms[!grepl("Mixed", p.colnms)]
     prefix.v <- gsub(pattern = "(\\.|^)p$", replacement = "", x=p.colnms)
   }
   stopifnot(sapply(tab[, paste0(prefix.v, ".Direction"), drop=FALSE], FUN=function(vv) all(vv %in% c("Up", "Down") )))
@@ -35,7 +38,8 @@ bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"
     on.exit(grDevices::dev.off())
   }
 
-  dir.v <- c("Up", "Down", "Mixed")
+  dir.v <- switch(mixed, include = c("Up", "Down", "Mixed"), exclude = c("Up", "Down"), only = "Mixed")
+
   ds <- pivot_roast_longer(tab=tab, prefix.v = prefix.v, direction.v = dir.v) |>
     dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
   if (nrow(ds) == 0) stop(paste("All", type.sig, ">=", cut.sig))
