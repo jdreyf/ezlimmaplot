@@ -26,6 +26,7 @@
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
 #' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 #' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
+#' @param raster Rasterize points using \code{ggrastr} so plot is lighter.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
 #' @inheritParams ezheat
@@ -39,7 +40,7 @@
 ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 16,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color=NULL, cut.lfc=1, cut.sig=0.05, lines.sig=NA,
-                      sep='.', na.lab=c('---', ''), plot=TRUE){
+                      raster = FALSE, sep='.', na.lab=c('---', ''), plot=TRUE){
   # can't annot if no lab.col
   if (is.null(lab.col)){
     if (ntop.lfc > 0){
@@ -134,7 +135,11 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
 
   # plot rest
   ind.rest <- setdiff(1:nrow(tab), union(ind.annot, ind.cut))
-  vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
+  if (raster){
+    vol <- vol + ggrastr::rasterize(ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape))
+  } else {
+    vol <- vol + ggplot2::geom_point(data=tab[ind.rest,], alpha=alpha, size=2, shape=shape)
+  }
 
   # plot annotated with color (do last, so labels on top of points)
   if (!is.null(ind.annot)){

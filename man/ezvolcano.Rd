@@ -25,6 +25,7 @@ ezvolcano(
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = NA,
+  raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
   plot = TRUE
@@ -73,6 +74,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
+
+\item{raster}{Rasterize points using \code{ggrastr} so plot is lighter.}
 
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 

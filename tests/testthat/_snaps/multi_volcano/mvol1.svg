@@ -343,8 +343,8 @@
 <circle cx='346.52' cy='515.91' r='2.49' style='stroke-width: 0.71; stroke: none; fill: #000000; fill-opacity: 0.40;' />
 <circle cx='624.82' cy='46.27' r='2.49' style='stroke-width: 0.71; fill: #000000;' />
 <circle cx='377.29' cy='503.45' r='2.49' style='stroke-width: 0.71; fill: #000000;' />
-<text x='617.14' y='55.52' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>A</text>
-<text x='385.01' y='499.89' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>B</text>
+<text x='632.64' y='42.46' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>A</text>
+<text x='384.99' y='500.07' text-anchor='middle' style='font-size: 8.54px; font-family: sans;' textLength='5.70px' lengthAdjust='spacingAndGlyphs'>B</text>
 <line x1='39.04' y1='495.24' x2='652.71' y2='495.24' style='stroke-width: 1.07; stroke-dasharray: 5.69,5.69; stroke-linecap: butt;' />
 <rect x='39.04' y='22.78' width='613.68' height='516.78' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

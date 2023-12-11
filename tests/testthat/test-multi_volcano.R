@@ -206,6 +206,15 @@ test_that("non vdiffr",{
   expect_equal(mvlc13$Last3vsFirst3$labels$y, expression("-" * log[10] ~ FDR))
 })
 
+test_that("raster", {
+  mvol.norast <- multi_volcano(tab=res.df, name="tmp_norast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
+                        ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol')
+  mvol.rast <- multi_volcano(tab=res.df, name="tmp_rast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
+                             ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol', raster = TRUE)
+  expect_gt(file.size("tmp_norast.pdf"), file.size("tmp_rast.pdf"))
+  unlink("tmp_rast.pdf")
+})
+
 test_that("vdiffr", {
   mvol <- multi_volcano(tab=res.df, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
                         ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol')
