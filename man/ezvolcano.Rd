@@ -17,17 +17,18 @@ ezvolcano(
   ann.rnames = NULL,
   up.ann.color = "black",
   down.ann.color = "black",
-  shape = 16,
+  shape = 19,
   x.bound = NULL,
   y.bound = NULL,
   type.sig = c("p", "FDR"),
-  cut.color = NULL,
+  cut.color = "black",
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = NA,
   raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
+  seed = 0,
   plot = TRUE
 )
 }
@@ -66,7 +67,7 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
-\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.}
+\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
 
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
@@ -80,6 +81,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{seed}{Numeric seed for reproducibility since \code{ggrepel} uses a random algorithm.}
 
 \item{plot}{Logical; should plot be generated?}
 }

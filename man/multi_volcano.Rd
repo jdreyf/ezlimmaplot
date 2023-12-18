@@ -6,7 +6,7 @@
 \usage{
 multi_volcano(
   tab,
-  lab.col = NULL,
+  lab.col = "Gene.Symbol",
   ntop.sig = 0,
   ntop.lfc = 0,
   alpha = 0.4,
@@ -16,13 +16,14 @@ multi_volcano(
   down.ann.color = "black",
   same.scale = FALSE,
   type.sig = c("p", "FDR"),
-  cut.color = NULL,
+  cut.color = "black",
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = ifelse(type.sig[1] == "p", yes = 0.05, no = NA),
   raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
+  seed = 0,
   plot = TRUE
 )
 }
@@ -50,7 +51,7 @@ no points are annotated.}
 
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
-\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig}. If \code{NULL}, cutoffs are ignored.}
+\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
 
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
@@ -64,6 +65,8 @@ no points are annotated.}
 \item{sep}{Separator string between contrast names and suffix such as \code{logFC}.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
+
+\item{seed}{Numeric seed for reproducibility since \code{ggrepel} uses a random algorithm.}
 
 \item{plot}{Logical; should plot be generated?}
 }
