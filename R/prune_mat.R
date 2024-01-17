@@ -7,16 +7,18 @@
 
 prune_mat <- function(object, labrows=rownames(object), only.labrows=FALSE, unique.rows=FALSE, ntop=NULL,
                       na.lab=c("---", ""), verbose=TRUE){
-  if (!is.matrix(object)) object <- data.matrix(object)
+  if (!is.matrix(object)) object <- as.matrix(object)
   stopifnot(length(labrows)==nrow(object), names(labrows)==rownames(object))
 
   ret <- stats::setNames(labrows, nm=rownames(object))
 
   if (only.labrows){
     na.sym.ind <- which(is.na(labrows) | labrows %in% na.lab)
-    if (verbose) message("Removing ", length(na.sym.ind), " rows without gene labrows.")
-    ret <- ret[-na.sym.ind]
-    object <- object[-na.sym.ind,]
+    if (length(na.sym.ind) > 0){
+      if (verbose) message("Removing ", length(na.sym.ind), " rows without gene labrows.")
+      ret <- ret[-na.sym.ind]
+      object <- object[-na.sym.ind,]
+    }
   }
   if (unique.rows){
     dup <- duplicated(ret)
