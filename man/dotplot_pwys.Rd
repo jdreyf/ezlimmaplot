@@ -15,6 +15,7 @@ dotplot_pwys(
   width = 8,
   height = 8,
   mixed = c("include", "exclude", "only"),
+  reorder.rows = TRUE,
   caption = TRUE,
   colorbar.title = "Prop P<5\%"
 )
@@ -40,6 +41,8 @@ These will be the comparisons shown in the plot. If \code{NULL} these are inferr
 \item{height}{Manual option for determining the output file height in inches.}
 
 \item{mixed}{Character string. Should mixed statistics be included, should they be the only statistics included, or should they be excluded?}
+
+\item{reorder.rows}{Boolean; reorder pathways by significance before selecting \code{ntop} pathways? If not, order of \code{tab} is retained.}
 
 \item{caption}{Logical; should the caption explaining the color bar title be included?}
 

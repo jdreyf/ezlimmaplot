@@ -11,6 +11,7 @@
 #' @param ntop Integer number of top pathways to show.
 #' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
 #' @param mixed Character string. Should mixed statistics be included, should they be the only statistics included, or should they be excluded?
+#' @param reorder.rows Boolean; reorder pathways by significance before selecting \code{ntop} pathways? If not, order of \code{tab} is retained.
 #' @param caption Logical; should the caption explaining the color bar title be included?
 #' @param colorbar.title Character title of color bar.
 #' @inheritParams ezheat
@@ -24,7 +25,7 @@
 # https://github.com/YuLab-SMU/enrichplot/blob/0a01deaa5901b8af37d78c561e5f8200b4748b59/R/dotplot.R
 # prefix.v=NULL; name = NA; type.sig="p"; cut.sig=0.05; ntop = 20; pwys_nm_size = 100; width = 8; height = 8; mixed="include"; caption=TRUE; colorbar.title = "Prop P<5%"
 dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8,
-                         mixed = c("include", "exclude", "only"), caption=TRUE, colorbar.title = "Prop P<5%"){
+                         mixed = c("include", "exclude", "only"), reorder.rows=TRUE, caption=TRUE, colorbar.title = "Prop P<5%"){
   type.sig <- match.arg(type.sig)
   mixed <- match.arg(mixed)
   stopifnot(mixed == "exclude" | any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
@@ -52,8 +53,8 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # filter out non-significant comparison x pathway rows
   # could do this in for loop separately for Mixed and not Mixed, but here I only need to do it once
   # then subset to 1st ntop rows: this does not cause error or warning even if ntop > nrow(ds)
-  ds <- ds |> dplyr::arrange(!!rlang::sym(type.sig)) |>
-    dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
+  if (reorder.rows) ds <- ds |> dplyr::arrange(!!rlang::sym(type.sig))
+  ds <- ds |> dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
   ds <- ds |> dplyr::filter(Pwy %in% (ds |> dplyr::slice(1:ntop) |> dplyr::pull(Pwy)))
   if (nrow(ds) == 0) stop("No pathways had ", type.sig, " < ", cut.sig, ".")
   pwy.max.nchar <- ds |> dplyr::pull(Pwy) |> nchar() |> max()

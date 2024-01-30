@@ -8,6 +8,9 @@ test_that("dotplot_pwy works", {
   res <- rc2 |> dplyr::arrange(desc(First3.p)) |>
     dotplot_pwys(ntop=1)
   expect_equal(unique(res$data$Pwy), "pwy1")
+  res2 <- rc2 |> dplyr::arrange(desc(First3.p)) |>
+    dotplot_pwys(ntop=1, reorder.rows = FALSE)
+  expect_equal(unique(res2$data$Pwy), "mother of all pathways")
   unlink(x = "pwy_dotplot.pdf")
 
   expect_error(dotplot_pwys(rc2, name = NA, cut.sig = 10**-6))
