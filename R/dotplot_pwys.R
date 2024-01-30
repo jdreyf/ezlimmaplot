@@ -53,8 +53,8 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
   # could do this in for loop separately for Mixed and not Mixed, but here I only need to do it once
   # then subset to 1st ntop rows: this does not cause error or warning even if ntop > nrow(ds)
   ds <- ds |> dplyr::arrange(!!rlang::sym(type.sig)) |>
-    dplyr::filter(!!rlang::sym(type.sig) < cut.sig) |>
-    dplyr::filter(Pwy %in% (ds |> dplyr::slice(1:ntop) |> dplyr::pull(Pwy)))
+    dplyr::filter(!!rlang::sym(type.sig) < cut.sig)
+  ds <- ds |> dplyr::filter(Pwy %in% (ds |> dplyr::slice(1:ntop) |> dplyr::pull(Pwy)))
   if (nrow(ds) == 0) stop("No pathways had ", type.sig, " < ", cut.sig, ".")
   pwy.max.nchar <- ds |> dplyr::pull(Pwy) |> nchar() |> max()
 
