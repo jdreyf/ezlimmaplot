@@ -68,7 +68,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
     if (!is.na(name)) name <- paste(comparison, name, sep='_')
   }
 
-  stopifnot(ntop.sig==as.integer(ntop.sig), lfc.col %in% colnames(tab), sig.col %in% colnames(tab), any(tab[,lfc.col]<0), any(tab[,lfc.col]>=0),
+  stopifnot(ntop.sig==as.integer(ntop.sig), lfc.col %in% colnames(tab), sig.col %in% colnames(tab),
             length(x.bound)<=1, length(y.bound)<=1, all(is.na(lines.sig)) || (is.numeric(lines.sig) && length(lines.sig)<=5), is.logical(plot))
 
   # There is no need for prefixing !!! or !! or {{ with rlang::. These operators are not function calls, they are specially interpreted by rlang in data-masked arguments.
