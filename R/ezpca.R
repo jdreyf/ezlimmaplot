@@ -77,7 +77,7 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
 
   if (labels){
     qp <- qp + ggplot2::geom_text(data=dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", label="row_names"),
-                                  size=2, vjust=-.7)
+                                  size=2, vjust=-.7, show.legend = FALSE)
   }
 
   if (!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values = manual.color)
