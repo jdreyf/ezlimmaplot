@@ -172,7 +172,7 @@ test_that("non vdiffr multiple heatmap", {
   expect_setequal(ret[[3]]$mat, t(M[topgenes,]))
   expect_equal(ret[[3]]$gtable$grobs[[1]]$label, paste("Log2 Expression", contr.names[3]))
 
-  #verify only unique rows)
+  #verify only unique rows
   expect_warning(ret <- multi_heat(tab=res, rbind(M[topgenes,], M[topgenes,]), name="tmp", unique.rows=TRUE, sc="none"))
   expect_setequal(ret[[1]]$mat, unique(rbind(M[topgenes,], M[topgenes,])))
   expect_setequal(ret[[2]]$mat, unique(rbind(M[topgenes,], M[topgenes,])))

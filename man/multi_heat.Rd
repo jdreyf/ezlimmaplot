@@ -20,7 +20,7 @@ multi_heat(
   ntop = 50,
   stat.tab = NULL,
   cutoff = 0.05,
-  reorder_rows = FALSE,
+  reorder_rows = TRUE,
   reorder_cols = FALSE,
   fontsize_row = 10,
   fontsize_col = 10,
