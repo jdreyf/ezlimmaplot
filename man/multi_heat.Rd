@@ -91,6 +91,6 @@ Plot one heatmap per comparison with \code{ezheat}, where features in \code{obje
 using \code{tab}.
 }
 \details{
-\code{rownames(tab)} and \code{rownames(object)} should overlap, and some \code{colnames(tab)}
-should end in \code{.p}, so they can be identified.
+\code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
+and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
 }

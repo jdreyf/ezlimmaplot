@@ -5,8 +5,8 @@
 #'
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
-#' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, and some \code{colnames(tab)}
-#' should end in \code{.p}, so they can be identified.
+#' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
+#' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
 #' @export
 
 multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
