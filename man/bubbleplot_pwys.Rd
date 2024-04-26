@@ -30,7 +30,7 @@ These will be the comparisons shown in the plot. If \code{NULL} these are inferr
 
 \item{cut.sig}{Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.}
 
-\item{ntop}{Integer number of top pathways to show.}
+\item{ntop}{Integer; number of top pathways to show.}
 
 \item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
 

@@ -12,6 +12,7 @@ dotplot_pwys(
   cut.sig = 0.05,
   ntop = 20,
   pwys_nm_size = 100,
+  font.size = 12,
   width = 8,
   height = 8,
   mixed = c("include", "exclude", "only"),
@@ -32,9 +33,11 @@ These will be the comparisons shown in the plot. If \code{NULL} these are inferr
 
 \item{cut.sig}{Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.}
 
-\item{ntop}{Integer number of top pathways to show.}
+\item{ntop}{Integer; number of top pathways to show.}
 
 \item{pwys_nm_size}{The maximum number of characters for pathway names. Longer names will be truncated.}
+
+\item{font.size}{Numeric font size of pathway names e.g. 12.}
 
 \item{width}{Manual option for determining the output file width in inches.}
 
@@ -53,5 +56,5 @@ Invisibly, the ggplot object.
 }
 \description{
 Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
-with p-value below 0.05.
+with significance below cutoff.
 }

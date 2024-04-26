@@ -1,15 +1,16 @@
 #' Make dot plots for the significance and DE proportion of pathway analysis
 #'
 #' Make dot plots like clusterProfiler showing the significance and proportion of genes in each pathway
-#' with p-value below 0.05.
+#' with significance below cutoff.
 #'
 #' @param tab Table of output from \code{ezlimma::roast_*}.
 #' @param prefix.v A vector of prefixes that prefix \code{.p}, \code{.FDR}, or \code{.logFC} in \code{colnames(tab)}.
 #' These will be the comparisons shown in the plot. If \code{NULL} these are inferred from \code{colnames(tab)} that end with \code{.p}.
+#' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
 #' @param type.sig Either "p" or "FDR"; type of significance to show.
 #' @param cut.sig Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.
-#' @param ntop Integer number of top pathways to show.
-#' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
+#' @param ntop Integer; number of top pathways to show.
+#' @param font.size Numeric font size of pathway names e.g. 12.
 #' @param mixed Character string. Should mixed statistics be included, should they be the only statistics included, or should they be excluded?
 #' @param reorder.rows Boolean; reorder pathways by significance before selecting \code{ntop} pathways? If not, order of \code{tab} is retained.
 #' @param caption Logical; should the caption explaining the color bar title be included?
@@ -24,8 +25,8 @@
 # color is prop; size is -log10 of p or q
 # https://github.com/YuLab-SMU/enrichplot/blob/0a01deaa5901b8af37d78c561e5f8200b4748b59/R/dotplot.R
 # prefix.v=NULL; name = NA; type.sig="p"; cut.sig=0.05; ntop = 20; pwys_nm_size = 100; width = 8; height = 8; mixed="include"; caption=TRUE; colorbar.title = "Prop P<5%"
-dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, width = 8, height = 8,
-                         mixed = c("include", "exclude", "only"), reorder.rows=TRUE, caption=TRUE, colorbar.title = "Prop P<5%"){
+dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), cut.sig=0.05, ntop = 20, pwys_nm_size = 100, font.size = 12,
+                         width = 8, height = 8, mixed = c("include", "exclude", "only"), reorder.rows=TRUE, caption=TRUE, colorbar.title = "Prop P<5%"){
   type.sig <- match.arg(type.sig)
   mixed <- match.arg(mixed)
   stopifnot(mixed == "exclude" | any(grepl("Mixed", colnames(tab))), cut.sig > 0, cut.sig <= 1)
