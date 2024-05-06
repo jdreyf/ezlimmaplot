@@ -9,7 +9,7 @@
 #' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_dotplot.pdf" is appended to the name.
 #' @param type.sig Either "p" or "FDR"; type of significance to show.
 #' @param cut.sig Numeric in [0, 1]. Pathways need to have significance of type \code{type.sig < cut.sig} in a comparison to be shown on the dot plot.
-#' @param ntop Integer; number of top pathways to show.
+#' @param ntop Integer; number of top pathway-by-comparison statistics to select.
 #' @param font.size Numeric font size of pathway names e.g. 12.
 #' @param mixed Character string. Should mixed statistics be included, should they be the only statistics included, or should they be excluded?
 #' @param reorder.rows Boolean; reorder pathways by significance before selecting \code{ntop} pathways? If not, order of \code{tab} is retained.

@@ -5,6 +5,7 @@
 #' numerical (i.e. non-factor) data.
 #'
 #' @param name Name of file to create. Set to \code{NA} to plot to screen instead of to file; otherwise, "_bubbleplots.pdf" is appended to the name.
+#' @param ntop Integer; number of top pathways to show.
 #' @param caption Logical; should the caption explaining the x-axis be included?
 #' @inheritParams dotplot_pwys
 #' @inheritParams ezheat
