@@ -75,7 +75,7 @@ dotplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"), 
     ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(angle = 45)) +
     ggplot2::scale_y_discrete(labels = scales::label_wrap(width = ceiling(pwy.max.nchar/2) + 10)) +
     ggplot2::guides(size = ggplot2::guide_legend(order = 2)) + ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black"), axis.text.y = ggplot2::element_text(color = "black", size = 12))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black"), axis.text.y = ggplot2::element_text(color = "black", size = font.size))
   if (caption){
     capt <- paste(colorbar.title, "= proportion of genes in pwy with P < 0.05 in given direction or for *Mixed* in either direction")
     ggp <- ggp + ggplot2::labs(caption = capt)

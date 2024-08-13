@@ -35,7 +35,7 @@ res.ss <- res.df[topgenes, grep("avg$|^Last3vsFirst|^Gene", colnames(res.df))]
 #sq w/ all nodes connected except a <-> c; a <-> d repeated, as in sif
 el <- rbind(t(combn(letters[1:4], 2))[-2,], c("a", "d"))
 gr <- igraph::graph_from_edgelist(el, directed = FALSE)
-gr2 <- igraph::add.edges(gr, edges=c("a", "b"))
+gr2 <- igraph::add_edges(gr, edges=c("a", "b"))
 gr <- edgelist2graph(el)
 
 set.seed(0)

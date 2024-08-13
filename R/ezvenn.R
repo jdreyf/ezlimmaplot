@@ -24,7 +24,7 @@
 #'
 #' \code{"_venn.pdf"} is appended to \code{name}.
 #'
-#' @return Invisibly, a matrix with elements {-1, 0, 1} indicating which features (rows) of \code{tab} were significant
+#' @return Invisibly, a matrix with elements \code{-1, 0, 1} indicating which features (rows) of \code{tab} were significant
 #' with specified cutoffs. 0 indicates no significant change; -1 indicates down; and 1 indicates up if corresponding
 #' \code{logFC} columns are found, otherwise 1 indicates significance.
 #' @export
