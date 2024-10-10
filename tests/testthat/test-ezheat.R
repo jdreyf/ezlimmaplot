@@ -73,6 +73,14 @@ test_that("non vdiffr", {
   ret <- ezheat(rbind(M[topgenes,], M[topgenes,]), name=NA, unique.rows=TRUE, sc="none")$mat
   expect_equal(ret, unique(rbind(M[topgenes,], M[topgenes,])))
 
+  #verify only one row is included
+  ret <- ezheat(M[topgenes[1],, drop=FALSE], name=NA, sc="none")$mat
+  expect_equal(ret, head(M[topgenes[1],, drop=FALSE]))
+
+  #verify only top row is included
+  ret <- ezheat(M[topgenes,], name=NA, sc="none", ntop=1)$mat
+  expect_equal(ret, head(M[topgenes,, drop=FALSE], n=1))
+
   #verify only top 10 rows are included
   ret <- ezheat(M[topgenes,], name=NA, sc="none", ntop=10)$mat
   expect_equal(ret, head(M[topgenes,], n=10))

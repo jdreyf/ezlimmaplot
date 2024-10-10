@@ -69,7 +69,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
   # ok if labrows NULL
   labrows <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
                    na.lab=na.lab, verbose=verbose)
-  mat <- object[names(labrows),]
+  mat <- object[names(labrows),, drop=FALSE]
 
   if (is.null(color.v)){
     color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name="RdYlBu")))(50)
@@ -103,7 +103,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
 
   asterisk <- matrix(data = "", nrow = nrow(mat), ncol = ncol(mat))
   if (!is.null(stat.tab) & !is.null(cutoff)){
-    stat.tab <- stat.tab[rownames(mat),]
+    stat.tab <- stat.tab[rownames(mat),, drop=FALSE]
     stopifnot(dim(stat.tab) == dim(mat), !is.na(stat.tab))
     asterisk[stat.tab < cutoff] <- "*"
   } else {
