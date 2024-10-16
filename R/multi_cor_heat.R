@@ -1,20 +1,22 @@
 #' Plot one heatmap per phenotype correlation
 #'
-#' Plot one heatmap per phenotype correlation with \code{ezheat}, where features in \code{object} are reordered per comparison
+#' Plot one heatmap per phenotype correlation with \code{ezheat}, where features in \code{object}, e.g. genes, are reordered per comparison
 #' using \code{tab}. This function is based on \code{multi_heat}, even though that function should probably be called \code{multi_contasts_heat}.
 #'
 #' @param p.thresh Only features with p-value at or below this will be plotted.
+#' @param fdr.thresh Only features with FDR at or below this will be plotted.
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @inheritParams multi_heat
 #' @inheritParams ezlimma::multi_cor
 #' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
-#' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+#' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified. If \code{fdr.thresh < 1}, then the
+#' \code{colnames(tab)} that end in \code{.p} should be matched by \code{colnames(tab)} that end in \code{.FDR} instead of \code{.p}.
 #' @export
 
 multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object), labcols=colnames(object),
                        main="Log2 Expression", name="heats", sc="ctr", clip=NA, color.v=NULL,
-                       unique.rows=FALSE, only.labrows=FALSE, ntop=50, stat.tab = NULL, p.thresh = 1,
+                       unique.rows=FALSE, only.labrows=FALSE, ntop=50, stat.tab = NULL, p.thresh = 1, fdr.thresh=1,
                        cutoff = 0.05, reorder_rows=TRUE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                        na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
 
@@ -39,9 +41,14 @@ multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object)
   for (ph.nm in cor.names){
     reorder_rows_tmp <- reorder_rows
     p.col <- paste0(ph.nm, ".p")
-    rows.tmp <- tab |> dplyr::arrange(!!sym(p.col)) |>
-      dplyr::filter(!!sym(p.col) <= p.thresh) |>
-      rownames()
+    tab.tmp <- tab |> dplyr::arrange(!!sym(p.col)) |>
+      dplyr::filter(!!sym(p.col) <= p.thresh)
+    if (fdr.thresh < 1){
+      fdr.col <- paste0(ph.nm, ".FDR")
+      stopifnot(fdr.col %in% colnames(tab))
+      tab.tmp <- tab.tmp |> dplyr::filter(!!sym(fdr.col) <= fdr.thresh)
+    }
+    rows.tmp <- tab.tmp |> rownames()
     if (length(rows.tmp) > 0){
       pheno.df <- pheno.tab |> dplyr::select(!!sym(ph.nm)) |>
         dplyr::filter(!is.na(!!sym(ph.nm))) |>

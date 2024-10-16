@@ -20,6 +20,7 @@ multi_cor_heat(
   ntop = 50,
   stat.tab = NULL,
   p.thresh = 1,
+  fdr.thresh = 1,
   cutoff = 0.05,
   reorder_rows = TRUE,
   reorder_cols = FALSE,
@@ -68,6 +69,8 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 
 \item{p.thresh}{Only features with p-value at or below this will be plotted.}
 
+\item{fdr.thresh}{Only features with FDR at or below this will be plotted.}
+
 \item{cutoff}{Cutoff such that elements with \code{stats.tab < cutoff} show asterisk if \code{stats.tab} and
 \code{cutoff} are not \code{NULL}.}
 
@@ -90,10 +93,11 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 \item{verbose}{Logical; print pruning messages to console?}
 }
 \description{
-Plot one heatmap per phenotype correlation with \code{ezheat}, where features in \code{object} are reordered per comparison
+Plot one heatmap per phenotype correlation with \code{ezheat}, where features in \code{object}, e.g. genes, are reordered per comparison
 using \code{tab}. This function is based on \code{multi_heat}, even though that function should probably be called \code{multi_contasts_heat}.
 }
 \details{
 \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
-and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+and some \code{colnames(tab)} should end in \code{.p}, so they can be identified. If \code{fdr.thresh < 1}, then the
+\code{colnames(tab)} that end in \code{.p} should be matched by \code{colnames(tab)} that end in \code{.FDR} instead of \code{.p}.
 }
