@@ -12,6 +12,9 @@
 #' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
 #' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified. If \code{fdr.thresh < 1}, then the
 #' \code{colnames(tab)} that end in \code{.p} should be matched by \code{colnames(tab)} that end in \code{.FDR} instead of \code{.p}.
+#'
+#' To prevent this function from being called with an unnamed \code{labrows} that corresponds to \code{tab} instead of \code{object},
+#' which is incorrect, if \code{labrows} is not \code{names(object)} (the default) then it must be named.
 #' @export
 
 multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object), labcols=colnames(object),
@@ -22,7 +25,8 @@ multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object)
 
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   stopifnot(length(labrows)==nrow(object), names(labrows)==rownames(object))
-  names(labrows) <- rownames(object)
+  if (any(labrows != rownames(object))) stopifnot(!is.null(names(labrows)))
+  if (all(labrows == rownames(object))) names(labrows) <- rownames(object)
 
   p.cols <- grep(paste0("\\.p$"), colnames(tab), value=TRUE)
   cor.names <- sub(paste0("\\.(p)$"), "", p.cols)
@@ -63,7 +67,8 @@ multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object)
                                  color.v=color.v, unique.rows=unique.rows, only.labrows=only.labrows, ntop=ntop.tmp,
                                  stat.tab = stat.tab, cutoff = cutoff, labcols = labcols.tmp, reorder_rows=reorder_rows_tmp,
                                  reorder_cols=reorder_cols, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
-                                 na.lab=na.lab, plot=plot, width=width, height=height, verbose=verbose, name=NA)
+                                 na.lab=na.lab, plot=FALSE, width=width, height=height, verbose=verbose, name=NA)
+      if (plot) plot(ret.lst[[ph.nm]])
     }
   }
   return(invisible(ret.lst))

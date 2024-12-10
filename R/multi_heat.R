@@ -7,6 +7,9 @@
 #' @inheritParams ezvenn
 #' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
 #' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+#'
+#' To prevent this function from being called with an unnamed \code{labrows} that corresponds to \code{tab} instead of \code{object},
+#' which is incorrect, if \code{labrows} is not \code{names(object)} (the default) then it must be named.
 #' @export
 
 multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
@@ -16,7 +19,8 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
                        na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   stopifnot(length(labrows)==nrow(object), names(labrows)==rownames(object))
-  names(labrows) <- rownames(object)
+  if (any(labrows != rownames(object))) stopifnot(!is.null(names(labrows)))
+  if (all(labrows == rownames(object))) names(labrows) <- rownames(object)
 
   p.cols <- grep(paste0("\\.p$"), colnames(tab), value=TRUE)
   contr.names <- sub(paste0("\\.(p)$"), "", p.cols)

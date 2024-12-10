@@ -8,7 +8,13 @@ test_that("mat", {
   expect_gt(M[gene.d, "sample5"], max(M[gene.d, setdiff(colnames(M), "sample5")]))
   expect_lte(max(abs(mat0)), 1)
 
-  expect_message(mat1 <- multi_heat(tab=res.ss, M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name="tmp", clip=1, only.labrows = TRUE,
+  # error due to labrows not having names
+  expect_error(mat1 <- multi_heat(tab=res.ss, object=M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name="tmp", clip=1, only.labrows = TRUE,
+                                    plot=FALSE, verbose=TRUE, ntop=10)[[1]]$mat)
+
+  # msg is about removing rows with is.na(labrow)
+  lr.tmp <- setNames(res.df[topgenes, "Gene.Symbol"], nm=topgenes)
+  expect_message(mat1 <- multi_heat(tab=res.ss, object=M[topgenes,], labrows = lr.tmp, pheno.df=pheno.df, name="tmp", clip=1, only.labrows = TRUE,
                                     plot=FALSE, verbose=TRUE, ntop=10)[[1]]$mat)
 })
 

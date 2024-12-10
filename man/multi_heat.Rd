@@ -93,4 +93,7 @@ using \code{tab}.
 \details{
 \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
 and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+
+To prevent this function from being called with an unnamed \code{labrows} that corresponds to \code{tab} instead of \code{object},
+which is incorrect, if \code{labrows} is not \code{names(object)} (the default) then it must be named.
 }
