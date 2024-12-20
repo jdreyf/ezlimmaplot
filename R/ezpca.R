@@ -76,7 +76,7 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   if (!is.null(title)){ qp <- qp + ggplot2::ggtitle(label=title, subtitle=subtitle) }
 
   if (labels){
-    qp <- qp + ggplot2::geom_text(data=dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", label="row_names"),
+    qp <- qp + ggrepel::geom_text_repel(data=dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", label="row_names"),
                                   size=2, vjust=-.7, show.legend = FALSE)
   }
 
