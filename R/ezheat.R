@@ -126,18 +126,24 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
     breaks <- NA
   }
 
+  # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
+  ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main,
+                           cluster_rows=FALSE, cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
+                           annotation_row=annotation_row, annotation_colors=annotation_colors,
+                           labels_row = labrows, labels_col = labcols, angle_col=angle_col,
+                           fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                           display_numbers = asterisk, filename=NA, silent=TRUE)
+
   if (plot){
-    fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
-    # params after name sent to grid::grid.text for asterisks, but vjust doesn't work
-    ph <- pheatmap::pheatmap(mat, col=color.v, breaks = breaks, annotation_col = pheno.df, main=main,
-                             cluster_rows=FALSE, cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
-                             annotation_row=annotation_row, annotation_colors=annotation_colors,
-                             labels_row = labrows, labels_col = labcols, angle_col=angle_col,
-                             fontsize_row=fontsize_row, fontsize_col=fontsize_col,
-                             display_numbers = asterisk, filename=fname, width=width, height=height)
-    ret <- list(mat=mat, gtable=ph$gtable)
-  } else {
-    ret <- list(mat=mat)
+    # fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))
+    if (!is.na(name)) {  # Only open PDF if a filename is provided
+      grDevices::pdf(file = paste0(name, ".pdf"), width = width, height = height) # Open PDF device *manually*
+      on.exit(grDevices::dev.off())  # Ensure device is closed even if errors occur
+    }
+
+    grid::grid.newpage()
+    grid::grid.draw(ph$gtable)
   }
+  ret <- list(mat=mat, gtable=ph$gtable)
   return(invisible(ret))
 }
