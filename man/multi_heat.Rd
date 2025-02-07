@@ -26,8 +26,8 @@ multi_heat(
   fontsize_col = 10,
   na.lab = c("---", ""),
   plot = TRUE,
-  width = NA,
-  height = NA,
+  width = 7,
+  height = 7,
   verbose = FALSE
 )
 }

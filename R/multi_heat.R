@@ -16,7 +16,7 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
                        main="Log2 Expression", name="heats", sc="ctr", clip=NA, color.v=NULL,
                        unique.rows=FALSE, only.labrows=FALSE, ntop=50, stat.tab = NULL,
                        cutoff = 0.05, reorder_rows=TRUE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
-                       na.lab=c("---", ""), plot=TRUE, width=NA, height=NA, verbose=FALSE){
+                       na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   stopifnot(length(labrows)==nrow(object), names(labrows)==rownames(object))
   if (any(labrows != rownames(object))) stopifnot(!is.null(names(labrows)))
@@ -43,11 +43,11 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
                                color.v=color.v, unique.rows=unique.rows, only.labrows=only.labrows, ntop=ntop,
                                stat.tab = stat.tab, cutoff = cutoff, labcols=labcols, reorder_rows=reorder_rows,
                                reorder_cols=reorder_cols, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
-                               na.lab=na.lab, plot=FALSE, width=width, height=height, verbose=verbose, name=NA)
+                               na.lab=na.lab, plot=FALSE, verbose=verbose, name=NA)
   }
   if (plot){
     if (!is.na(name)) {
-      grDevices::pdf(paste0(name, ".pdf"))
+      grDevices::pdf(paste0(name, ".pdf"), width = width, height = height)
       on.exit(grDevices::dev.off())
     }
     for (contr in contr.names){
