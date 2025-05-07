@@ -19,7 +19,7 @@ test_that("mat", {
 
   ph3 <- rbind(pheno.df, sample7 = "s7")
   M3 <- cbind(M, sample7 = rnorm(nrow(M)))
-  # mat2 <- multi_heat(tab=res.ss, object=M3, pheno.df=ph3, name="tmp", clip=1, plot=FALSE, ntop=20, only.contr.cols = TRUE)[[1]]$mat
+  mat2 <- multi_heat(tab=res.ss, object=M3, pheno.df=ph3, name="tmp", clip=1, plot=FALSE, ntop=20, only.contr.cols = TRUE)[[1]]$mat
 })
 
 test_that("non vdiffr single heatmap", {

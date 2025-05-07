@@ -43,7 +43,8 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
     if (only.contr.cols){
       cols.tmp <- rownames(pheno.df)[pheno.df[[grp.var]] %in% unlist(strsplit(contr, split="(_|)vs(_|)"))]
       object.tmp <- object[rows.tmp, cols.tmp]
-      pheno.df <- pheno.df[cols.tmp,]
+      pheno.df <- pheno.df[cols.tmp,, drop=FALSE]
+      # intersect appears to keep order of first input
       labcols <- intersect(cols.tmp, labcols)
     } else {
       object.tmp <- object[rows.tmp,]
