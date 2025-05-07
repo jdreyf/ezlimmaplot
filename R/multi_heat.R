@@ -3,10 +3,14 @@
 #' Plot one heatmap per comparison with \code{ezheat}, where features in \code{object} are reordered per comparison
 #' using \code{tab}.
 #'
+#' @param only.contr.cols Logical; only include samples involved in each comparison? Otherwise shows all samples in all comparisons to
+#' information content.
+#' @param grp.var Character; name of group variable in \code{pheno.df} to select samples if \code{only.contr.cols} is true.
 #' @inheritParams ezheat
 #' @inheritParams ezvenn
 #' @details \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
-#' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+#' and some \code{colnames(tab)} should end in \code{.p}, so they can be identified. If \code{only.contr.cols}, comparisons are parsed from
+#' p-value columns, whose names should include \code{vs}.
 #'
 #' To prevent this function from being called with an unnamed \code{labrows} that corresponds to \code{tab} instead of \code{object},
 #' which is incorrect, if \code{labrows} is not \code{names(object)} (the default) then it must be named.
@@ -14,7 +18,7 @@
 
 multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
                        main="Log2 Expression", name="heats", sc="ctr", clip=NA, color.v=NULL,
-                       unique.rows=FALSE, only.labrows=FALSE, ntop=50, stat.tab = NULL,
+                       unique.rows=FALSE, only.labrows=FALSE, only.contr.cols=FALSE, grp.var="grp", ntop=50, stat.tab = NULL,
                        cutoff = 0.05, reorder_rows=TRUE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
                        na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
@@ -36,7 +40,15 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
     main.tmp <- paste(main, contr)
     p.col <- paste0(contr, ".p")
     rows.tmp <- rownames(tab)[order(tab[,p.col])]
-    object.tmp <- object[rows.tmp,]
+    if (only.contr.cols){
+      cols.tmp <- rownames(pheno.df)[pheno.df[[grp.var]] %in% unlist(strsplit(contr, split="(_|)vs(_|)"))]
+      object.tmp <- object[rows.tmp, cols.tmp]
+      pheno.df <- pheno.df[cols.tmp,]
+      labcols <- intersect(cols.tmp, labcols)
+    } else {
+      object.tmp <- object[rows.tmp,]
+    }
+
     labrows.tmp <- labrows[rows.tmp]
 
     ret.lst[[contr]] <- ezheat(object=object.tmp, labrows=labrows.tmp, pheno.df=pheno.df, main=main.tmp, sc=sc, clip=clip,

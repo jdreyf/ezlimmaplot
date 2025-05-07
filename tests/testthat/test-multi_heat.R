@@ -16,6 +16,10 @@ test_that("mat", {
   lr.tmp <- setNames(res.df[topgenes, "Gene.Symbol"], nm=topgenes)
   expect_message(mat1 <- multi_heat(tab=res.ss, object=M[topgenes,], labrows = lr.tmp, pheno.df=pheno.df, name="tmp", clip=1, only.labrows = TRUE,
                                     plot=FALSE, verbose=TRUE, ntop=10)[[1]]$mat)
+
+  ph3 <- rbind(pheno.df, sample7 = "s7")
+  M3 <- cbind(M, sample7 = rnorm(nrow(M)))
+  # mat2 <- multi_heat(tab=res.ss, object=M3, pheno.df=ph3, name="tmp", clip=1, plot=FALSE, ntop=20, only.contr.cols = TRUE)[[1]]$mat
 })
 
 test_that("non vdiffr single heatmap", {
@@ -24,7 +28,7 @@ test_that("non vdiffr single heatmap", {
   p.cols <- grep("\\.p$", colnames(res.ss), value=TRUE)
   contr.names <- sub("\\.(p)$", "", p.cols)
 
-  expect_warning(ret <- multi_heat(tab=res.ss, M[topgenes,], labrows = lr, pheno.df=pheno.df, name="tmp"))
+  expect_warning(ret <- multi_heat(tab=res.ss, M[topgenes,], labrows = lr, pheno.df=pheno.df, name="tmp", plot = FALSE))
   expect_equal(sort(rownames(ret[[1]]$mat)), sort(rownames(as.data.frame(lr))))
   expect_equal(sort(colnames(ret[[1]]$mat)), sort(row.names(pheno.df)))
   expect_equal(sort(rownames(ret[[1]]$mat)), sort(topgenes))

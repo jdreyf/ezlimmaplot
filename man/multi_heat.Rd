@@ -17,6 +17,8 @@ multi_heat(
   color.v = NULL,
   unique.rows = FALSE,
   only.labrows = FALSE,
+  only.contr.cols = FALSE,
+  grp.var = "grp",
   ntop = 50,
   stat.tab = NULL,
   cutoff = 0.05,
@@ -60,6 +62,11 @@ of length \code{ncol(object)}.}
 \item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
 (missing is defined by \code{na.lab})?}
 
+\item{only.contr.cols}{Logical; only include samples involved in each comparison? Otherwise shows all samples in all comparisons to
+information content.}
+
+\item{grp.var}{Character; name of group variable in \code{pheno.df} to select samples if \code{only.contr.cols} is true.}
+
 \item{ntop}{Scalar number of rows to include.}
 
 \item{stat.tab}{Matrix-like object with statistics, such as p-values, per column, used to add "*". If given, its
@@ -92,7 +99,8 @@ using \code{tab}.
 }
 \details{
 \code{rownames(tab)} and \code{rownames(object)} should overlap, \code{labrows} should correspond to \code{object}
-and some \code{colnames(tab)} should end in \code{.p}, so they can be identified.
+and some \code{colnames(tab)} should end in \code{.p}, so they can be identified. If \code{only.contr.cols}, comparisons are parsed from
+p-value columns, whose names should include \code{vs}.
 
 To prevent this function from being called with an unnamed \code{labrows} that corresponds to \code{tab} instead of \code{object},
 which is incorrect, if \code{labrows} is not \code{names(object)} (the default) then it must be named.
