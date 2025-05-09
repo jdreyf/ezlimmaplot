@@ -40,14 +40,19 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
     main.tmp <- paste(main, contr)
     p.col <- paste0(contr, ".p")
     rows.tmp <- rownames(tab)[order(tab[,p.col])]
+    object.tmp <- object[rows.tmp,, drop=FALSE]
     if (only.contr.cols){
-      cols.tmp <- rownames(pheno.df)[pheno.df[[grp.var]] %in% unlist(strsplit(contr, split="(_|)vs(_|)"))]
-      object.tmp <- object[rows.tmp, cols.tmp]
+      grps.tmp <- unlist(strsplit(contr, split="(_|)vs(_|)"))
+      cols.tmp <- pheno.df %>% dplyr::filter(!!rlang::sym(grp.var) %in% grps.tmp) %>%
+        rownames()
+      if (length(cols.tmp) == 0){
+        message(paste0("only.contr.cols is true but no parts of ", contr, " matched pheno.df[", grp.var, ",]; so all columns plotted."))
+        cols.tmp <- rownames(pheno.df)
+      }
+      # intersect appears to keep order of first input; labrows might be distinct from colnames(object), so shouldn't intersect
+      labcols <- labcols[match(cols.tmp, rownames(pheno.df))]
+      object.tmp <- object.tmp[, cols.tmp, drop=FALSE]
       pheno.df <- pheno.df[cols.tmp,, drop=FALSE]
-      # intersect appears to keep order of first input
-      labcols <- intersect(cols.tmp, labcols)
-    } else {
-      object.tmp <- object[rows.tmp,]
     }
 
     labrows.tmp <- labrows[rows.tmp]
