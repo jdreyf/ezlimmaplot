@@ -41,25 +41,27 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
     p.col <- paste0(contr, ".p")
     rows.tmp <- rownames(tab)[order(tab[,p.col])]
     object.tmp <- object[rows.tmp,, drop=FALSE]
+    labrows.tmp <- labrows[rows.tmp]
     if (only.contr.cols){
       grps.tmp <- unlist(strsplit(contr, split="(_|)vs(_|)"))
       cols.tmp <- pheno.df %>% dplyr::filter(!!rlang::sym(grp.var) %in% grps.tmp) %>%
         rownames()
       if (length(cols.tmp) == 0){
-        message(paste0("only.contr.cols is true but no parts of ", contr, " matched pheno.df[", grp.var, ",]; so all columns plotted."))
+        message(paste0("only.contr.cols is true but no parts of ", contr, " matched pheno.df[,", grp.var, "]; so all columns plotted."))
         cols.tmp <- rownames(pheno.df)
       }
       # intersect appears to keep order of first input; labrows might be distinct from colnames(object), so shouldn't intersect
-      labcols <- labcols[match(cols.tmp, rownames(pheno.df))]
+      labcols.tmp <- labcols[match(cols.tmp, rownames(pheno.df))]
       object.tmp <- object.tmp[, cols.tmp, drop=FALSE]
-      pheno.df <- pheno.df[cols.tmp,, drop=FALSE]
+      pheno.tmp <- pheno.df[cols.tmp,, drop=FALSE]
+    } else {
+      pheno.tmp <- pheno.df
+      labcols.tmp <- labcols
     }
 
-    labrows.tmp <- labrows[rows.tmp]
-
-    ret.lst[[contr]] <- ezheat(object=object.tmp, labrows=labrows.tmp, pheno.df=pheno.df, main=main.tmp, sc=sc, clip=clip,
+    ret.lst[[contr]] <- ezheat(object=object.tmp, labrows=labrows.tmp, pheno.df=pheno.tmp, main=main.tmp, sc=sc, clip=clip,
                                color.v=color.v, unique.rows=unique.rows, only.labrows=only.labrows, ntop=ntop,
-                               stat.tab = stat.tab, cutoff = cutoff, labcols=labcols, reorder_rows=reorder_rows,
+                               stat.tab = stat.tab, cutoff = cutoff, labcols=labcols.tmp, reorder_rows=reorder_rows,
                                reorder_cols=reorder_cols, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
                                na.lab=na.lab, plot=FALSE, verbose=verbose, name=NA)
   }
