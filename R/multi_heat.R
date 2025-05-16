@@ -51,7 +51,11 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
         cols.tmp <- rownames(pheno.df)
       }
       # intersect appears to keep order of first input; labrows might be distinct from colnames(object), so shouldn't intersect
-      labcols.tmp <- labcols[match(cols.tmp, rownames(pheno.df))]
+      if (length(labcols) == ncol(object)){
+        labcols.tmp <- labcols[match(cols.tmp, rownames(pheno.df))]
+      } else {
+        labcols.tmp <- labcols
+      }
       object.tmp <- object.tmp[, cols.tmp, drop=FALSE]
       pheno.tmp <- pheno.df[cols.tmp,, drop=FALSE]
     } else {

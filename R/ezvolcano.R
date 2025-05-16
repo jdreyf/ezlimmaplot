@@ -117,7 +117,8 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   }
 
   if (!is.null(comparison)){
-    first.grp <- unlist(strsplit(x=gsub("_", "", comparison), split = "vs|VS|Vs|In|IN|in|OF|Of|of"))[1]
+    # rm "In|IN|in|OF|Of|of" since "vs" should be enough
+    first.grp <- unlist(strsplit(x=gsub("_", "", comparison), split = "vs|VS|Vs"))[1]
     # label left & right sides
     vol <- vol + ggplot2::ggtitle(comparison) +
       ggplot2::geom_text(mapping=ggplot2::aes(x=2*x.bound/3, y = -Inf, label = paste0("Up in ", first.grp)), color="darkgrey",
