@@ -15,6 +15,7 @@
 multi_volcano <- function(tab, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, alpha=0.4, name="volcanoes", ann.rnames=NULL,
                           up.ann.color="black", down.ann.color="black", same.scale=FALSE, type.sig=c("p", "FDR"),
                           cut.color="black", cut.lfc=1, cut.sig=0.05, lines.sig=ifelse(type.sig[1]=="p", yes = 0.05, no=NA),
+                          axis.text.size = 12, text.repel.size=3,
                           raster=FALSE, sep=".", na.lab=c("---", ""), seed=0, plot=TRUE){
   type.sig <- match.arg(type.sig)
   lfc.cols <- grep(paste0("\\", sep, "logFC$"), colnames(tab))

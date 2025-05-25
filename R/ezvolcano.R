@@ -26,8 +26,8 @@
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
 #' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 #' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
-#' @param axis.text.size Numeric; size of axis text.
-#' @param text.repel.size Numeric; factor to increase size of labels, which are repelled.
+#' @param axis.text.size Numeric; font size of axis text.
+#' @param text.repel.size Numeric; font size of labels, which are repelled from each other.
 #' @param raster Rasterize points using \code{ggrastr} so plot is lighter.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.

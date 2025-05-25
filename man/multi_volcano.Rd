@@ -20,6 +20,8 @@ multi_volcano(
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = ifelse(type.sig[1] == "p", yes = 0.05, no = NA),
+  axis.text.size = 12,
+  text.repel.size = 3,
   raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
@@ -59,6 +61,10 @@ no points are annotated.}
 
 \item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
+
+\item{axis.text.size}{Numeric; font size of axis text.}
+
+\item{text.repel.size}{Numeric; font size of labels, which are repelled from each other.}
 
 \item{raster}{Rasterize points using \code{ggrastr} so plot is lighter.}
 
