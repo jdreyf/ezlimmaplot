@@ -25,6 +25,8 @@ ezvolcano(
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = NA,
+  axis.text.size = 12,
+  text.repel.size = 3,
   raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
@@ -75,6 +77,10 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
+
+\item{axis.text.size}{Numeric; size of axis text.}
+
+\item{text.repel.size}{Numeric; factor to increase size of labels, which are repelled.}
 
 \item{raster}{Rasterize points using \code{ggrastr} so plot is lighter.}
 

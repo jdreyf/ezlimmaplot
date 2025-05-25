@@ -26,6 +26,8 @@
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
 #' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 #' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
+#' @param axis.text.size Numeric; size of axis text.
+#' @param text.repel.size Numeric; factor to increase size of labels, which are repelled.
 #' @param raster Rasterize points using \code{ggrastr} so plot is lighter.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
@@ -41,6 +43,7 @@
 ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 19,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color="black", cut.lfc=1, cut.sig=0.05, lines.sig=NA,
+                      axis.text.size = 12, text.repel.size=3,
                       raster = FALSE, sep='.', na.lab=c('---', ''), seed = 0, plot=TRUE){
   set.seed(seed = seed) # ggrepel is random
   type.sig <- match.arg(type.sig)
@@ -100,7 +103,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
 
   # construct ggplot object
   vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes(x=!!rlang::sym(lfc.col), y = nlg10sig, color = color.point, alpha=alpha.point, shape=shape.point)) +
-    ggplot2::theme_bw() + ggplot2::theme(axis.text=ggplot2::element_text(size=12, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) + ggplot2::ylab(y.lab) +
+    ggplot2::theme_bw() + ggplot2::theme(axis.text=ggplot2::element_text(size=axis.text.size, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) + ggplot2::ylab(y.lab) +
     ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound))
 
   if (all(!is.na(lines.sig))){
@@ -136,7 +139,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   }
 
   vol <- vol + ggplot2::scale_color_identity() + ggplot2::scale_alpha_identity() + ggplot2::scale_shape_identity() + ggplot2::scale_size_identity() +
-    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=3)
+    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=text.repel.size)
 
   if (plot){
     if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
