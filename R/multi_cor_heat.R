@@ -45,18 +45,18 @@ multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object)
   for (ph.nm in cor.names){
     reorder_rows_tmp <- reorder_rows
     p.col <- paste0(ph.nm, ".p")
-    tab.tmp <- tab |> dplyr::arrange(!!sym(p.col)) |>
-      dplyr::filter(!!sym(p.col) <= p.thresh)
+    tab.tmp <- tab |> dplyr::arrange(!!rlang::sym(p.col)) |>
+      dplyr::filter(!!rlang::sym(p.col) <= p.thresh)
     if (fdr.thresh < 1){
       fdr.col <- paste0(ph.nm, ".FDR")
       stopifnot(fdr.col %in% colnames(tab))
-      tab.tmp <- tab.tmp |> dplyr::filter(!!sym(fdr.col) <= fdr.thresh)
+      tab.tmp <- tab.tmp |> dplyr::filter(!!rlang::sym(fdr.col) <= fdr.thresh)
     }
     rows.tmp <- tab.tmp |> rownames()
     if (length(rows.tmp) > 0){
-      pheno.df <- pheno.tab |> dplyr::select(!!sym(ph.nm)) |>
-        dplyr::filter(!is.na(!!sym(ph.nm))) |>
-        dplyr::arrange(!!sym(ph.nm))
+      pheno.df <- pheno.tab |> dplyr::select(!!rlang::sym(ph.nm)) |>
+        dplyr::filter(!is.na(!!rlang::sym(ph.nm))) |>
+        dplyr::arrange(!!rlang::sym(ph.nm))
       object.tmp <- object[rows.tmp, rownames(pheno.df), drop=FALSE]
       labrows.tmp <- labrows[rows.tmp]
       labcols.tmp <- labcols[match(colnames(object.tmp), colnames(object))]
