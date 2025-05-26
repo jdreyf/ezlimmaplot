@@ -18,6 +18,7 @@ ezvolcano(
   up.ann.color = "black",
   down.ann.color = "black",
   shape = 19,
+  base.size = 14,
   x.bound = NULL,
   y.bound = NULL,
   type.sig = c("p", "FDR"),
@@ -25,8 +26,6 @@ ezvolcano(
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = NA,
-  axis.text.size = 12,
-  text.repel.size = 3,
   raster = FALSE,
   sep = ".",
   na.lab = c("---", ""),
@@ -63,6 +62,8 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{shape}{Shape of non-annotated dots. Set to 1 for empty dots.}
 
+\item{base.size}{Numeric; font size text inherits from e.g. axis.title is 80 percent of this, and axis tick text is 64 percent.}
+
 \item{x.bound}{x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.}
 
 \item{y.bound}{y-axis limits are set to \code{c(0, y.bound)}. If \code{NULL, y.bound=max(tab[,'nlg10sig'])}.}
@@ -77,10 +78,6 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}
-
-\item{axis.text.size}{Numeric; font size of axis text.}
-
-\item{text.repel.size}{Numeric; font size of labels, which are repelled from each other.}
 
 \item{raster}{Rasterize points using \code{ggrastr} so plot is lighter.}
 

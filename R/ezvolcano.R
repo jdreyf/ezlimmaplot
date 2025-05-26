@@ -26,8 +26,7 @@
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
 #' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 #' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
-#' @param axis.text.size Numeric; font size of axis text.
-#' @param text.repel.size Numeric; font size of labels, which are repelled from each other.
+#' @param base.size Numeric; font size text inherits from e.g. axis.title is 80 percent of this, and axis tick text is 64 percent.
 #' @param raster Rasterize points using \code{ggrastr} so plot is lighter.
 #' @param sep Separator string between contrast names and suffix such as \code{logFC}.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
@@ -41,9 +40,8 @@
 #' @export
 
 ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
-                      name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 19,
+                      name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 19, base.size=14,
                       x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color="black", cut.lfc=1, cut.sig=0.05, lines.sig=NA,
-                      axis.text.size = 12, text.repel.size=3,
                       raster = FALSE, sep='.', na.lab=c('---', ''), seed = 0, plot=TRUE){
   set.seed(seed = seed) # ggrepel is random
   type.sig <- match.arg(type.sig)
@@ -103,8 +101,8 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
 
   # construct ggplot object
   vol <- ggplot2::ggplot(data=tab, mapping=ggplot2::aes(x=!!rlang::sym(lfc.col), y = nlg10sig, color = color.point, alpha=alpha.point, shape=shape.point)) +
-    ggplot2::theme_bw() + ggplot2::theme(axis.text=ggplot2::element_text(size=axis.text.size, face="bold")) + ggplot2::xlab(expression(log[2]~fold~change)) + ggplot2::ylab(y.lab) +
-    ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound))
+    ggplot2::theme_bw(base_size=base.size) + ggplot2::xlab(expression(log[2]~fold~change)) + ggplot2::theme(axis.text=ggplot2::element_text(face="bold")) +
+    ggplot2::ylab(y.lab) + ggplot2::xlim(c(-x.bound, x.bound)) + ggplot2::ylim(c(0, y.bound))
 
   if (all(!is.na(lines.sig))){
     # y is already -log10(sig)
@@ -119,15 +117,16 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
       ggplot2::guides(linetype=ggplot2::guide_legend(title=type.sig))
   }
 
+  # 11 * 0.352777778 mm/pt ≈ 3.88 mm is default, but I was using 3mm for repelled labels before, so I try to maintain backward compatibility below
   if (!is.null(comparison)){
     # rm "In|IN|in|OF|Of|of" since "vs" should be enough
     first.grp <- unlist(strsplit(x=gsub("_", "", comparison), split = "vs|VS|Vs"))[1]
     # label left & right sides
     vol <- vol + ggplot2::ggtitle(comparison) +
       ggplot2::geom_text(mapping=ggplot2::aes(x=2*x.bound/3, y = -Inf, label = paste0("Up in ", first.grp)), color="darkgrey",
-                         vjust = -0.5, show.legend=FALSE) +
+                         vjust = -0.5, show.legend=FALSE, size=base.size*0.352777778) +
       ggplot2::geom_text(mapping=ggplot2::aes(x=-2*x.bound/3, y = -Inf, label = paste0("Down in ", first.grp)), color="darkgrey",
-                         vjust = -0.5, show.legend=FALSE)
+                         vjust = -0.5, show.legend=FALSE, size=base.size*0.352777778)
   }
 
   # finalize plot
@@ -139,7 +138,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   }
 
   vol <- vol + ggplot2::scale_color_identity() + ggplot2::scale_alpha_identity() + ggplot2::scale_shape_identity() + ggplot2::scale_size_identity() +
-    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=text.repel.size)
+    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=base.size*3/11)
 
   if (plot){
     if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
