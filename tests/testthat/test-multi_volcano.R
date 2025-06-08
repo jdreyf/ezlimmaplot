@@ -110,8 +110,8 @@ test_that("non vdiffr",{
   # expect_equal(ggplot2::ggplot_build(mvlc5$Last3)$data[[3]]$colour[1], "black")
   # expect_equal(ggplot2::ggplot_build(mvlc5$Last3vsFirst3)$data[[3]]$colour, "green")
 
-  expect_warning(mvlc6 <- multi_volcano(tab=res.df, name="Rplots", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, lab.col = "Gene.Symbol",
-                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25")))
+  mvlc6 <- multi_volcano(tab=res.df, name="Rplots", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, lab.col = "Gene.Symbol",
+                      cut.sig=0.01, cut.color = "green", ann.rnames=c("gene1", "gene25"))
   expect_equal(ggplot2::ggplot_build(mvlc6$First3)$data[[5]]$label[1], res.df["gene1","Gene.Symbol"])
   expect_equal(ggplot2::ggplot_build(mvlc6$Last3)$data[[5]]$label[2], res.df["gene25","Gene.Symbol"])
   expect_equal(ggplot2::ggplot_build(mvlc6$Last3)$data[[5]]$label[3], res.df["gene74","Gene.Symbol"])
@@ -209,17 +209,17 @@ test_that("non vdiffr",{
 })
 
 test_that("raster", {
-  expect_warning(mvol.norast <- multi_volcano(tab=res.df, name="tmp_norast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
-                        ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'))
-  expect_warning(mvol.rast <- multi_volcano(tab=res.df, name="tmp_rast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
-                             ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol', raster = TRUE))
+  mvol.norast <- multi_volcano(tab=res.df, name="tmp_norast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
+                               ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol')
+  mvol.rast <- multi_volcano(tab=res.df, name="tmp_rast", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
+                             ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol', raster = TRUE)
   expect_gt(file.size("tmp_norast.pdf"), file.size("tmp_rast.pdf"))
   unlink("tmp_rast.pdf")
 })
 
 test_that("vdiffr", {
-  expect_warning(mvol <- multi_volcano(tab=res.df, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
-                        ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'))
+  mvol <- multi_volcano(tab=res.df, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, cut.sig=0.01, cut.color = "green",
+                        ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol')
   vdiffr::expect_doppelganger(title="mvol1", fig=mvol[[1]])
   vdiffr::expect_doppelganger(title="mvol2", fig=mvol[[2]])
 

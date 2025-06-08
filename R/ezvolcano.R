@@ -138,7 +138,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
   }
 
   vol <- vol + ggplot2::scale_color_identity() + ggplot2::scale_alpha_identity() + ggplot2::scale_shape_identity() + ggplot2::scale_size_identity() +
-    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=base.size*3/11)
+    ggrepel::geom_text_repel(mapping=ggplot2::aes(label=label.point), show.legend = FALSE, size=base.size*3/11, max.overlaps = Inf)
 
   if (plot){
     if (!is.na(name)) ggplot2::ggsave(filename=paste0(name, ".png"), plot=vol) else graphics::plot(vol)
