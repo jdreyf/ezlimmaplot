@@ -44,7 +44,7 @@ multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), lab
     labrows.tmp <- labrows[rows.tmp]
     if (only.contr.cols){
       grps.tmp <- unlist(strsplit(contr, split="(_|)vs(_|)"))
-      cols.tmp <- pheno.df %>% dplyr::filter(!!rlang::sym(grp.var) %in% grps.tmp) %>%
+      cols.tmp <- pheno.df %>% dplyr::filter(!!rlang::sym(grp.var) %>% tolower() %in% tolower(grps.tmp)) %>%
         rownames()
       if (length(cols.tmp) == 0){
         message(paste0("only.contr.cols is true but no parts of ", contr, " matched pheno.df[,", grp.var, "]; so all columns plotted."))
