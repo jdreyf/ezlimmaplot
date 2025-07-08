@@ -22,9 +22,10 @@ ezvolcano(
   x.bound = NULL,
   y.bound = NULL,
   type.sig = c("p", "FDR"),
-  cut.color = "black",
   cut.lfc = 1,
   cut.sig = 0.05,
+  up.cut.color = "black",
+  down.cut.color = "black",
   lines.sig = NA,
   raster = FALSE,
   sep = ".",
@@ -70,11 +71,13 @@ and \code{sig.col=paste0(comparison, '.p') or paste0(comparison, '.FDR')}, and t
 
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
-\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
-
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 
 \item{cut.sig}{Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.}
+
+\item{up.cut.color}{Color for up-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
+
+\item{down.cut.color}{Color for down-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
 
 \item{lines.sig}{Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.}

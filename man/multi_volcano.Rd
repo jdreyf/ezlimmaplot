@@ -17,7 +17,8 @@ multi_volcano(
   down.ann.color = "black",
   same.scale = FALSE,
   type.sig = c("p", "FDR"),
-  cut.color = "black",
+  up.cut.color = "black",
+  down.cut.color = "black",
   cut.lfc = 1,
   cut.sig = 0.05,
   lines.sig = ifelse(type.sig[1] == "p", yes = 0.05, no = NA),
@@ -54,7 +55,9 @@ no points are annotated.}
 
 \item{type.sig}{Type of significance y-axis should use, either "p" or "FDR".}
 
-\item{cut.color}{Color of points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
+\item{up.cut.color}{Color for up-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
+
+\item{down.cut.color}{Color for down-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.}
 
 \item{cut.lfc}{Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.}
 

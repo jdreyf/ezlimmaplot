@@ -21,9 +21,10 @@
 #' @param x.bound x-axis limits are set to \code{c(-x.bound, x.bound)}. If \code{NULL, x.bound=max(abs(tab[,lfc.col]))}.
 #' @param y.bound y-axis limits are set to \code{c(0, y.bound)}. If \code{NULL, y.bound=max(tab[,'nlg10sig'])}.
 #' @param type.sig Type of significance y-axis should use, either "p" or "FDR".
-#' @param cut.color Color of points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.
 #' @param cut.lfc Points need to have \code{|logFC| >= cut.lfc} to have \code{cut.color}.
 #' @param cut.sig Points need to have significance \code{tab[,sig.col] <= cut.sig} to have \code{cut.color}.
+#' @param up.cut.color Color for up-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.
+#' @param down.cut.color Color for down-regulated points that meet both \code{cut.lfc} and \code{cut.sig} but are not labeled.
 #' @param lines.sig Numeric vector of values of \code{sig.type} at which to draw lines. For example, if
 #' \code{type.sig="p"}, you may want to set \code{lines.sig = 0.05}, which will draw a line at \code{y = -log10(0.05)}.
 #' @param base.size Numeric; font size text inherits from e.g. axis.title is 80 percent of this, and axis tick text is 64 percent.
@@ -41,7 +42,7 @@
 
 ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.sig=0, ntop.lfc=0, comparison=NULL, alpha=0.4,
                       name='volcano', ann.rnames=NULL, up.ann.color='black', down.ann.color='black', shape = 19, base.size=14,
-                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.color="black", cut.lfc=1, cut.sig=0.05, lines.sig=NA,
+                      x.bound=NULL, y.bound=NULL, type.sig=c('p', 'FDR'), cut.lfc=1, cut.sig=0.05, up.cut.color='black', down.cut.color='black', lines.sig=NA,
                       raster = FALSE, sep='.', na.lab=c('---', ''), seed = 0, plot=TRUE){
   set.seed(seed = seed) # ggrepel is random
   type.sig <- match.arg(type.sig)
@@ -74,7 +75,10 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
 
   # There is no need for prefixing !!! or !! or {{ with rlang::. These operators are not function calls, they are specially interpreted by rlang in data-masked arguments.
   tab <- data.frame(tab, nlg10sig = -log10(tab[,sig.col]), check.names = FALSE) |>
-    dplyr::mutate(rnm = rownames(tab), drctn.color = ifelse(!!rlang::sym(lfc.col) > 0, up.ann.color, down.ann.color), annot=FALSE,
+    dplyr::mutate(rnm = rownames(tab),
+                  drctn.ann.color = ifelse(!!rlang::sym(lfc.col) > 0, up.ann.color, down.ann.color),
+                  drctn.cut.color = ifelse(!!rlang::sym(lfc.col) > 0, up.cut.color, down.cut.color),
+                  annot=FALSE,
                   na.lab = dplyr::case_when(!have.labs ~ TRUE,
                                             is.na(!!rlang::sym(lab.col)) | !!rlang::sym(lab.col) %in% na.lab ~ TRUE,
                                             .default = FALSE))
@@ -89,7 +93,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
     dplyr::mutate(map.grp = dplyr::case_when(rnm %in% c(ann.rnames, rnms.top.lfc, rnms.top.sig) ~ "annot",
                                              abs(!!rlang::sym(lfc.col)) > cut.lfc & !!rlang::sym(sig.col) <= cut.sig ~ "cut",
                                              .default = "rest"),
-                  color.point = dplyr::case_match(map.grp, "annot" ~ drctn.color, "cut" ~ cut.color, .default = "black"),
+                  color.point = dplyr::case_match(map.grp, "annot" ~ drctn.ann.color, "cut" ~ drctn.cut.color, .default = "black"),
                   label.point = dplyr::case_when(map.grp == "annot" & !na.lab ~ !!rlang::sym(lab.col), .default = ""),
                   alpha.point = dplyr::case_when(label.point == "" ~ alpha, .default = 1),
                   size.point = dplyr::case_when(map.grp == "annot" ~ 2, .default = 1.5),
