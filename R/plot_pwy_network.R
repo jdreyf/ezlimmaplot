@@ -39,7 +39,7 @@
 # do not calculate redundantly to p(h)
 # check if data 2-sided instead of alternative, which may be diff than used in p(h), so confusing
 # cannot infer graph from ker
-plot_pwy <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, name = NULL, colorbar.nm=stat.colnm,
+plot_pwy_network <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop = 7, name = NULL, colorbar.nm=stat.colnm,
                      alternative=c("two.sided", "greater", "less"), repel=FALSE, plot = TRUE, seed = 0){
 
   stopifnot(ncol(feat.tab)>=1, limma::isNumeric(feat.tab[, stat.colnm]), !is.null(colnames(feat.tab)),

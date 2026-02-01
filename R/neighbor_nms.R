@@ -3,7 +3,7 @@
 #' Get node names of nodes' direct neighbors
 #'
 #' @param nodes Node names in the graph
-#' @inheritParams plot_pwy
+#' @inheritParams plot_pwy_network
 
 neighbor_nms <- function(gr, nodes){
   nn <- igraph::V(gr)$name[unlist(igraph::ego(gr, order=1, match(nodes, igraph::V(gr)$name)))]
