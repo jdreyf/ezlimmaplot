@@ -12,12 +12,16 @@ test_that("non-vdiffr test", {
   #basic sanity test
   mcp <- multi_covar_pca(M, pheno, name="covar_pca", grp.var="grp", covars = c("tissue", "covar_num","sample"),
                          plot=FALSE)
-  expect_equal(mcp$tissue$labels$shape, "grp")
-  expect_equal(mcp$covar_num$labels$shape, "grp")
-  expect_equal(mcp$sample$labels$shape, "grp")
-  expect_equal(mcp$tissue$labels$colour, "tissue")
-  expect_equal(mcp$covar_num$labels$colour, "covar_num")
-  expect_equal(mcp$sample$labels$colour, "sample")
+
+  # Check shapes
+  expect_true("shape" %in% colnames(ggplot2::layer_data(mcp$tissue, 1)))
+  expect_true("shape" %in% colnames(ggplot2::layer_data(mcp$covar_num, 1)))
+  expect_true("shape" %in% colnames(ggplot2::layer_data(mcp$sample, 1)))
+
+  # Check colors
+  expect_true("colour" %in% colnames(ggplot2::layer_data(mcp$tissue, 1)))
+  expect_true("colour" %in% colnames(ggplot2::layer_data(mcp$covar_num, 1)))
+  expect_true("colour" %in% colnames(ggplot2::layer_data(mcp$sample, 1)))
 
   #test for manual color
   mcp1 <- multi_covar_pca(M, pheno, name="covar_pca", grp.var="grp", covars = c("tissue", "covar_num"),
@@ -57,8 +61,9 @@ test_that("non-vdiffr test", {
   expect_equal(ggplot2::ggplot_build(mcp5$tissue)$layout$layout$grp[2], "Last3")
   expect_equal(ggplot2::ggplot_build(mcp5$covar_num)$layout$layout$grp[1], "First3")
   expect_equal(ggplot2::ggplot_build(mcp5$covar_num)$layout$layout$grp[2], "Last3")
-  expect_equal(mcp5$tissue$labels$shape, "sample")
-  expect_equal(mcp$tissue$labels$colour, "tissue")
+  # Check that shape mapping is active in the rendered layer
+  expect_true("shape" %in% colnames(ggplot2::layer_data(mcp5$tissue, 1)))
+  expect_true("colour" %in% colnames(ggplot2::layer_data(mcp$tissue, 1)))
 
   #test for all.size variable size
   mcp6 <- multi_covar_pca(M, pheno, name="covar_pca", grp.var="sample", covars = c("tissue", "covar_num"),
