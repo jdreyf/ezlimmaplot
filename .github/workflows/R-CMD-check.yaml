@@ -28,6 +28,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
       VDIFFR_RUN_TESTS: ${{ matrix.config.os != 'macOS-latest' }}
+      # Force a stable graphics device for macOS
+      R_GSC_DEVICE: "pdf"
 
     steps:
       - uses: actions/checkout@v4
