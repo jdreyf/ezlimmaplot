@@ -19,7 +19,8 @@
 multi_heat <- function(tab, object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
                        main="Log2 Expression", name="heats", sc="ctr", clip=NA, color.v=NULL,
                        unique.rows=FALSE, only.labrows=FALSE, only.contr.cols=FALSE, grp.var="grp", ntop=50, stat.tab = NULL,
-                       cutoff = 0.05, reorder_rows=TRUE, reorder_cols=FALSE, fontsize_row=10, fontsize_col=10,
+                       cutoff = 0.05, reorder_rows=TRUE, reorder_cols=FALSE,
+                       fontsize_base = 10, fontsize_row=fontsize_base, fontsize_col=fontsize_base,
                        na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   stopifnot(length(labrows)==nrow(object), names(labrows)==rownames(object))

@@ -26,8 +26,9 @@ ezheat(
   annotation_row = NA,
   annotation_colors = NA,
   angle_col = c("270", "0", "45", "90", "315"),
-  fontsize_row = 10,
-  fontsize_col = 10,
+  fontsize_base = 10,
+  fontsize_row = fontsize_base,
+  fontsize_col = fontsize_base,
   na.lab = c("---", ""),
   plot = TRUE,
   width = 7,
@@ -89,6 +90,9 @@ It is possible to define the colors for only some of the features. See \code{\li
 
 \item{angle_col}{angle of the column labels, right now one can choose only from few 
 predefined options (0, 45, 90, 270 and 315)}
+
+\item{fontsize_base}{Font size for legend, row names, and column names.
+This is overwritten by \code{fontsize_row} or \code{fontsize_col}, if given.}
 
 \item{fontsize_row}{Font size for row labels.}
 

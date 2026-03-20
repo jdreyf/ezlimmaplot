@@ -28,6 +28,8 @@
 #' It is possible to define the colors for only some of the features. See \code{\link[pheatmap]{pheatmap}} examples.
 #' @param gaps_row vector of row indices after which to insert gaps.
 #' @param gaps_col vector of column indices after which to insert gaps.
+#' @param fontsize_base Font size for legend, row names, and column names.
+#' This is overwritten by \code{fontsize_row} or \code{fontsize_col}, if given.
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
@@ -54,7 +56,8 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                    color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, gaps_row = NULL, gaps_col = NULL,
                    annotation_row = NA, annotation_colors = NA, angle_col=c("270", "0", "45", "90", "315"),
-                   fontsize_row=10, fontsize_col=10, na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
+                   fontsize_base=10, fontsize_row=fontsize_base, fontsize_col=fontsize_base,
+                   na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
   angle_col <- match.arg(angle_col)
   if (!is.matrix(object)) object <- data.matrix(object)
   stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
@@ -131,7 +134,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                            cluster_rows=FALSE, cluster_cols=FALSE, gaps_col=gaps_col, gaps_row=gaps_row,
                            annotation_row=annotation_row, annotation_colors=annotation_colors,
                            labels_row = labrows, labels_col = labcols, angle_col=angle_col,
-                           fontsize_row=fontsize_row, fontsize_col=fontsize_col,
+                           fontsize=fontsize_base, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
                            display_numbers = asterisk, filename=NA, silent=TRUE)
 
   if (plot){

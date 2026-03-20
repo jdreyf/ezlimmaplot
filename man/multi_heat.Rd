@@ -24,8 +24,9 @@ multi_heat(
   cutoff = 0.05,
   reorder_rows = TRUE,
   reorder_cols = FALSE,
-  fontsize_row = 10,
-  fontsize_col = 10,
+  fontsize_base = 10,
+  fontsize_row = fontsize_base,
+  fontsize_col = fontsize_base,
   na.lab = c("---", ""),
   plot = TRUE,
   width = 7,
@@ -78,6 +79,9 @@ dimensions should match \code{object} and it cannot have \code{NA}s.}
 \item{reorder_rows}{Logical; should rows be reordered with hierarchical clustering?}
 
 \item{reorder_cols}{Logical; should columns be reordered with hierarchical clustering?}
+
+\item{fontsize_base}{Font size for legend, row names, and column names.
+This is overwritten by \code{fontsize_row} or \code{fontsize_col}, if given.}
 
 \item{fontsize_row}{Font size for row labels.}
 
