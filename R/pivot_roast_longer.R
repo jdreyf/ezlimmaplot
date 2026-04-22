@@ -32,7 +32,7 @@ pivot_roast_longer <- function(tab, prefix.v, direction.v = c("Up", "Down", "Mix
         prefix <- paste(prefix, "Mixed", sep=".")
       }
       ds <- dplyr::bind_rows(ds, dplyr::bind_cols(Comparison = col.lab.nm, Pwy = rownames(tab.tmp), Prop_p05 = prop.v,
-                                                  Count = round(tab.tmp$NGenes * prop.v),
+                                                  NSig = round(tab.tmp$NGenes * prop.v),
                                                   p=tab.tmp |> dplyr::pull(!!rlang::sym(paste0(prefix, ".p"))),
                                                   FDR=tab.tmp |> dplyr::pull(!!rlang::sym(paste0(prefix, ".FDR"))) ))
     }

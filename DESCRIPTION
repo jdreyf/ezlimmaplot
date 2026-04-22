@@ -1,11 +1,13 @@
 Package: ezlimmaplot
 Title: Bioinformatics plots using limma and ggplot2, some from output of ezlimma
-Version: 0.0.4.9009
+Version: 0.0.5.9001
 Authors@R: c(person("Jonathan", "Dreyfuss", role = c("aut", "cre"), email = "jdreyf@bu.edu"),
              person("Hui", "Pan", role = "aut"),
 			 person("Grace", "Daher", role="ctb"))
 BugReports: https://github.com/jdreyf/ezlimmaplot/issues
 Description: Bioinformatics plots using limma and ggplot2, some from output of ezlimma.
+Depends:
+	R (>= 4.1.0)
 Imports:
 	dplyr,
 	ezlimma,
@@ -33,6 +35,7 @@ Suggests:
     rmarkdown,
 	statmod,
     testthat,
+	tibble,
 	vdiffr
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -20,6 +20,7 @@
 # could allow for no prefix, ie colnames(tab)=c("p", "FDR")
 signif_hist <- function(tab, p.suffix="p", fdr.suffix="FDR", sep=".", pi0 = FALSE, name="signif_hist", plot=TRUE, nrow=2){
   stopifnot(nrow(tab) > 0, ncol(tab) > 0, !is.null(colnames(tab)))
+  tab <- as.data.frame(tab)
   prefix.v <- extract_prefix(colnames(tab), suffix=p.suffix, sep=sep)
   if (any(duplicated(prefix.v))) stop("p-value column names are duplicated.")
   if (is.na(prefix.v[1])){

@@ -56,7 +56,7 @@ bubbleplot_pwys <- function(tab, prefix.v=NULL, name = NA, type.sig=c("p", "FDR"
     pwy.max.nchar.tmp <- ds.tmp |> dplyr::pull(Pwy) |> nchar() |> max()
 
     ggp <- ggplot2::ggplot(data = ds.tmp, mapping=ggplot2::aes(x=100*Prop_p05, y=factor(Pwy, levels = rev(unique(Pwy)), ordered = TRUE),
-                                                           size = Count, color = -log10(!!rlang::sym(type.sig)))) +
+                                                           size = NSig, color = -log10(!!rlang::sym(type.sig)))) +
       ggplot2::geom_point() + ggplot2::xlab("DE percent") + ggplot2::ylab(NULL) + ggplot2::ggtitle(cmpr) +
       ggplot2::scale_size(range = c(9, 14)) + ggplot2::scale_x_continuous(expand = ggplot2::expansion(add = 3)) +
       ggplot2::scale_y_discrete(labels = scales::label_wrap(width = ceiling(pwy.max.nchar.tmp/2) + 10)) +
