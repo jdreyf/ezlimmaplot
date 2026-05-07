@@ -342,7 +342,7 @@
 <circle cx='373.56' cy='510.25' r='2.05' style='stroke-width: 0.90; stroke: #000000; stroke-opacity: 0.40; fill: #000000; fill-opacity: 0.40;' />
 <circle cx='380.25' cy='510.25' r='2.05' style='stroke-width: 0.90; stroke: #000000; stroke-opacity: 0.40; fill: #000000; fill-opacity: 0.40;' />
 <circle cx='379.80' cy='510.25' r='2.05' style='stroke-width: 0.90; stroke: #000000; stroke-opacity: 0.40; fill: #000000; fill-opacity: 0.40;' />
-<line x1='421.83' y1='512.40' x2='414.54' y2='510.57' style='stroke-width: 1.07;' />
+<line x1='421.83' y1='512.40' x2='414.32' y2='510.51' style='stroke-width: 1.07;' />
 <text x='674.03' y='62.18' text-anchor='middle' style='font-size: 10.86px; font-family: sans;' textLength='7.25px' lengthAdjust='spacingAndGlyphs'>A</text>
 <text x='424.27' y='521.68' text-anchor='middle' style='font-size: 10.86px; font-family: sans;' textLength='7.25px' lengthAdjust='spacingAndGlyphs'>B</text>
 <rect x='45.16' y='29.00' width='667.87' height='504.27' style='stroke-width: 1.36; stroke: #333333;' />
@@ -367,7 +367,7 @@
 <text x='329.27' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='3.11px' lengthAdjust='spacingAndGlyphs'>l</text>
 <text x='332.37' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='7.79px' lengthAdjust='spacingAndGlyphs'>o</text>
 <text x='340.16' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='7.79px' lengthAdjust='spacingAndGlyphs'>g</text>
-<text x='347.95' y='565.80' style='font-size: 9.80px; font-family: sans;' textLength='5.45px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text x='347.95' y='565.91' style='font-size: 9.80px; font-family: sans;' textLength='5.45px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='353.40' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='3.50px' lengthAdjust='spacingAndGlyphs'> </text>
 <text x='356.90' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='3.89px' lengthAdjust='spacingAndGlyphs'>f</text>
 <text x='360.79' y='563.21' style='font-size: 14.00px; font-family: sans;' textLength='7.79px' lengthAdjust='spacingAndGlyphs'>o</text>
@@ -384,7 +384,7 @@
 <text transform='translate(17.12,309.73) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='3.11px' lengthAdjust='spacingAndGlyphs'>l</text>
 <text transform='translate(17.12,306.63) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='7.79px' lengthAdjust='spacingAndGlyphs'>o</text>
 <text transform='translate(17.12,298.84) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='7.79px' lengthAdjust='spacingAndGlyphs'>g</text>
-<text transform='translate(19.71,291.05) rotate(-90)' style='font-size: 9.80px; font-family: sans;' textLength='10.90px' lengthAdjust='spacingAndGlyphs'>10</text>
+<text transform='translate(19.82,291.05) rotate(-90)' style='font-size: 9.80px; font-family: sans;' textLength='10.90px' lengthAdjust='spacingAndGlyphs'>10</text>
 <text transform='translate(17.12,280.15) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='3.50px' lengthAdjust='spacingAndGlyphs'> </text>
 <text transform='translate(17.12,276.65) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='8.55px' lengthAdjust='spacingAndGlyphs'>F</text>
 <text transform='translate(17.12,268.10) rotate(-90)' style='font-size: 14.00px; font-family: sans;' textLength='10.11px' lengthAdjust='spacingAndGlyphs'>D</text>
