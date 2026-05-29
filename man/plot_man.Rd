@@ -21,8 +21,7 @@ plot_man(
 
 \item{M}{A numeric matrix-like data object with one row per feature and one column per sample of mediators.}
 
-\item{Y}{A numeric vector of \code{length(E)} of outcomes. Only continuous, normally distributed outcomes
-currently supported.}
+\item{Y}{A numeric vector of \code{length(E)} of outcomes.}
 
 \item{name}{Name of file to create. Set to \code{NA} to plot to screen instead of to file.}
 

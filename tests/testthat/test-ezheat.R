@@ -18,7 +18,7 @@ test_that("mat", {
   ret <- ezheat(M[topgenes,], labrows = lr, pheno.df=pheno2, name=NA, reorder_rows = TRUE, reorder_cols = TRUE, plot=FALSE)
   ret.mat=ret[[1]] # since ret is a list
   expect_false(all(colnames(ret.mat) == colnames(M)))
-  expect_false(all(rownames(ret.mat) == rownames(M)))
+  all(rownames(ret.mat) == rownames(M)) %>% suppressWarnings() %>% expect_false()
 })
 
 test_that("sc", {

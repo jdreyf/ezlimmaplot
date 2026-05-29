@@ -33,6 +33,7 @@
 #' @param fontsize_row Font size for row labels.
 #' @param fontsize_col Font size for column labels.
 #' @param na.lab Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.
+#' @param na.color Character string for color to use for missing values.
 #' @param plot Logical; should plot be generated?
 #' @param width Manual option for determining the output file width in inches.
 #' @param height Manual option for determining the output file height in inches.
@@ -45,7 +46,6 @@
 #' If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 #' symmetric about zero.
 #'
-#' \code{object} cannot have \code{NA}s.
 #' @export
 
 # can avoid dendro (& clustering) by eg cluster_rows=FALSE
@@ -57,10 +57,10 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, gaps_row = NULL, gaps_col = NULL,
                    annotation_row = NA, annotation_colors = NA, angle_col=c("270", "0", "45", "90", "315"),
                    fontsize_base=10, fontsize_row=fontsize_base, fontsize_col=fontsize_base,
-                   na.lab=c("---", ""), plot=TRUE, width=7, height=7, verbose=FALSE){
+                   na.lab=c("---", ""), na.color = "gray75", plot=TRUE, width=7, height=7, verbose=FALSE){
   angle_col <- match.arg(angle_col)
   if (!is.matrix(object)) object <- data.matrix(object)
-  stopifnot(sum(is.na(object)) == 0, sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
+  stopifnot(sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
             length(labrows) %in% c(1, nrow(object)), length(labcols) %in% c(1, ncol(object)),
             is.null(stat.tab) || !any(is.na(stat.tab)))
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
@@ -73,6 +73,8 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
   labrows <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,
                    na.lab=na.lab, verbose=verbose)
   mat <- object[names(labrows),, drop=FALSE]
+
+  mat_has_na <- any(is.na(mat))
 
   if (is.null(color.v)){
     color.v <- grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(n=9, name="RdYlBu")))(50)
@@ -90,13 +92,24 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
 
   #reorder for heat w/o dendro
   if (reorder_rows){
-    hc <- stats::hclust(stats::dist(mat, method = "euclidean"), method = "ward.D2")
+    # keep euclidean like before unless there are NAs
+    if (mat_has_na){
+      dist.mat <- stats::as.dist(1 - stats::cor(mat, use = "pairwise.complete.obs"))
+    } else {
+      dist.mat <- stats::dist(mat, method = "euclidean")
+    }
+    hc <- stats::hclust(dist.mat, method = "ward.D2")
     mat <- mat[hc$order,, drop = FALSE]
     labrows <- labrows[hc$order]
   }
 
   if (reorder_cols){
-    hc <- stats::hclust(stats::dist(t(mat), method = "euclidean"), method = "ward.D2")
+    if (mat_has_na){
+      dist.mat <- stats::as.dist(1 - stats::cor(t(mat)), use = "pairwise.complete.obs")
+    } else {
+      dist.mat <- stats::dist(t(mat), method = "euclidean")
+    }
+    hc <- stats::hclust(dist.mat, method = "ward.D2")
     mat <- mat[, hc$order, drop = FALSE]
     pheno.df <- pheno.df[hc$order,, drop = FALSE]
     if (!is.null(labcols)){
@@ -121,9 +134,9 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
   }
 
   #make key symmetric if has both pos & neg values
-  if (any(mat > 0) & any(mat < 0)){
+  if (any(mat > 0, na.rm = TRUE) & any(mat < 0, na.rm = TRUE)){
     len.colors <- length(color.v)
-    ma <- max(abs(mat))
+    ma <- max(abs(mat), na.rm = TRUE)
     breaks <- seq(from = -ma, to = ma, length.out = len.colors+1)
   } else {
     breaks <- NA
@@ -135,7 +148,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                            annotation_row=annotation_row, annotation_colors=annotation_colors,
                            labels_row = labrows, labels_col = labcols, angle_col=angle_col,
                            fontsize=fontsize_base, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
-                           display_numbers = asterisk, filename=NA, silent=TRUE)
+                           display_numbers = asterisk, filename=NA, silent=TRUE, na_col = na.color)
 
   if (plot){
     # fname <- ifelse(is.na(name), NA, paste0(name, ".pdf"))

@@ -30,6 +30,7 @@ ezheat(
   fontsize_row = fontsize_base,
   fontsize_col = fontsize_base,
   na.lab = c("---", ""),
+  na.color = "gray75",
   plot = TRUE,
   width = 7,
   height = 7,
@@ -100,6 +101,8 @@ This is overwritten by \code{fontsize_row} or \code{fontsize_col}, if given.}
 
 \item{na.lab}{Character vector of labels in \code{lab.col} to treat as missing, in addition to \code{NA}.}
 
+\item{na.color}{Character string for color to use for missing values.}
+
 \item{plot}{Logical; should plot be generated?}
 
 \item{width}{Manual option for determining the output file width in inches.}
@@ -120,6 +123,4 @@ Draw heatmap using \pkg{pheatmap} package.
 
 If the data after scaling and clipping (if they are used) has positive and negative values, the key is made
 symmetric about zero.
-
-\code{object} cannot have \code{NA}s.
 }
