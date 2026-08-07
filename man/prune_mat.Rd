@@ -17,8 +17,10 @@ prune_mat(
 \arguments{
 \item{object}{Matrix-like object with features (e.g. genes) as rows and samples as columns.}
 
-\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
-of length \code{nrow(object)}.}
+\item{labrows}{Labels for rows, e.g. gene symbols. If \code{NULL} (default), set to \code{rownames(object)}.
+Otherwise, must be a named vector whose \code{names(labrows)} are all in \code{rownames(object)}, so that labels
+are matched to rows of \code{object} by name rather than by position. Can be of length 1 (in which case it is
+recycled), or of length \code{nrow(object)}.}
 
 \item{only.labrows}{Logical; only include rows where \code{labrows} aren't missing
 (missing is defined by \code{na.lab})?}

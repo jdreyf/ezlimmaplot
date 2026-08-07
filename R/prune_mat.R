@@ -23,7 +23,7 @@ prune_mat <- function(object, labrows=rownames(object), only.labrows=FALSE, uniq
   if (unique.rows){
     dup <- duplicated(ret)
     if (verbose) message("Removing ", sum(dup), " rows with duplicated names.")
-    object <- object[!dup]
+    object <- object[!dup,]
     ret <- ret[!dup]
   }
   if (!is.null(ntop)){

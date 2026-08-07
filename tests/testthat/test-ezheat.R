@@ -1,7 +1,8 @@
 context("ezheat")
 
 test_that("mat", {
-  mat0 <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA, clip=1,
+  labrows0 <- stats::setNames(res.df[topgenes, "Gene.Symbol"], nm=topgenes)
+  mat0 <- ezheat(M[topgenes,], labrows = labrows0, pheno.df=pheno.df, name=NA, clip=1,
                  plot=FALSE)$mat
   expect_gt(max(mat0[1,1:2]), 0.75)
   expect_lt(min(mat0[1,4:6]), -0.5)
@@ -10,7 +11,7 @@ test_that("mat", {
   expect_equal(rownames(mat0)[11],  topgenes[11])
   expect_lte(max(abs(mat0)), 1)
 
-  expect_message(mat1 <- ezheat(M[topgenes,], labrows = res.df[topgenes, "Gene.Symbol"], pheno.df=pheno.df, name=NA,
+  expect_message(mat1 <- ezheat(M[topgenes,], labrows = labrows0, pheno.df=pheno.df, name=NA,
                                 clip=1, only.labrows = TRUE, plot=FALSE, verbose=TRUE)$mat)
   expect_equal(nrow(mat1), sum(!is.na(res.df$Gene.Symbol[1:20])))
 
@@ -19,6 +20,25 @@ test_that("mat", {
   ret.mat=ret[[1]] # since ret is a list
   expect_false(all(colnames(ret.mat) == colnames(M)))
   all(rownames(ret.mat) == rownames(M)) %>% suppressWarnings() %>% expect_false()
+})
+
+test_that("labrows must be named", {
+  labrows0 <- stats::setNames(res.df[topgenes, "Gene.Symbol"], nm=topgenes)
+
+  # unnamed labrows of length > 1 must error, instead of silently mislabeling rows
+  expect_error(ezheat(M[topgenes,], labrows = unname(labrows0), pheno.df=pheno.df, name=NA, plot=FALSE))
+  # labrows with a name not in rownames(object) must error
+  bad.labrows <- labrows0
+  names(bad.labrows)[1] <- "not_a_rowname"
+  expect_error(ezheat(M[topgenes,], labrows = bad.labrows, pheno.df=pheno.df, name=NA, plot=FALSE))
+  # labrows out of order relative to object must error, instead of silently mislabeling rows
+  expect_error(ezheat(M[topgenes,], labrows = rev(labrows0), pheno.df=pheno.df, name=NA, plot=FALSE))
+  # NULL default still works & matches rownames(object)
+  ret <- ezheat(M[topgenes,], pheno.df=pheno.df, name=NA, plot=FALSE)
+  expect_equal(rownames(ret$mat), topgenes)
+  # length-1 recycled value doesn't need a name
+  ret <- ezheat(M[topgenes,], labrows = "", pheno.df=pheno.df, name=NA, plot=FALSE)
+  expect_equal(nrow(ret$mat), nrow(M[topgenes,]))
 })
 
 test_that("sc", {

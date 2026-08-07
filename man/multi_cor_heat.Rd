@@ -40,8 +40,10 @@ multi_cor_heat(
 
 \item{pheno.tab}{Matrix-like data object with columns as sample phenotypes, with \code{nrow(pheno.tab)==ncol(object)}.}
 
-\item{labrows}{Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
-of length \code{nrow(object)}.}
+\item{labrows}{Labels for rows, e.g. gene symbols. If \code{NULL} (default), set to \code{rownames(object)}.
+Otherwise, must be a named vector whose \code{names(labrows)} are all in \code{rownames(object)}, so that labels
+are matched to rows of \code{object} by name rather than by position. Can be of length 1 (in which case it is
+recycled), or of length \code{nrow(object)}.}
 
 \item{labcols}{Labels for columns. This can be of length 1 (in which case it is recycled),
 of length \code{ncol(object)}.}

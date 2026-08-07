@@ -9,7 +9,7 @@ Description: Bioinformatics plots using limma and ggplot2, some from output of e
 Depends:
 	R (>= 4.1.0)
 Imports:
-	dplyr,
+	dplyr (>= 1.2.0),
 	ezlimma,
 	ggplot2,
 	ggraph,

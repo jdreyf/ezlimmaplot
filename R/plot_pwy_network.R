@@ -44,7 +44,7 @@ plot_pwy_network <- function(feat.tab, G.pwy, gr, stat.colnm, annot.colnm, ntop 
 
   stopifnot(ncol(feat.tab)>=1, limma::isNumeric(feat.tab[, stat.colnm]), !is.null(colnames(feat.tab)),
             !is.null(rownames(feat.tab)), all(is.na(feat.tab[, stat.colnm]) | is.finite(feat.tab[, stat.colnm])),
-            length(intersect(rownames(feat.tab), G.pwy$genes)) > 0, names(G.pwy)==c("name", "description", "genes"),
+            G.pwy$genes %in% rownames(feat.tab), names(G.pwy)==c("name", "description", "genes"),
             length(intersect(rownames(feat.tab), igraph::V(gr)$name)) > 0,
             stat.colnm %in% colnames(feat.tab), annot.colnm %in% colnames(feat.tab), !is.na(feat.tab[, annot.colnm]),
             igraph::is_simple(gr), is.numeric(ntop), ntop>=2, is.logical(repel), is.logical(plot), is.numeric(seed))

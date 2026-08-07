@@ -32,7 +32,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
     chars <- vector("list", 2*length(dots))
     for(i in seq_along(dots)){
       chars[[2*i]] <- dots[[i]]
-      chars[[2*i-1]] <- as.character(dat[, dots[[i]]])
+      chars[[2*i-1]] <- ifelse(dots[[i]] %in% colnames(dat), yes=as.character(dat[, dots[[i]] ]), no="")
     }
     n <- max(nchar(unlist(chars)))
   }

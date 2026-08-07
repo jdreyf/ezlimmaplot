@@ -4,8 +4,10 @@
 #'
 #' @param object Matrix-like object with features (e.g. genes) as rows and samples as columns.
 #' @param pheno.df Data frame with rows as samples and columns as phenotypes.
-#' @param labrows Labels for rows, e.g. gene symbols. This can be of length 1 (in which case it is recycled),
-#' of length \code{nrow(object)}.
+#' @param labrows Labels for rows, e.g. gene symbols. If \code{NULL} (default), set to \code{rownames(object)}.
+#' Otherwise, must be a named vector whose \code{names(labrows)} are all in \code{rownames(object)}, so that labels
+#' are matched to rows of \code{object} by name rather than by position. Can be of length 1 (in which case it is
+#' recycled), or of length \code{nrow(object)}.
 #' @param labcols Labels for columns. This can be of length 1 (in which case it is recycled),
 #' of length \code{ncol(object)}.
 #' @param main Main title of plot.
@@ -51,7 +53,7 @@
 # can avoid dendro (& clustering) by eg cluster_rows=FALSE
 # keep object & labrows separate, to use annotate_row w/o labrows
 # labrows works like labcols for consistency
-ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=colnames(object),
+ezheat <- function(object, pheno.df=NULL, labrows=NULL, labcols=colnames(object),
                    main="Log2 Expression", name="topgenes_heat", sc="ctr", clip=NA,
                    color.v=NULL, unique.rows=FALSE, only.labrows=FALSE, ntop=NULL, stat.tab = NULL,
                    cutoff = 0.05, reorder_rows=FALSE, reorder_cols=FALSE, gaps_row = NULL, gaps_col = NULL,
@@ -59,15 +61,20 @@ ezheat <- function(object, pheno.df=NULL, labrows=rownames(object), labcols=coln
                    fontsize_base=10, fontsize_row=fontsize_base, fontsize_col=fontsize_base,
                    na.lab=c("---", ""), na.color = "gray75", plot=TRUE, width=7, height=7, verbose=FALSE){
   angle_col <- match.arg(angle_col)
-  if (!is.matrix(object)) object <- data.matrix(object)
+  if (!is.matrix(object)) object <- as.matrix(object)
+  if (is.null(labrows)){
+    labrows <- rownames(object)
+  } else if (length(labrows) > 1 && (is.null(names(labrows)) || !all(names(labrows) %in% rownames(object)))){
+    stop("labrows must be NULL, a single (recycled) value, or a named vector whose names are all in rownames(object).")
+  }
   stopifnot(sc %in% c("ctr", "z", "none"), is.na(clip) | (length(clip)==1 && clip > 0),
             length(labrows) %in% c(1, nrow(object)), length(labcols) %in% c(1, ncol(object)),
-            is.null(stat.tab) || !any(is.na(stat.tab)))
+            is.null(stat.tab) || !any(is.na(stat.tab)), !is.null(rownames(object)))
   if (length(labrows)==1) labrows <- rep(x=labrows, nrow(object))
   if (length(labcols)==1) labcols <- rep(x=labcols, ncol(object))
 
   if (!is.null(pheno.df)){
-    stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df))
+    stopifnot(ncol(object)==nrow(pheno.df), colnames(object)==rownames(pheno.df), !is.null(rownames(pheno.df)), !is.null(colnames(object)))
   }
   # ok if labrows NULL
   labrows <- prune_mat(object, labrows = labrows, only.labrows = only.labrows, unique.rows = unique.rows, ntop = ntop,

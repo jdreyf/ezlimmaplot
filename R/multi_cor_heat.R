@@ -68,6 +68,7 @@ multi_cor_heat <- function(tab, object, pheno.tab=NULL, labrows=rownames(object)
                                  stat.tab = stat.tab, cutoff = cutoff, labcols = labcols.tmp, reorder_rows=reorder_rows_tmp,
                                  reorder_cols=reorder_cols, fontsize_row=fontsize_row, fontsize_col=fontsize_col,
                                  na.lab=na.lab, plot=FALSE, width=width, height=height, verbose=verbose, name=NA)
+      # perhaps should use grid::grid.draw(ret.lst[[ph.nm]]$gtable) like multi_heat?
       if (plot) plot(ret.lst[[ph.nm]])
     }
   }
