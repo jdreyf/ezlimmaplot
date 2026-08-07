@@ -32,7 +32,7 @@ plot_man <- function(E, M, Y, name="top_mediators", main.v="", xlab = "Log2 abun
     M2p <- data.frame(Exposure = E, Exprs = M[ind, ], Outcome=Y)
     ggp <- ggplot2::ggplot(data = M2p, mapping = ggplot2::aes(x = Exprs, y = Outcome, color=Exposure)) +
       ggplot2::labs(title = main.v[ind], x = xlab, y = ylab) + ggplot2::theme_bw() +
-      ggplot2::geom_point() + ggplot2::geom_smooth(method="lm", se=FALSE)
+      ggplot2::geom_point() + ggplot2::geom_smooth(method="lm", formula = y ~ x, se=FALSE)
     if(!is.null(manual.color)){ ggp <- ggp + ggplot2::scale_fill_manual(values = manual.color) +
       ggplot2::scale_color_manual(values = manual.color) }
     graphics::plot(ggp)

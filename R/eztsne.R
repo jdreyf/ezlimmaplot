@@ -5,10 +5,9 @@
 #' @inheritParams ezpca
 #' @inheritParams Rtsne::Rtsne
 #' @inheritParams ezlimma::roast_contrasts
-#' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
 #' @details \code{object} must have colnames, and if \code{pheno.df}
 #' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
-#' @return Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+#' @return Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two tSNE dimensions
 #' appended to \code{pheno.df}.
 #' @export
 
@@ -45,7 +44,11 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   }
 
   #need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x='tSNE1', y='tSNE2', ...)) + ggplot2::theme_bw()
+  # aes_string() is superseded; build the mapping with the .data pronoun instead, since the
+  # aesthetics in ... are column names passed in as strings (e.g. color="group")
+  aes.args <- c(list(x="tSNE1", y="tSNE2"), dots)
+  mapping <- do.call(ggplot2::aes, lapply(aes.args, function(v) rlang::expr(.data[[!!v]])))
+  qp <- ggplot2::ggplot(dat, mapping=mapping) + ggplot2::theme_bw()
 
   if (!is.null(all.size)){
     qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
@@ -62,7 +65,7 @@ eztsne<- function(object, pheno.df, name='tsne', check_duplicates=FALSE, pca=TRU
   if (labels){
     dat2 <- dat
     dat2$row_names <- rownames(pheno.df)
-    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes_string(label='row_names'), size=2, vjust=-.7)
+    qp <- qp + ggplot2::geom_text(data=dat2, mapping=ggplot2::aes(label=row_names), size=2, vjust=-.7)
   }
 
   if(!is.null(manual.color)) qp <- qp + ggplot2::scale_colour_manual(values=manual.color)

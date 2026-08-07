@@ -17,7 +17,8 @@
 #' discrete color scale. Vector length should be equal to number of levels in mapped variable.
 #' @param ellipses Logical; should probability ellipses be drawn?
 #' @inheritParams ezheat
-#' @param ... Passed to \code{\link[ggplot2:aes_]{aes_string}}.
+#' @param ... Named arguments giving column names (as strings) in \code{pheno.df} to map to additional
+#' \code{ggplot2} aesthetics, e.g. \code{colour="group"}, \code{shape="treatment"}.
 #' @details PCA is calculated with \code{\link[stats]{prcomp}}. \code{object} must have colnames, and if \code{pheno.df}
 #' is given, it is checked that \code{colnames(object)==rownames(pheno.df)}.
 #' @return Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
@@ -64,7 +65,11 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   }
 
   # need to set alpha/all.size in geom_point, else it appears in legend
-  qp <- ggplot2::ggplot(dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", ...)) + ggplot2::theme_bw()
+  # aes_string() is superseded; build the mapping with the .data pronoun instead, since the
+  # aesthetics in ... are column names passed in as strings (e.g. color="group")
+  aes.args <- c(list(x="PC1", y="PC2"), dots)
+  mapping <- do.call(ggplot2::aes, lapply(aes.args, function(v) rlang::expr(.data[[!!v]])))
+  qp <- ggplot2::ggplot(dat, mapping=mapping) + ggplot2::theme_bw()
   if (!is.null(all.size)){
     qp <- qp + ggplot2::geom_point(size=all.size, alpha=alpha)
   } else {
@@ -76,7 +81,7 @@ ezpca <- function(object, pheno.df=NULL, name="pca", alpha=1, all.size=NULL, fac
   if (!is.null(title)){ qp <- qp + ggplot2::ggtitle(label=title, subtitle=subtitle) }
 
   if (labels){
-    qp <- qp + ggrepel::geom_text_repel(data=dat, mapping=ggplot2::aes_string(x="PC1", y="PC2", label="row_names"),
+    qp <- qp + ggrepel::geom_text_repel(data=dat, mapping=ggplot2::aes(x=PC1, y=PC2, label=row_names),
                                   size=2, show.legend = FALSE)
   }
 

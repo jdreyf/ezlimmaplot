@@ -45,11 +45,7 @@ We can plot the samples by their first two principal components using the `ggplo
 ezpca(M, pheno, color="grp", name=NA)
 ```
 
-We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes_string`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`. Passing `color="covar num"` is special, because `ggplot2` expects standard variable names or expressions of them whereas `"covar num"` has a space, but we can do it with:
-
-```{r pca2}
-ezpca(M, pheno, color="`covar num`", name=NA)
-```
+We set `name=NA` to suppress plotting to a PNG file. We pass `color="grp"` via ... to `ggplot2` `aes`, where `"grp"` can be any of `colnames(pheno)}`. We could similarly have used `color="tissue"`.
 
 We can also facet by a phenotype column using the `facet` argument, which takes a formula.
 

@@ -28,9 +28,6 @@ test_that("ezpca w/ ellipses", {
                              ellipses = TRUE, plot=FALSE))
 })
 
-
-
-
 test_that("ezpca vdiffr", {
   #verified that this looks like multi.pca
   ezp <- function() ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2)
@@ -47,7 +44,7 @@ test_that("ezpca vdiffr", {
   ezp.stit3 <- function() ezpca(M, pheno, shape="grp", name=NA, title="", subtitle="submain")
 
   pheno.df2 <- data.frame(pheno, "covar num"=pheno$covar_num, check.names = FALSE)
-  ezp.df <- function() ezpca(object=M, pheno.df=pheno.df2, color="`covar num`", name=NA)
+  ezp.df <- function() ezpca(object=M, pheno.df=pheno.df2, color="covar num", name=NA)
 
   #addins ...
   vdiffr::expect_doppelganger(title="pca", fig=ezp)

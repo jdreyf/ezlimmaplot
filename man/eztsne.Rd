@@ -74,10 +74,11 @@ discrete color scale. Vector length should be equal to number of levels in mappe
 
 \item{plot}{Logical; should plot be generated?}
 
-\item{...}{Passed to \code{\link[ggplot2:aes_]{aes_string}}.}
+\item{...}{Named arguments giving column names (as strings) in \code{pheno.df} to map to additional
+\code{ggplot2} aesthetics, e.g. \code{colour="group"}, \code{shape="treatment"}.}
 }
 \value{
-Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two principal components
+Invisibly, a \code{ggplot} object. Its \code{data} element contains the first two tSNE dimensions
 appended to \code{pheno.df}.
 }
 \description{

@@ -93,7 +93,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
     dplyr::mutate(map.grp = dplyr::case_when(rnm %in% c(ann.rnames, rnms.top.lfc, rnms.top.sig) ~ "annot",
                                              abs(!!rlang::sym(lfc.col)) > cut.lfc & !!rlang::sym(sig.col) <= cut.sig ~ "cut",
                                              .default = "rest"),
-                  color.point = dplyr::case_match(map.grp, "annot" ~ drctn.ann.color, "cut" ~ drctn.cut.color, .default = "black"),
+                  color.point = dplyr::recode_values(map.grp, "annot" ~ drctn.ann.color, "cut" ~ drctn.cut.color, default = "black"),
                   label.point = dplyr::case_when(map.grp == "annot" & !na.lab ~ !!rlang::sym(lab.col), .default = ""),
                   alpha.point = dplyr::case_when(label.point == "" ~ alpha, .default = 1),
                   size.point = dplyr::case_when(map.grp == "annot" ~ 2, .default = 1.5),
