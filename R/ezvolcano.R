@@ -135,7 +135,7 @@ ezvolcano <- function(tab, lfc.col=NA, sig.col=NA, lab.col='Gene.Symbol', ntop.s
 
   # finalize plot
   if (raster){
-    vol <- vol + ggrastr::rasterize(ggplot2::geom_point(data=tab |> dplyr::filter(map.grp == "rest"), size=2)) +
+    vol <- vol + ggrastr::rasterize(ggplot2::geom_point(data=tab |> dplyr::filter(map.grp == "rest"), size=2), dev="ragg") +
       ggplot2::geom_point(data = tab |> dplyr::filter(map.grp != "rest"), mapping = ggplot2::aes(size = size.point), show.legend = FALSE)
   } else {
     vol <- vol + ggplot2::geom_point(mapping = ggplot2::aes(size = size.point), show.legend = FALSE)
