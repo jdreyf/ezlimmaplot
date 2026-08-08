@@ -1,5 +1,3 @@
-context("signif_hist")
-
 df <- data.frame(p=1:4, FDR=2:5, p=0:3, check.names = FALSE)
 df2 <- data.frame(a.p=1:4, a.FDR=2:5, b.p=0:3)
 

@@ -1,5 +1,3 @@
-context("barplot pwys")
-
 test_that("direction properly specified", {
   expect_error(barplot_pwys(rc))
   expect_error(barplot_pwys(rc, prefix.v = "First3"))

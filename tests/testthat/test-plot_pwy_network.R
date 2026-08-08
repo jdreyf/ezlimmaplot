@@ -1,5 +1,3 @@
-context("plot_pwy_network")
-
 # set plot=T to test more of the fcn, since teardown rm PDFs
 
 test_that("returned object", {

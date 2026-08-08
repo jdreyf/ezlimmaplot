@@ -1,5 +1,24 @@
 Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
 
+# like expect_warning(), but muffles every warning raised (not just the first), so
+# code that legitimately warns multiple times (e.g. multi_heat() warning once per
+# contrast) doesn't leak unmatched warnings to the reporter
+expect_warning_muffled <- function(object, regexp = NULL) {
+  warnings <- character(0)
+  result <- withCallingHandlers(
+    object,
+    warning = function(w) {
+      warnings[[length(warnings) + 1]] <<- conditionMessage(w)
+      invokeRestart("muffleWarning")
+    }
+  )
+  expect_true(length(warnings) > 0, info = "Expected a warning but none was raised")
+  if (!is.null(regexp)) {
+    expect_true(any(grepl(regexp, warnings)), info = paste("No warning matched", regexp))
+  }
+  invisible(result)
+}
+
 library(covr)
 library(ezlimma)
 library(ggplot2)

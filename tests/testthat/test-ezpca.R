@@ -1,5 +1,3 @@
-context("ezpca")
-
 test_that("ezpca non-vdiffr", {
   #verified that this looks like multi.pca
   ezp <- ezpca(M, pheno, shape="grp", name=NA, manual.shape = 1:2, labels = TRUE, plot=FALSE)$data

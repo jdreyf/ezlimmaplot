@@ -1,5 +1,3 @@
-context("ezheat")
-
 test_that("mat", {
   labrows0 <- stats::setNames(res.df[topgenes, "Gene.Symbol"], nm=topgenes)
   mat0 <- ezheat(M[topgenes,], labrows = labrows0, pheno.df=pheno.df, name=NA, clip=1,

@@ -1,5 +1,3 @@
-context("prune mat")
-
 test_that("does not corrupt", {
   expect_equal(setNames(rownames(M), nm=rownames(M)), prune_mat(M, verbose=FALSE))
   expect_equal(setNames(rownames(M), nm=rownames(M)), prune_mat(data.frame(M), verbose=FALSE))

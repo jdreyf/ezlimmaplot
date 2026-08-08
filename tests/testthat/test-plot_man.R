@@ -1,5 +1,3 @@
-context("plot_man")
-
 test_that("plot man non-vdiffr", {
   pm <- plot_man(E=grp, M=M[1,,drop=FALSE], Y=pheno$covar_num, ylab = "Covar", name="Rplots")
   # test pm$data: To check the location of the point

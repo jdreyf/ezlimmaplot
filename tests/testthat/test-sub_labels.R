@@ -1,5 +1,3 @@
-context("sub_labels")
-
 test_that("Labels replace names", {
   month.days <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
   x <- 1:12

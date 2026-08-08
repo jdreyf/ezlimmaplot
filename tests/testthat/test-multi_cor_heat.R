@@ -1,5 +1,3 @@
-context("multi_cor_heat")
-
 test_that("non vdiffr multiple heatmap", {
   pheno2.num <- apply(pheno2, 2, FUN=\(xx) as.numeric(as.factor(xx))) |>
     data.frame()

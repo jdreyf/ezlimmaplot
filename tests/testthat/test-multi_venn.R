@@ -1,5 +1,3 @@
-context("multi_venn")
-
 # verified by eye that these match ezvenn figs; diff is main title
 
 test_that("vdiffr", {

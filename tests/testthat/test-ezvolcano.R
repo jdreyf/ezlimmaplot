@@ -1,5 +1,3 @@
-context("ezvolcano")
-
 test_that("non-vdiffr", {
   set.seed(0)
   ezvol <- ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
@@ -23,7 +21,7 @@ test_that("non-vdiffr", {
   #Validating the location of the specific point
   expect_equal(ezvol2$data["gene12","First3.logFC"], res.df["gene12","First3.logFC"])
   #Validating the location of geompoint
-  expect_is(ezvol2$layers[[1]], "gg")
+  expect_s3_class(ezvol2$layers[[1]], "gg")
   #Validating the colour of the point
   expect_equal(ggplot2::ggplot_build(ezvol2)$data[[3]]$colour[1], "green")
   expect_equal(ggplot2::ggplot_build(ezvol2)$data[[3]]$y[1], -log10(ezvol2$data["gene1","First3.FDR"]))

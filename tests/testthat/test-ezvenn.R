@@ -1,5 +1,3 @@
-context("ezvenn")
-
 test_that("non vdiffr", {
   #One of p.cutoff or fdr.cutoff must be given
   expect_error(ezvenn(res.df, plot=FALSE))

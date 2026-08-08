@@ -1,5 +1,3 @@
-context("eztsne")
-
 test_that("ez tsne non-vdiffr", {
   eztsne.non.vdiffr <- eztsne(M, pheno, shape="grp", manual.shape = 1:2, labels = TRUE, plot=FALSE)$data
   expect_lte(eztsne.non.vdiffr["sample1", "tSNE1"], 229)
@@ -97,5 +95,3 @@ test_that("eztsne vdiffr", {
   vdiffr::expect_doppelganger(title="tsne.stit2", fig=eztsne.stit2)
   vdiffr::expect_doppelganger(title="tsne.stit3", fig=eztsne.stit3)
 })
-
-teardown(unlink("tsne.pdf"))

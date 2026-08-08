@@ -1,5 +1,3 @@
-context("sif2edgelist")
-
 test_that("clean pwycommons SIF", {
   sif <- cbind(c(letters[c(2,1,2,2,3)], ""), "interacts-with", letters[c(1,3,1,3,1,1)])
   el.o <- t(apply(sif[,c(1,3)], 1, FUN=sort))

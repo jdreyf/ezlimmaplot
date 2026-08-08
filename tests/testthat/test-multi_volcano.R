@@ -1,14 +1,12 @@
-context("multi_volcano")
-
 test_that("missing logFC or p-value/FDR columns", {
  set.seed(0)
  cols <-  grep(paste0('\\', ".", 'logFC$'), colnames(res.df))
  res.df2 <- res.df[,-cols]
  expect_error(multi_volcano(tab=res.df2, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, type.sig="FDR", same.scale = TRUE,
-                            cut.sig=0.01, up.cut.color = "green", down.cut.color="green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'), plot=FALSE)
+                            cut.sig=0.01, up.cut.color = "green", down.cut.color="green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol', plot=FALSE))
  res.df3 <- res.df[,-c(grep(paste0('\\', ".", 'FDR'), colnames(res.df)))]
  expect_error(multi_volcano(tab=res.df3, name="tmp", ntop.sig = 1, ntop.lfc = 1, cut.lfc=1, type.sig="FDR", same.scale = TRUE,
-                            cut.sig=0.01, up.cut.color = "green", down.cut.color="green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol'), plot=FALSE)
+                            cut.sig=0.01, up.cut.color = "green", down.cut.color="green", ann.rnames=c("gene1", "gene25"), lab.col='Gene.Symbol', plot=FALSE))
 })
 
 test_that("non vdiffr",{
@@ -51,9 +49,9 @@ test_that("non vdiffr",{
   expect_equal( mvl2$Last3$data["gene12","Last3.logFC"], res.df["gene12","Last3.logFC"])
   expect_equal( mvl2$Last3vsFirst3$data["gene12","Last3vsFirst3.logFC"], res.df["gene12","Last3vsFirst3.logFC"])
   #Validating the location of geompoint
-  expect_is( mvl2$First3$layers[[1]], "gg")
-  expect_is( mvl2$Last3$layers[[1]], "gg")
-  expect_is( mvl2$Last3vsFirst3$layers[[1]], "gg")
+  expect_s3_class( mvl2$First3$layers[[1]], "gg")
+  expect_s3_class( mvl2$Last3$layers[[1]], "gg")
+  expect_s3_class( mvl2$Last3vsFirst3$layers[[1]], "gg")
   #Validating the colour of the point
   expect_equal(ggplot2::ggplot_build( mvl2$First)$data[[4]]$colour[1], "green")
   expect_equal(ggplot2::ggplot_build( mvl2$First)$data[[4]]$y[1], -log10(mvl2$First3$data["gene1","First3.FDR"]))

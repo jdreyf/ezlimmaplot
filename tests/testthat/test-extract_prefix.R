@@ -1,5 +1,3 @@
-context("extract prefix")
-
 test_that("nm", {
   expect_equal(extract_prefix(nm=c("x.y.p", "x.y.p", "x.p.fdr"), suffix="p"), c("x.y", "x.y"))
   expect_error(extract_prefix(nm=""))
