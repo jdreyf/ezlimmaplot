@@ -18,7 +18,7 @@ test_that("non-vdiffr", {
 test_that("sh vdiffr", {
   res.ss <- res.df[,grep("^(First3|Last3)\\.", colnames(res.df))]
   sh <- function() res <- signif_hist(tab=res.ss, pi0 = TRUE, name=NA)
-  expect_doppelganger(title="sh", fig=sh)
+  expect_doppelganger_local(title="sh", fig=sh)
 })
 
 test_that("error messages fires if duplicate p-value column names, or no p-value columns", {

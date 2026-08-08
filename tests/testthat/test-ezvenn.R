@@ -16,15 +16,15 @@ test_that("non vdiffr", {
 
 test_that("vdiffr", {
   ezv.fn <- function() ret <- ezvenn(res.df, p.cutoff = 0.05, name=NA)
-  vdiffr::expect_doppelganger("venn", ezv.fn)
+  expect_doppelganger_local("venn", ezv.fn)
 
   ezv.fn2 <- function() ret <- ezvenn(res.df, p.cutoff = 0.05, logfc.cutoff = 1, name=NA)
-  vdiffr::expect_doppelganger("venn2", ezv.fn2)
+  expect_doppelganger_local("venn2", ezv.fn2)
 
   res2 <- res.df[,-grep("logFC$", colnames(res.df))]
   ezv.fn3 <- function() ret <- ezvenn(res2, p.cutoff = 0.05, name=NA)
-  vdiffr::expect_doppelganger("venn_noLFC", ezv.fn3)
+  expect_doppelganger_local("venn_noLFC", ezv.fn3)
 
   ezv.fn4 <- function() ret <- ezvenn(res2, fdr.cutoff = 0.01, name=NA)
-  vdiffr::expect_doppelganger("venn_noLFC2", ezv.fn4)
+  expect_doppelganger_local("venn_noLFC2", ezv.fn4)
 })

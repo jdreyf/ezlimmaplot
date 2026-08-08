@@ -1,7 +1,13 @@
-# default off (vdiffr snapshots are local-only, see .github/workflows/R-CMD-check.yaml);
-# set Sys.setenv(VDIFFR_RUN_TESTS=TRUE) before devtools::test() to opt in for a run
-if (identical(Sys.getenv("VDIFFR_RUN_TESTS", unset = ""), "")) {
-  Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
+# vdiffr SVG snapshots are font-rendering-sensitive and don't reproduce reliably
+# across machines, so they're a local-only dev check: skip on CI (real R CMD check
+# quality is still covered by the non-visual assertions in the same test files),
+# but always run when a developer calls devtools::test() locally.
+# Named distinctly from vdiffr::expect_doppelganger() (not just called unqualified)
+# because library(vdiffr) below would otherwise mask this wrapper on the search
+# path and silently skip the CI-skip logic.
+expect_doppelganger_local <- function(...) {
+  testthat::skip_on_ci()
+  vdiffr::expect_doppelganger(...)
 }
 
 # like expect_warning(), but muffles every warning raised (not just the first), so

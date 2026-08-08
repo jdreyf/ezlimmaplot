@@ -28,6 +28,6 @@ test_that("plot man non-vdiffr", {
 
 test_that("plot man vdiffr", {
   pm <- function() plot_man(E=grp, M=M[1,,drop=FALSE], Y=pheno$covar_num, ylab = "Covar", name=NA)
-  vdiffr::expect_doppelganger("g1", pm)
+  expect_doppelganger_local("g1", pm)
 })
 

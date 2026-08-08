@@ -4,17 +4,17 @@ test_that("vdiffr", {
   pref <- list(alone=names(contr.v)[1:2], all=names(contr.v))
 
   mv.fn <- function() ret <- multi_venn(res.df, prefix.lst = pref[2], p.cutoff = 0.05, name="tmp")
-  vdiffr::expect_doppelganger("mvenn", mv.fn)
+  expect_doppelganger_local("mvenn", mv.fn)
 
   mv.fn2 <- function() ret <- multi_venn(res.df, prefix.lst = pref[2], p.cutoff = 0.05, logfc.cutoff = 1, name="tmp")
-  vdiffr::expect_doppelganger("mvenn2", mv.fn2)
+  expect_doppelganger_local("mvenn2", mv.fn2)
 
   res2 <- res.df[,-grep("logFC$", colnames(res.df))]
   mv.fn3 <- function() ret <- multi_venn(res2, prefix.lst = pref[2], p.cutoff = 0.05, name="tmp")
-  vdiffr::expect_doppelganger("mvenn_noLFC", mv.fn3)
+  expect_doppelganger_local("mvenn_noLFC", mv.fn3)
 
   mv.fn4 <- function() ret <- multi_venn(res2, prefix.lst = pref[2], fdr.cutoff = 0.01, name="tmp")
-  vdiffr::expect_doppelganger("mvenn_noLFC2", mv.fn4)
+  expect_doppelganger_local("mvenn_noLFC2", mv.fn4)
 })
 
 test_that("non vdiffr multi_venn", {

@@ -111,38 +111,38 @@ test_that("non-vdiffr", {
 test_that("vdiffr", {
   ezvol <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                 cut.sig=0.01, up.cut.color = "green", down.cut.color = "green", ann.rnames=c("gene1", "gene25"))
-  vdiffr::expect_doppelganger(title="ann-ab", fig=ezvol)
+  expect_doppelganger_local(title="ann-ab", fig=ezvol)
 
   #no lab column, so no labs
   ezvol2 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, cut.lfc=1, cut.sig=0.01, up.cut.color = "green", down.cut.color = "green",
                                  type.sig = "FDR")
-  vdiffr::expect_doppelganger(title="no-labels", fig=ezvol2)
+  expect_doppelganger_local(title="no-labels", fig=ezvol2)
 
   ezvol3 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                  cut.sig=0.01, up.cut.color = "black", down.cut.color = "black", up.ann.color = "red", x.bound = 3, y.bound=30)
-  vdiffr::expect_doppelganger(title="topright-red", fig=ezvol3)
+  expect_doppelganger_local(title="topright-red", fig=ezvol3)
 
   #check that no error with no cut or ann points
   ezvol4 <- function() ezvolcano(tab=res.df[-1,], comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                  cut.sig=0.01, up.cut.color = "blue", down.cut.color = "blue", up.ann.color = "red", x.bound = 3, y.bound=30)
-  vdiffr::expect_doppelganger(title="no-error", fig=ezvol4)
+  expect_doppelganger_local(title="no-error", fig=ezvol4)
 
   #lab.col is NULL, but give pts to annotate
   # previously gave warnings but now errors
   # ezvol5 <- function() suppressWarnings(ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1,
   #                                                 cut.lfc=1, lab.col=NULL, cut.sig=0.01, cut.color = "green",
   #                                                 ann.rnames=c("gene1", "gene25")))
-  # vdiffr::expect_doppelganger(title="topright-green", fig=ezvol5)
+  # expect_doppelganger_local(title="topright-green", fig=ezvol5)
 
   #shape=1 -> empty dots
   ezvol6 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                  cut.sig=0.01, up.cut.color = "green", down.cut.color = "green", ann.rnames=c("gene1", "gene25"), shape = 1)
-  vdiffr::expect_doppelganger(title="empty-dots", fig=ezvol6)
+  expect_doppelganger_local(title="empty-dots", fig=ezvol6)
 
   # looks like a bug -- maybe topright point should be green?
   ezvol7 <- function() ezvolcano(tab=res.df, comparison = "First3", name=NA, ntop.sig = 1, ntop.lfc = 1, cut.lfc=1,
                                  cut.sig=0.01, up.cut.color = "green", down.cut.color = "green", ann.rnames=c("gene1", "gene25"))
-  vdiffr::expect_doppelganger(title="vol7", fig=ezvol7)
+  expect_doppelganger_local(title="vol7", fig=ezvol7)
 
   # want ggrepel to repel a label on RHS with a label on LHS
   res2.df <- res.df
@@ -151,5 +151,5 @@ test_that("vdiffr", {
   res2.df[(nr-1):nr, "First3.logFC"] <- c(-0.1, 0.1)
   res2.df[(nr-1):nr, "Gene.Symbol"] <- "abracadabra"
   vol.ggrepel <- function() ezvolcano(tab=res2.df, comparison = "First3", name=NA, ntop.sig = 3, ntop.lfc = 0)
-  vdiffr::expect_doppelganger(title="ggrepel", fig=vol.ggrepel)
+  expect_doppelganger_local(title="ggrepel", fig=vol.ggrepel)
 })

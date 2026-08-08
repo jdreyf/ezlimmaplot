@@ -27,10 +27,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      # vdiffr SVG snapshots are font-rendering-sensitive and don't reproduce
-      # reliably even on a matching OS's CI runner, so they're a local-only dev
-      # check (see tests/testthat/helper-ezlimmaplot.R) and disabled here.
-      VDIFFR_RUN_TESTS: false
       # Force a stable graphics device for macOS
       R_GSC_DEVICE: "pdf"
 
