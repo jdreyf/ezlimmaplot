@@ -1,4 +1,4 @@
-test_that("mat", {
+test_that("mat", suppressMessages({
   lr <- sub_labels(topgenes, res.df[topgenes, "Gene.Symbol"])
   # warning prune_mat n rows < 50
   expect_warning(mat0 <- multi_heat(tab=res.ss, object=M[topgenes,], labrows = lr, pheno.df=pheno.df, name="tmp", clip=1, plot=FALSE)[[1]]$mat)
@@ -18,7 +18,7 @@ test_that("mat", {
   ph3 <- rbind(pheno.df, sample7 = "s7")
   M3 <- cbind(M, sample7 = rnorm(nrow(M)))
   mat2 <- multi_heat(tab=res.ss, object=M3, pheno.df=ph3, name="tmp", clip=1, plot=TRUE, ntop=20, only.contr.cols = TRUE)[[1]]$mat
-})
+}))
 
 test_that("non vdiffr single heatmap", {
   #pheatmap creates two pages, but vdiffr supports only one, so using returned gtable
