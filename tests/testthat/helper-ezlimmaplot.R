@@ -1,4 +1,8 @@
-Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
+# default off (vdiffr snapshots are local-only, see .github/workflows/R-CMD-check.yaml);
+# set Sys.setenv(VDIFFR_RUN_TESTS=TRUE) before devtools::test() to opt in for a run
+if (identical(Sys.getenv("VDIFFR_RUN_TESTS", unset = ""), "")) {
+  Sys.setenv(VDIFFR_RUN_TESTS=FALSE)
+}
 
 # like expect_warning(), but muffles every warning raised (not just the first), so
 # code that legitimately warns multiple times (e.g. multi_heat() warning once per
