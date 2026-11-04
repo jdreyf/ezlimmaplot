@@ -97,11 +97,21 @@ ezheat <- function(object, pheno.df=NULL, labrows=NULL, labcols=colnames(object)
     main <- paste("Z-scored", main)
   }
 
+  # with NAs, cluster on 1 - pairwise-complete correlation among the rows of x
+  na_cor_dist <- function(x, what){
+    cor.mat <- stats::cor(t(x), use = "pairwise.complete.obs")
+    if (any(!is.finite(cor.mat))){
+      stop("Cannot reorder ", what, " with NAs: some pairs of ", what,
+           " have too few shared non-NA values or no variance among them.")
+    }
+    stats::as.dist(1 - cor.mat)
+  }
+
   #reorder for heat w/o dendro
   if (reorder_rows){
     # keep euclidean like before unless there are NAs
     if (mat_has_na){
-      dist.mat <- stats::as.dist(1 - stats::cor(mat, use = "pairwise.complete.obs"))
+      dist.mat <- na_cor_dist(mat, what = "rows")
     } else {
       dist.mat <- stats::dist(mat, method = "euclidean")
     }
@@ -112,7 +122,7 @@ ezheat <- function(object, pheno.df=NULL, labrows=NULL, labcols=colnames(object)
 
   if (reorder_cols){
     if (mat_has_na){
-      dist.mat <- stats::as.dist(1 - stats::cor(t(mat)), use = "pairwise.complete.obs")
+      dist.mat <- na_cor_dist(t(mat), what = "columns")
     } else {
       dist.mat <- stats::dist(t(mat), method = "euclidean")
     }

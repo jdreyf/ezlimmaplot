@@ -185,3 +185,28 @@ test_that("vdiffr low res", {
   #verify by eye that columns & rows are reordered; title is only "Log2 Expression"
   expect_doppelganger_local(title="heat6", fig=ezh6)
 })
+
+test_that("reorder_rows and reorder_cols cluster the right dimension when there are NAs", {
+  # 20 rows x 6 columns, so clustering the wrong dimension would fail or misorder
+  mat.na <- M[topgenes,]
+  mat.na[1, 2] <- NA
+  mat.na[5, 4] <- NA
+  ret <- ezheat(mat.na, pheno.df=pheno.df, name=NA, sc="none", reorder_rows=TRUE, plot=FALSE)
+  row.cor <- stats::cor(t(mat.na), use="pairwise.complete.obs")
+  row.order <- stats::hclust(stats::as.dist(1 - row.cor), method="ward.D2")$order
+  expect_equal(rownames(ret$mat), rownames(mat.na)[row.order])
+  # rows move with their NAs, values intact
+  expect_equal(ret$mat, mat.na[row.order,])
+
+  ret <- ezheat(mat.na, pheno.df=pheno.df, name=NA, sc="none", reorder_cols=TRUE, plot=FALSE)
+  col.cor <- stats::cor(mat.na, use="pairwise.complete.obs")
+  col.order <- stats::hclust(stats::as.dist(1 - col.cor), method="ward.D2")$order
+  expect_equal(colnames(ret$mat), colnames(mat.na)[col.order])
+  expect_equal(ret$mat, mat.na[, col.order])
+
+  # rows with no shared non-NA values cannot be correlated: clear error
+  mat.bad <- mat.na
+  mat.bad[1, 1:3] <- NA
+  mat.bad[2, 4:6] <- NA
+  expect_error(ezheat(mat.bad, name=NA, sc="none", reorder_rows=TRUE, plot=FALSE), "Cannot reorder rows")
+})
